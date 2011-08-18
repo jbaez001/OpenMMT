@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\taskbar">
+      <UniqueIdentifier>{cd5a5503-b435-4729-bc50-e04839e7a619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\windows">
+      <UniqueIdentifier>{67786e94-8891-4420-aec9-7ab77bcbec94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\thumbnail">
+      <UniqueIdentifier>{b27c4c15-1550-41c1-8dd2-8b760ec9a437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ui">
+      <UniqueIdentifier>{9007b8b8-16a6-4a62-9378-6c93c90228af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\applications">
+      <UniqueIdentifier>{b5750ff9-83c8-4497-aa25-0db2bcadf272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics">
+      <UniqueIdentifier>{0188bfd6-7dcf-4370-934f-dcb60820b273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\direct2d">
+      <UniqueIdentifier>{d44cf89c-02f2-4216-8514-6cdfa01b651e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\monitors">
+      <UniqueIdentifier>{e1540d40-fc04-4621-ba89-694ff07bd1e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\taskbar\buttons">
+      <UniqueIdentifier>{c8a898b8-a054-43d7-8583-c660919f7903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\template_classes">
+      <UniqueIdentifier>{9a0e0fd7-f5c5-4b8a-8a14-d09b9953ba07}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\OpenMMT.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\OpenMMT.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="targetver.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\settings_dlg.h">
+      <Filter>Source Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="applications\application.h">
+      <Filter>Source Files\applications</Filter>
+    </ClInclude>
+    <ClInclude Include="applications\application_manager.h">
+      <Filter>Source Files\applications</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\direct2d\direct2d_window.h">
+      <Filter>Source Files\graphics\direct2d</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\direct2d\direct2d.h">
+      <Filter>Source Files\graphics\direct2d</Filter>
+    </ClInclude>
+    <ClInclude Include="monitors\monitor_manager.h">
+      <Filter>Source Files\monitors</Filter>
+    </ClInclude>
+    <ClInclude Include="monitors\monitor.h">
+      <Filter>Source Files\monitors</Filter>
+    </ClInclude>
+    <ClInclude Include="taskbar\taskbar_event.h">
+      <Filter>Source Files\taskbar</Filter>
+    </ClInclude>
+    <ClInclude Include="taskbar\taskbar_proc.h">
+      <Filter>Source Files\taskbar</Filter>
+    </ClInclude>
+    <ClInclude Include="taskbar\taskbar.h">
+      <Filter>Source Files\taskbar</Filter>
+    </ClInclude>
+    <ClInclude Include="taskbar\buttons\button.h">
+      <Filter>Source Files\taskbar\buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="taskbar\buttons\button_event.h">
+      <Filter>Source Files\taskbar\buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="taskbar\buttons\button_manager.h">
+      <Filter>Source Files\taskbar\buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="taskbar\buttons\button_proc.h">
+      <Filter>Source Files\taskbar\buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="template_classes\smart_vector_list.h">
+      <Filter>Source Files\template_classes</Filter>
+    </ClInclude>
+    <ClInclude Include="thumbnail\thumbnail_proc.h">
+      <Filter>Source Files\thumbnail</Filter>
+    </ClInclude>
+    <ClInclude Include="thumbnail\thumbnail.h">
+      <Filter>Source Files\thumbnail</Filter>
+    </ClInclude>
+    <ClInclude Include="windows\common_events.h">
+      <Filter>Source Files\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="windows\os.h">
+      <Filter>Source Files\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="windows\taskbar_interface.h">
+      <Filter>Source Files\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="windows\theme_manager.h">
+      <Filter>Source Files\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="windows\windows.h">
+      <Filter>Source Files\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="windows\windows_registry.h">
+      <Filter>Source Files\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="messages.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="option_variables.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pointer_types.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="global_variables.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="openmmt.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="precompiled_headers.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ui\settings_dlg.cc">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="applications\application.cc">
+      <Filter>Source Files\applications</Filter>
+    </ClCompile>
+    <ClCompile Include="applications\application_manager.cc">
+      <Filter>Source Files\applications</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\direct2d\direct2d.cc">
+      <Filter>Source Files\graphics\direct2d</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\direct2d\direct2d_window.cc">
+      <Filter>Source Files\graphics\direct2d</Filter>
+    </ClCompile>
+    <ClCompile Include="monitors\monitor.cc">
+      <Filter>Source Files\monitors</Filter>
+    </ClCompile>
+    <ClCompile Include="monitors\monitor_manager.cc">
+      <Filter>Source Files\monitors</Filter>
+    </ClCompile>
+    <ClCompile Include="taskbar\taskbar.cc">
+      <Filter>Source Files\taskbar</Filter>
+    </ClCompile>
+    <ClCompile Include="taskbar\taskbar_event.cc">
+      <Filter>Source Files\taskbar</Filter>
+    </ClCompile>
+    <ClCompile Include="taskbar\taskbar_proc.cc">
+      <Filter>Source Files\taskbar</Filter>
+    </ClCompile>
+    <ClCompile Include="taskbar\buttons\button.cc">
+      <Filter>Source Files\taskbar\buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="taskbar\buttons\button_event.cc">
+      <Filter>Source Files\taskbar\buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="taskbar\buttons\button_manager.cc">
+      <Filter>Source Files\taskbar\buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="taskbar\buttons\button_proc.cc">
+      <Filter>Source Files\taskbar\buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="thumbnail\thumbnail.cc">
+      <Filter>Source Files\thumbnail</Filter>
+    </ClCompile>
+    <ClCompile Include="thumbnail\thumbnail_proc.cc">
+      <Filter>Source Files\thumbnail</Filter>
+    </ClCompile>
+    <ClCompile Include="windows\taskbar_interface.cc">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="windows\theme_manager.cc">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="windows\windows.cc">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="windows\windows_registry.cc">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="windows\auto_start.cc">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="windows\common_events.cc">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="windows\os.cc">
+      <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="global_variables.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="initialization.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="openmmt_proc.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="option_variables.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="openmmt.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="precompiled_headers.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="OpenMMT.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
