@@ -47,7 +47,7 @@ void TaskbarEvent::OnEraseBackground(HWND hWnd)
 
 void TaskbarEvent::OnContextMenu(HWND hWnd, LPRECT lpRect, POINT pt)
 {
-#if 0
+
   UNREFERENCED_PARAMETER(lpRect);
 
   HMENU hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_MENU1));
@@ -68,7 +68,7 @@ void TaskbarEvent::OnContextMenu(HWND hWnd, LPRECT lpRect, POINT pt)
     mInfo.cbSize = sizeof(MENUITEMINFO);
     mInfo.fMask  = MIIM_STATE;
     mInfo.fState = MFS_CHECKED;
-
+    /*
     if (bar->IsPosition(TASKBAR_LEFT))
       SetMenuItemInfo(hPopUpMenu, ID_POSITION_LEFT, FALSE, &mInfo);
     else if (bar->IsPosition(TASKBAR_TOP))
@@ -80,13 +80,13 @@ void TaskbarEvent::OnContextMenu(HWND hWnd, LPRECT lpRect, POINT pt)
 
     if (bar->IsAutoHidden())
       SetMenuItemInfo(hMenu, ID_TASKBARPOPUP_AUTOHIDE, FALSE, &mInfo);
+      */
   }
 
   ClientToScreen(hWnd, &pt);
   TrackPopupMenu(hPopUpMenu, TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, 
     hWnd, NULL);
   DestroyMenu(hPopUpMenu);
-#endif
 }
 
 void TaskbarEvent::OnThemeChange(HWND hWnd)

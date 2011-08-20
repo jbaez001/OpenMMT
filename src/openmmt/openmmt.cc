@@ -88,7 +88,7 @@ void OpenMMT_Run(HINSTANCE hInstance)
   if (SysHooksStart(g_hWndOpenMMT)) {
     dprintf("libsys started sucessfully.\n");
 #if defined(_WIN64)
-    //StartHelper();
+    StartHelper();
 #endif
     WndStartDeviceMonitor();
     WndRunMessageThread();
@@ -109,8 +109,8 @@ void OpenMMT_Run(HINSTANCE hInstance)
   delete g_pMonitorManager;
   delete g_pAppManager;
 
-
-
   _Shutdown();
-
 }
+
+// EOF
+

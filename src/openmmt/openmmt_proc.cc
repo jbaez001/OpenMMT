@@ -183,16 +183,12 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
     }
     return TRUE;
 
-#if 0
+ #if 0
   case WM_COMMAND:
     {
       switch (LOWORD(wParam))
       {
-      case ID_TRAYPOPUP_OPTIONS:
-        {
-        }
-        break;
-      case ID_TRAYPOPUP_CLOSE:
+      case ID_CONTEXTMENU_CLOSE:
         PostQuitMessage(0);
         break;
 
@@ -205,7 +201,7 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
   case OPENMMT_TRAY_MESSAGE:
     {
       if (LOWORD(lParam) == WM_RBUTTONUP) {
-        HMENU hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_MENU2));
+        HMENU hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_MENU1));
 
         if (!hMenu)
           break;

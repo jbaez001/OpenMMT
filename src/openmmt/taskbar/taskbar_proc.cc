@@ -62,7 +62,7 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
     }
     return 0;
 
-    #if 0
+
   case WM_COMMAND:
     {
       MonitorPtr mon = g_pMonitorManager->FindMonitor(hWnd);
@@ -72,35 +72,8 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
 
       switch (LOWORD(wParam))
       {
-      case ID_TASKBARPOPUP_EXIT:
+      case ID_CONTEXTMENU_CLOSE:
         PostQuitMessage(0);
-        break;
-
-      case ID_POSITION_TOP:
-        mon->UpdateTaskbarArea(TASKBAR_TOP);
-        break;
-
-      case ID_POSITION_LEFT:
-        mon->UpdateTaskbarArea(TASKBAR_LEFT);
-        break;
-
-      case ID_POSITION_RIGHT:
-        mon->UpdateTaskbarArea(TASKBAR_RIGHT);
-        break;
-
-      case ID_POSITION_BOTTOM:
-        mon->UpdateTaskbarArea(TASKBAR_BOTTOM);
-        break;
-
-      case ID_TASKBARPOPUP_AUTOHIDE:
-        {
-          TaskbarPtr bar = mon->GetTaskbar();
-
-          if (bar->IsAutoHidden())
-            bar->SetAutoHide(FALSE);
-          else
-            bar->SetAutoHide(TRUE);
-        }
         break;
 
       default:
@@ -108,7 +81,7 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
       }
     }
     break;
-#endif
+
   case WM_SYSCOMMAND:
     {
       /** Prevent the user from moving the taskbar for now. */

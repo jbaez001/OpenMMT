@@ -22,32 +22,17 @@
 
 CAppModule _Module;
 
-
-int Run (HINSTANCE hInstance)
-{
-  CMessageLoop msgLoop;
-
-  _Module.AddMessageLoop(&msgLoop);
-
-  boost::thread thread_openmmt(OpenMMT_Run, hInstance);
-  int nRet = msgLoop.Run();
-
-  thread_openmmt.join();
-  _Module.RemoveMessageLoop();
-
-  return 0;
-}
-
 int wWinMain( __in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, __in LPWSTR lpCmdLine, __in int nShowCmd )
 {
   InitCommonControls();
+
   _Module.Init(NULL, hInstance);
 
-  int nRet = Run(hInstance);
-
+  boost::thread thread_openmmt(OpenMMT_Run, hInstance);
+  thread_openmmt.join();
   _Module.Term();
 
-  return nRet;
+  return 0;
 }
 
 // EOF

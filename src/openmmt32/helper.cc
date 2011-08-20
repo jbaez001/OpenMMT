@@ -81,18 +81,21 @@ int __stdcall WinMain( __in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstanc
     return 0;
   }
 
-  SendMessage(hWndOpenMMT, TASKBAR_X86_SUPPORT_HELLO, (WPARAM)hWndHelper, NULL);
-
   if (!SysHooksStart(hWndOpenMMT))
     return 0;
 
+  SendMessage(hWndOpenMMT, TASKBAR_X86_SUPPORT_HELLO, (WPARAM)hWndHelper, NULL);
   SysHookSetHelper(hWndHelper);
+
   MSG msg;
 
   while (GetMessage(&msg, NULL, 0, 0) > 0) {
     TranslateMessage(&msg);
     DispatchMessage(&msg);
   }
+
+  if (IsWindow(hWndHelper))
+    DestroyWindow(hWndHelper);
 
   SysHooksStop();
 

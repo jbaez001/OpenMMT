@@ -30,3 +30,4 @@ OpenMMT.opensdf
 *.sdf
 ipch/*
 *.ipch
+*.opensdf
