@@ -34,12 +34,12 @@ SYSTEMHOOKS_API BOOL SysHooksStart(HWND hWnd)
   if (!hWnd || !IsWindow(hWnd))
     return FALSE;
 
-  HMODULE hMod = GetModuleHandle(SYSTEMHOOKS_DLL);
+  HINSTANCE hMod = (HMODULE)GetModuleHandle(SYSTEMHOOKS_DLL);
 
-  if (hMod)
+  if (!hMod)
     return FALSE;
 
-  if (!(g_hHookProc = SetWindowsHookEx(WH_CALLWNDPROCRET, &CallWndRetProc, (HINSTANCE)hMod, 0)))
+  if (!(g_hHookProc = SetWindowsHookEx(WH_CALLWNDPROCRET, &CallWndRetProc, hMod, 0)))
     return FALSE;
 
   g_bHooksInstalled = TRUE;

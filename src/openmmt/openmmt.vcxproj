@@ -34,7 +34,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfMfc>false</UseOfMfc>
     <PlatformToolset>Windows7.1SDK</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -49,7 +49,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -78,7 +78,8 @@
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\obj\$(ProjectName)\</IntDir>
     <TargetName>openmmt</TargetName>
-    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (August 2009)\Include;C:\WinDDK\7600.16385.0\inc\ddk;C:\WinDDK\7600.16385.0\inc\api;E:\dev\libs\boost\boost_1_39;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (August 2009)\Include;C:\WinDDK\7600.16385.0\inc\ddk;C:\WinDDK\7600.16385.0\inc\api;E:\dev\libs\boost\boost_1_47_0;$(IncludePath);E:\dev\libs\wtl</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Microsoft DirectX SDK (August 2009)\Lib\x64;E:\dev\libs\boost\boost_1_47_0\stage64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -246,6 +247,7 @@
     <ClCompile Include="graphics\direct2d\direct2d.cc" />
     <ClCompile Include="graphics\direct2d\direct2d_window.cc" />
     <ClCompile Include="initialization.cc" />
+    <ClCompile Include="main.cc" />
     <ClCompile Include="monitors\monitor.cc" />
     <ClCompile Include="monitors\monitor_manager.cc" />
     <ClCompile Include="openmmt.cc" />

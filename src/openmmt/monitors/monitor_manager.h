@@ -29,10 +29,6 @@
  */
 class MonitorManager : public SmartVectorList<Monitor, MonitorManager>
 {
-private:
-  BOOL m_bFunkeyDPI;    /**< Funkey DPI?*/
-  INT m_iMonitors;      /**< Total monitors managing. */
-
 public:
   /**
    * Class constructor.
@@ -91,6 +87,11 @@ public:
    * Are we using some sort of funkey DPI setting?
    */
   BOOL IsFunkeyDPI();
+
+private:
+  BOOL m_bFunkeyDPI;    /**< Funkey DPI?*/
+  INT m_iMonitors;      /**< Total monitors managing. */
+
 };
 
 #endif // OPENMMT_MONITORS_MONITOR_MANAGER_H

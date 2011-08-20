@@ -20,6 +20,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "openmmt32", "src\openmmt32\
 		{121C2EEA-45A1-4686-946B-69B7C6DA7BF1} = {121C2EEA-45A1-4686-946B-69B7C6DA7BF1}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{74622353-2724-4921-B035-FF32459482A2}"
+	ProjectSection(SolutionItems) = preProject
+		Authors.txt = Authors.txt
+		GNU.txt = GNU.txt
+		Readme.txt = Readme.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32

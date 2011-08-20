@@ -21,33 +21,33 @@
 #include "openmmt/messages.h"
 
 // Global declarations
-BOOL  g_bHooksInstalled = FALSE;
-HHOOK g_hHookProc   = {0};
-HWND  g_hWndOpenMMT = {0};
-HWND  g_hWndHelper  = {0};
+#pragma data_seg(".SHARDATA")
+  BOOL  g_bHooksInstalled = FALSE;
+  HHOOK g_hHookProc   = {0};
+  HWND  g_hWndOpenMMT = {0};
+  HWND  g_hWndHelper  = {0};
+#pragma data_seg()
+
+#pragma comment(linker, "/SECTION:.SHARDATA,RWS")
 
 // Taken from openmmt/windows.cc
 // TODO: Create a generic "base" library and import this from it.
 static BOOL WndShouldDisplay(HWND hWnd)
 {
-  /* Sanity check. */
   if (!hWnd)
     return FALSE;
 
   LONG_PTR dwExFlags = GetWindowLongPtr(hWnd, GWL_EXSTYLE);
 
-  /* Check to see if the window is a toolbar window or a "noactive" window. */
   if ((dwExFlags & WS_EX_TOOLWINDOW) || (dwExFlags & WS_EX_NOACTIVATE) || 
     (dwExFlags & WS_EX_MDICHILD))
     return FALSE;
 
   LONG_PTR dwFlags = GetWindowLongPtr(hWnd, GWL_STYLE);
 
-  /* Check to see if the window is disabled. */
   if (dwFlags & WS_DISABLED)
     return FALSE;
 
-  /* Let's check to see if the window has a parent. */
   HWND hwParentWindow = (HWND) GetWindowLongPtr(hWnd, GWLP_HWNDPARENT);
 
   if (hwParentWindow) {
@@ -61,9 +61,9 @@ static BOOL WndShouldDisplay(HWND hWnd)
   return TRUE;
 }
 
-static void SendTaskbarMsg(UINT mMsg, WPARAM wParam, LPARAM lParam)
+static void SendTaskbarMsg(UINT mMsg, HWND hWnd, LPARAM lParam = NULL)
 {
-  if (!WndShouldDisplay((HWND)wParam))
+  if (!WndShouldDisplay(hWnd))
     return;
 
   // Check to see if OpenMMT is still running, if not terminate the hooks.
@@ -77,7 +77,8 @@ static void SendTaskbarMsg(UINT mMsg, WPARAM wParam, LPARAM lParam)
     return;
   }
 
-  PostMessage(g_hWndOpenMMT, mMsg, wParam, lParam);
+  // Note that we use PostMessage instead of SendMessage.
+  PostMessage(g_hWndOpenMMT, mMsg, (WPARAM)hWnd, lParam);
 }
 
 LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
@@ -88,9 +89,25 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
     switch (lpCwp->message)
     {
     case WM_CREATE:
-      {
-        SendTaskbarMsg(TASKBAR_WINDOW_ACTIVATE, wParam, NULL);
-      }
+        SendTaskbarMsg(TASKBAR_WINDOW_ACTIVATE, lpCwp->hwnd);
+        break;
+         
+    case WM_ACTIVATE:
+    case WM_ACTIVATEAPP:
+        SendTaskbarMsg(TASKBAR_WINDOW_ACTIVATE, lpCwp->hwnd);
+      break;
+
+    case WM_WINDOWPOSCHANGED:
+        SendTaskbarMsg(TASKBAR_WINDOW_POSCHANGED, lpCwp->hwnd, lpCwp->lParam);
+      break;
+
+    case WM_DESTROY:
+    case WM_CLOSE:
+        SendTaskbarMsg(TASKBAR_WINDOW_DESTROY, lpCwp->hwnd);
+      break;
+
+    case WM_KILLFOCUS:
+        SendTaskbarMsg(TASKBAR_WINDOW_SETFOCUS, lpCwp->hwnd);
       break;
     }
   }

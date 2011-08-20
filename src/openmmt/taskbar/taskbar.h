@@ -43,38 +43,6 @@ class Taskbar : public SmartVectorList<Application, Taskbar>,
                 public ButtonManager,
                 public Direct2DWindow
 {
-  /** Private class members. */
-private:
-  HWND m_hWnd;          /**< Taskbar's window handle. */
-  LONG m_X;             /**< Taskbar's x position. */
-  LONG m_Y;             /**< Taskbar's y position. */
-  LONG m_Width;         /**< Taskbar's width.  */
-  LONG m_Height;        /**< Taskbar's height. */
-  INT m_Position;       /**< Taskbar's position (top,bottom,left,right) */
-  BOOL m_bAlwaysOnTop;  /**< Always on top. */
-  BOOL m_bAutoHide;     /**< Autohide. */
-  BOOL m_bFullScreen;   /**< An application is in full screen. */
-  RECT m_AppBarRect;    /**< Rect of the app bar. */
-
-  /** Private class methods. */
-private:
-
-  /**
-   * Creates the taskbar.
-   */
-  void CreateTaskbar();
-
-  /**
-   * Registers an app bar with the system. Do we really need to do this?
-   */
-  void RegisterAppBar();
-
-  /**
-   * Unregisters an app bar with the system.
-   */
-  void UnregisterAppBar();
-
-  UINT GetTaskbarEdge();
 
 public:
 
@@ -197,6 +165,40 @@ public:
    * An application has left full screen.
    */
   void AppLeaveFullScreen(HWND hWnd);
+
+    /** Private class members. */
+private:
+  HWND m_hWnd;          /**< Taskbar's window handle. */
+  LONG m_X;             /**< Taskbar's x position. */
+  LONG m_Y;             /**< Taskbar's y position. */
+  LONG m_Width;         /**< Taskbar's width.  */
+  LONG m_Height;        /**< Taskbar's height. */
+  INT m_Position;       /**< Taskbar's position (top,bottom,left,right) */
+  BOOL m_bAlwaysOnTop;  /**< Always on top. */
+  BOOL m_bAutoHide;     /**< Autohide. */
+  BOOL m_bFullScreen;   /**< An application is in full screen. */
+  RECT m_AppBarRect;    /**< Rect of the app bar. */
+
+  /** Private class methods. */
+private:
+
+  /**
+   * Creates the taskbar.
+   */
+  void CreateTaskbar();
+
+  /**
+   * Registers an app bar with the system. Do we really need to do this?
+   */
+  void RegisterAppBar();
+
+  /**
+   * Unregisters an app bar with the system.
+   */
+  void UnregisterAppBar();
+
+  UINT GetTaskbarEdge();
+
 };
 
 #endif // OPENMMT_TASKBAR_TASKBAR_H

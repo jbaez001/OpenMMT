@@ -231,6 +231,9 @@
     <ClCompile Include="precompiled_headers.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OpenMMT.rc">

@@ -31,27 +31,29 @@
 # define SYSTEMHOOKS_DLL  L"libsys.dll"
 #endif
 
-/**
- * Checks to see if the system hooks are already installed.
- */
-SYSTEMHOOKS_API BOOL SysHooksCheckInstall(void);
+extern "C" {
+  /**
+   * Checks to see if the system hooks are already installed.
+   */
+  SYSTEMHOOKS_API BOOL SysHooksCheckInstall(void);
 
-/**
- * Installs the the system hooks.
- *
- * @param hWnd    OpenMMT's Handle.
- */
-SYSTEMHOOKS_API BOOL SysHooksStart(HWND hWnd);
+  /**
+   * Installs the the system hooks.
+   *
+   * @param hWnd    OpenMMT's Handle.
+   */
+  SYSTEMHOOKS_API BOOL SysHooksStart(HWND hWnd);
 
-/**
- * Sets the helper.
- */
-SYSTEMHOOKS_API void SysHookSetHelper(HWND hWnd);
+  /**
+   * Sets the helper.
+   */
+  SYSTEMHOOKS_API void SysHookSetHelper(HWND hWnd);
 
-/**
- * Stops the system hooks.
- */
-SYSTEMHOOKS_API void SysHooksStop(void);
+  /**
+   * Stops the system hooks.
+   */
+  SYSTEMHOOKS_API void SysHooksStop(void);
+};
 
 #endif // SYSTEMHOOKS_API_H
 

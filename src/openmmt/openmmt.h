@@ -1,28 +1,27 @@
+/*************************************************************************
+ * OpenMMT - Open Multi-Monitor Taskbar
+ * Copyright (C) 2010 Genscripts
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *  
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+#ifndef OPENMMT_OPENMMT_H
+#define OPENMMT_OPENMMT_H
 
-// OpenMMT.h : main header file for the PROJECT_NAME application
-//
+extern void OpenMMT_Run(HINSTANCE hInstance);
 
-#pragma once
+#endif // OPENMMT_OPENMMT_H
 
-#include "resource.h"		// main symbols
+// EOF
 
-
-// OpenMMTApp:
-// See OpenMMT.cpp for the implementation of this class
-//
-
-class OpenMMTApp : public CWinApp
-{
-public:
-	OpenMMTApp();
-
-// Overrides
-public:
-	virtual BOOL InitInstance();
-
-// Implementation
-
-	DECLARE_MESSAGE_MAP()
-};
-
-extern OpenMMTApp theApp;
