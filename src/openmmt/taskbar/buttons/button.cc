@@ -59,7 +59,7 @@ Button::Button(HWND hWndApp, HWND hWndTaskbar, INT x, INT y,
 
 Button::~Button()
 {
-  TaskbarPtr bar = g_pMonitorManager->FindMonitorTaskbar(m_hWnd);
+  TaskbarPtr bar(g_pMonitorManager->FindMonitorTaskbar(m_hWnd));
 
   if (bar != TaskbarPtr()) {
     bar->ReIndexButtons();
@@ -241,6 +241,7 @@ void Button::CreateExtraResources()
 }
 void Button::ReleaseExtraResources()
 {
+  SafeRelease(&m_pIconBmp);
   SafeRelease(&m_pBitmap);
 }
 
@@ -258,7 +259,7 @@ void Button::OnPaint()
   // is wrong.
   if (!IsWindow(m_hWndApp)) {
 
-    TaskbarPtr bar = g_pMonitorManager->FindMonitorTaskbar(m_hWndTaskbar);
+    TaskbarPtr bar(g_pMonitorManager->FindMonitorTaskbar(m_hWndTaskbar));
 
     if (bar != TaskbarPtr())
       bar->RemoveButton(bar->GetButtonForApp(m_hWndApp));

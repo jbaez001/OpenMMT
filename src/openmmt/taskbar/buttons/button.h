@@ -33,26 +33,6 @@ enum ButtonState {
 class Button : 
   public Direct2DWindow
 {
-private:
-  HWND m_hWnd;            /**< Button handle. */
-  HWND m_hWndApp;         /**< Application's handle. */
-  HWND m_hWndTaskbar;     /**< Application's taskbar handle. */
-  INT m_X;                /**< Button's x coordinate. */
-  INT m_Y;                /**< Button's y coordinate. */
-  INT m_Width;            /**< Width. */
-  INT m_Height;           /**< Height. */
-  INT m_Index;            /**< Button's index/position. */
-  INT m_btnState;         /**< Current state of the button. */
-  BOOL m_bMayHoover;        /**< The cursor may hoover above the button. */
-  BOOL m_bFlashing;       /**< Is the button flashing? */
-  HICON m_hIcon;          /**< Application's icon. */
-  HTHEME m_hTheme;        /**< Button's theme. */
-
-  IWICBitmap *m_pIconBmp; /**< Application's icon. WIC Bitmap. */
-  ID2D1Bitmap *m_pBitmap; /**< Same as above, but as a format that Direct2D can use. */
-
-  COLORREF m_AverageColor; /**< Icon's average color. */
-
 public:
 
   /**
@@ -166,13 +146,28 @@ public:
 
   void CreateExtraResources();
   void ReleaseExtraResources();
-
   void OnEraseBackground();
   void OnPaint();
   void OnThemeChange();
-  
   void Flash();
 
+  private:
+    HWND m_hWnd;            /**< Button handle. */
+    HWND m_hWndApp;         /**< Application's handle. */
+    HWND m_hWndTaskbar;     /**< Application's taskbar handle. */
+    INT m_X;                /**< Button's x coordinate. */
+    INT m_Y;                /**< Button's y coordinate. */
+    INT m_Width;            /**< Width. */
+    INT m_Height;           /**< Height. */
+    INT m_Index;            /**< Button's index/position. */
+    INT m_btnState;         /**< Current state of the button. */
+    BOOL m_bMayHoover;        /**< The cursor may hoover above the button. */
+    BOOL m_bFlashing;       /**< Is the button flashing? */
+    HICON m_hIcon;          /**< Application's icon. */
+    HTHEME m_hTheme;        /**< Button's theme. */
+    IWICBitmap *m_pIconBmp; /**< Application's icon. WIC Bitmap. */
+    ID2D1Bitmap *m_pBitmap; /**< Same as above, but as a format that Direct2D can use. */
+    COLORREF m_AverageColor; /**< Icon's average color. */
 };
 
 #endif // OPENMMT_TASKBAR_BUTTONS_BUTTON_H

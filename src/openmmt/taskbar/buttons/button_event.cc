@@ -18,9 +18,10 @@
  */
 #include "openmmt/precompiled_headers.h"
 #include "openmmt/global_variables.h"
+#include "openmmt/option_variables.h"
+#include "openmmt/resource.h"
 #include "openmmt/taskbar/buttons/button_event.h"
 #include "openmmt/thumbnail/thumbnail.h"
-#include "openmmt/option_variables.h"
 
 ButtonPtr ButtonEvent::FindButton(HWND hWnd)
 {
@@ -175,6 +176,29 @@ void ButtonEvent::OnThemeChange(HWND hWnd)
     return;
 
   btn->OnThemeChange();
+}
+
+void ButtonEvent::OnContextMenu(HWND hWnd, LPRECT lpRect, POINT pt)
+{
+
+  UNREFERENCED_PARAMETER(lpRect);
+
+  HMENU hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_MENU_BTN));
+  
+  if (!hMenu)
+    return;
+
+  HMENU hPopUpMenu = GetSubMenu(hMenu, 0);
+
+  if (!hPopUpMenu)
+    return;
+
+  TaskbarPtr bar = g_pMonitorManager->FindMonitorTaskbar(hWnd);
+
+  ClientToScreen(hWnd, &pt);
+  TrackPopupMenu(hPopUpMenu, TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, 
+    hWnd, NULL);
+  DestroyMenu(hPopUpMenu);
 }
 // EOF
 

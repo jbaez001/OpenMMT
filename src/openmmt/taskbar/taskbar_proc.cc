@@ -24,8 +24,6 @@
 #include "openmmt/taskbar/taskbar.h"
 #include "openmmt/taskbar/taskbar_event.h"
 #include "openmmt/windows/windows.h"
-#include <WindowsX.h>
-
 
 LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam, 
                              LPARAM lParam)
@@ -33,22 +31,18 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
   switch(msg)
   {
   case WM_ACTIVATE:
-    {
       TaskbarEvent::OnActivate(hWnd);
-    }
     return TRUE;
+
   case WM_ERASEBKGND:
-    {
       TaskbarEvent::OnEraseBackground(hWnd);
-    }
     return TRUE;
 
   case WM_THEMECHANGED:
   case WM_DWMCOMPOSITIONCHANGED:
-    {
       TaskbarEvent::OnThemeChange(hWnd);
-    }
     return TRUE;
+
   case WM_CONTEXTMENU:
     {
       POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
@@ -57,22 +51,15 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
     }
     return TRUE;
   case WM_DISPLAYCHANGE:
-    {
       g_pMonitorManager->EnumerateMonitors();
-    }
     return 0;
 
 
   case WM_COMMAND:
     {
-      MonitorPtr mon = g_pMonitorManager->FindMonitor(hWnd);
-
-      if (mon == MonitorPtr())
-        break;
-
       switch (LOWORD(wParam))
       {
-      case ID_CONTEXTMENU_CLOSE:
+      case ID_BAR_CLOSE:
         PostQuitMessage(0);
         break;
 
@@ -95,11 +82,10 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
     break;
 
   default:
-    {
       TaskbarEvent::CheckAppBarMsg(hWnd, msg, wParam, lParam);
-    }
     return DefWindowProc(hWnd, msg, wParam, lParam);
   }
+
   return 0;
 }
 
