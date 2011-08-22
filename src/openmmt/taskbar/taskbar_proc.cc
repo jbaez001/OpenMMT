@@ -83,6 +83,7 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
 
   default:
       TaskbarEvent::CheckAppBarMsg(hWnd, msg, wParam, lParam);
+
     return DefWindowProc(hWnd, msg, wParam, lParam);
   }
 

@@ -140,8 +140,7 @@ void Button::CreateButton()
   ShowWindow(m_hWnd, SW_SHOW);
 
   // Destroy the Windows 7 taskbar button.
-  PostMessage(g_hWndWindowsTaskbar, g_uMsgShellHook, HSHELL_WINDOWDESTROYED, 
-    (LPARAM)GetProperHandle(m_hWndApp));
+  Persist();
 }
 void Button::Persist()
 {

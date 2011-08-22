@@ -60,9 +60,15 @@ LRESULT CALLBACK ButtonProc(HWND hWnd, UINT msg, WPARAM wParam,
 
   case WM_CONTEXTMENU:
     {
+      BOOL bShifted = FALSE;
+
+      if (GetKeyState(VK_SHIFT) & 0x8000)
+        bShifted = TRUE;
+
       POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
       ScreenToClient(hWnd, &pt);
-      ButtonEvent::OnContextMenu(hWnd, NULL, pt);
+
+      ButtonEvent::OnContextMenu(hWnd, wParam, lParam, pt, bShifted);
     }
     break;
 
@@ -99,10 +105,9 @@ LRESULT CALLBACK ButtonProc(HWND hWnd, UINT msg, WPARAM wParam,
 
   case WM_MOUSEHOVER:
     {
-      // If the mouse is hovering and the user has the right click
-      // option set, then we won't call this event in case the user
-      // starts to drag the button.
-      if (!(wParam & MK_LBUTTON))
+      // If the user is holding the shift key, we will bypass any mouse
+      // hovering events for now. 
+      if (!(GetKeyState(VK_SHIFT) & 0x8000))
         ButtonEvent::OnMouseHoover(hWnd, (HDC)wParam, NULL);
     }
     break;

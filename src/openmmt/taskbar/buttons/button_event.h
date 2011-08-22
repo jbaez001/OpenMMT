@@ -36,7 +36,7 @@ public:
   static void OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect);
   static void OnWindowDestroyed(HWND hWnd);
   static void OnThemeChange(HWND hWnd);
-  static void OnContextMenu(HWND hWnd, LPRECT lpRect, POINT pt);
+  static void OnContextMenu(HWND hWnd, WPARAM wParam, LPARAM lParam, POINT pt, BOOL bShifted);
 };
 
 #endif // OPENMMT_TASKBAR_BUTTONS_BUTTON_EVENT_H
