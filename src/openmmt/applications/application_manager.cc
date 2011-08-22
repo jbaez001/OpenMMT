@@ -159,5 +159,16 @@ void ApplicationManager::CloseThumbnailWindow()
   m_Thumbnail->DestroyThumbnailWindow();
 }
 
+ButtonPtr ApplicationManager::FindButton(HWND hWnd)
+{
+  TaskbarPtr pBar(g_pMonitorManager->FindMonitorTaskbar(hWnd));
+  if (pBar != TaskbarPtr()) {
+    ButtonPtr pBtn(pBar->GetButton(hWnd));
+    if (pBtn != ButtonPtr()) {
+      return pBtn;
+    }
+  }
 
+  return ButtonPtr();
+}
 // EOF

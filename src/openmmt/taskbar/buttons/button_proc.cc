@@ -60,48 +60,16 @@ LRESULT CALLBACK ButtonProc(HWND hWnd, UINT msg, WPARAM wParam,
 
   case WM_CONTEXTMENU:
     {
-      BOOL bShifted = FALSE;
-
-      if (GetKeyState(VK_SHIFT) & 0x8000)
-        bShifted = TRUE;
-
-      POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-      ScreenToClient(hWnd, &pt);
-
-      ButtonEvent::OnContextMenu(hWnd, wParam, lParam, pt, bShifted);
-    }
-    break;
-
-  case WM_COMMAND:
-    {
-      TaskbarPtr pBar(g_pMonitorManager->FindMonitorTaskbar(hWnd));
-
-      if (pBar == TaskbarPtr())
-        break;
-
-      ButtonPtr pBtn(pBar->GetButton(hWnd));
-
+      ButtonPtr pBtn(g_pAppManager->FindButton(hWnd));
+      
       if (pBtn == ButtonPtr())
         break;
 
-      switch (LOWORD(wParam))
-      {
-      case ID_BTN_CONTEXT_CLOSE:
-        {
-          SetForegroundWindow(pBtn->GetAppHandle());
-          PostMessage(pBtn->GetAppHandle(), WM_CLOSE, NULL, NULL);
-
-          // TODO: Need to find a better way of doing this
-          //g_pAppManager->CheckWindow(pBtn->GetAppHandle());
-        }
-        break;
-
-      default:
-        break;
-      }
+      SetWindowPos(pBtn->GetAppHandle(), 0, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE);
+      PostMessage(pBtn->GetAppHandle(), 0x0313, 0, lParam);
+      pBtn->Persist();
     }
     break;
-
 
   case WM_MOUSEHOVER:
     {

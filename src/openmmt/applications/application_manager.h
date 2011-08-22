@@ -96,6 +96,11 @@ public:
    * Closes the thumbnail window.
    */
   void CloseThumbnailWindow();
+
+  /**
+   * Finds a button pointer by handle.
+   */
+  ButtonPtr FindButton(HWND hWnd);
 };
 
 #endif // OPENMMT_APPLICATIONS_APPLICATION_MANAGER_H

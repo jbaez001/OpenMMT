@@ -180,34 +180,7 @@ void ButtonEvent::OnThemeChange(HWND hWnd)
 
 void ButtonEvent::OnContextMenu(HWND hWnd, WPARAM wParam, LPARAM lParam, POINT pt, BOOL bShifted)
 {
-  if (bShifted) {
-    TaskbarPtr pBar(g_pMonitorManager->FindMonitorTaskbar(hWnd));
 
-    if (pBar != TaskbarPtr()) {
-      ButtonPtr pBtn(pBar->GetButton(hWnd));
-      if (pBtn != ButtonPtr()) {
-        SetWindowPos(pBtn->GetAppHandle(), 0, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE);
-        PostMessage(pBtn->GetAppHandle(), 0x0313, 0, lParam);
-        pBtn->Persist();
-        return;
-      }
-    }
-  }
-
-  HMENU hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_MENU_BTN));
-  
-  if (!hMenu)
-    return;
-
-  HMENU hPopUpMenu = GetSubMenu(hMenu, 0);
-
-  if (!hPopUpMenu)
-    return;
-
-  ClientToScreen(hWnd, &pt);
-  TrackPopupMenu(hPopUpMenu, TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, 
-    hWnd, NULL);
-  DestroyMenu(hPopUpMenu);
 }
 // EOF
 
