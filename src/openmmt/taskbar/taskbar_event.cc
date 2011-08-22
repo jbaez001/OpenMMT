@@ -102,15 +102,14 @@ void TaskbarEvent::OnThemeChange(HWND hWnd)
   bar->OnEraseBackground();
 }
 
-void TaskbarEvent::OnWindowMinMax(HWND hWnd)
+void TaskbarEvent::OnWindowMinMax(HWND hWnd, UINT nShowCmd)
 {
-  UNREFERENCED_PARAMETER(hWnd);
+
 }
 
 void TaskbarEvent::OnWindowPosChanged(HWND hWnd)
 {
-  UNREFERENCED_PARAMETER(hWnd);
-
+  
   RECT rt = {0};
 
   GetWindowRect(hWnd, &rt);
@@ -145,7 +144,7 @@ void TaskbarEvent::OnWindowMinimize(HWND hWnd)
   ButtonPtr pBtn(pApp->GetTaskbarButton());
 
   // Check to see if the button is currently active. If so, clear the
-  // state and re-draw it.
+  // button's state and re-draw it.
   if (pBtn != ButtonPtr()) {
     if (pBtn->IsState(BTN_ACTIVE)) {
       pBtn->ClearState(BTN_ACTIVE);

@@ -62,6 +62,11 @@ public:
   void Update();
 
   /**
+   * Updates the window's placement.
+   */
+  void UpdatePlacement();
+
+  /**
    * Returns the application's taskbar button.
    */
   ButtonPtr GetTaskbarButton();

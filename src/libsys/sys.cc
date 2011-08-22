@@ -24,6 +24,7 @@
 #pragma data_seg(".SHARDATA")
   BOOL  g_bHooksInstalled = FALSE;
   HHOOK g_hHookProc   = {0};
+  HHOOK g_hHookCbt    = {0};
   HWND  g_hWndOpenMMT = {0};
   HWND  g_hWndHelper  = {0};
 #pragma data_seg()
@@ -124,6 +125,23 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
       break;
     }
   }
+  return CallNextHookEx(0, nCode, wParam, lParam);
+}
+
+LRESULT CALLBACK CbtRetProc(int nCode, WPARAM wParam, LPARAM lParam)
+{
+  if (nCode >= 0) {
+    switch (nCode)
+    {
+    case HCBT_MINMAX:
+      {
+        if ((lParam == SW_MINIMIZE) || (lParam == SW_MAXIMIZE))
+          SendTaskbarMsg(TASKBAR_WINDOW_MINMAX, (HWND)wParam, lParam);
+      }
+      break;
+    }
+  }
+
   return CallNextHookEx(0, nCode, wParam, lParam);
 }
 

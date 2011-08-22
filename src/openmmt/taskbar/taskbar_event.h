@@ -28,7 +28,7 @@ public:
   static void OnEraseBackground(HWND hWnd);
   static void OnContextMenu(HWND hWnd, LPRECT lpRect, POINT pt);
   static void OnThemeChange(HWND hWnd);
-  static void OnWindowMinMax(HWND hWnd);
+  static void OnWindowMinMax(HWND hWnd, UINT nShowCmd);
   static void OnWindowPosChanged(HWND hWnd);
   static void OnWindowMinimize(HWND hWnd);
 };

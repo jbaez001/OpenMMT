@@ -41,7 +41,13 @@ SYSTEMHOOKS_API BOOL SysHooksStart(HWND hWnd)
 
   if (!(g_hHookProc = SetWindowsHookEx(WH_CALLWNDPROCRET, &CallWndRetProc, hMod, 0)))
     return FALSE;
-
+  /*
+  if (!(g_hHookCbt = SetWindowsHookEx(WH_CBT, &CbtRetProc, hMod, 0))) {
+    if (g_hHookProc)
+      UnhookWindowsHookEx(g_hHookProc);
+    return FALSE;
+  }
+  */
   g_bHooksInstalled = TRUE;
   g_hWndOpenMMT     = hWnd;
 
@@ -55,12 +61,16 @@ SYSTEMHOOKS_API void SysHookSetHelper(HWND hWnd)
 
 SYSTEMHOOKS_API void SysHooksStop(void)
 {
-  if (g_hHookProc) {
+  if (g_hHookProc) 
     UnhookWindowsHookEx(g_hHookProc);
-    g_bHooksInstalled = FALSE;
-    g_hWndOpenMMT     = NULL;
-    g_hWndHelper      = NULL;
-  }
+
+  if (g_hHookCbt)
+    UnhookWindowsHookEx(g_hHookCbt);
+
+  g_bHooksInstalled = FALSE;
+  g_hWndOpenMMT     = NULL;
+  g_hWndHelper      = NULL;
+  
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)

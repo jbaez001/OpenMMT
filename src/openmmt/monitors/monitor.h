@@ -55,6 +55,7 @@ public:
    */
   ~Monitor();
 
+  boost::shared_ptr<RECT> GetWorkSpaceRect();
   void GetWorkSpace();
   void UpdateMonitor();
   void Initialize();

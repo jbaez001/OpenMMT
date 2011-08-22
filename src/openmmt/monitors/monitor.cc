@@ -39,6 +39,24 @@ Monitor::~Monitor()
     ModifyWorkSpace(true);
 }
 
+boost::shared_ptr<RECT> Monitor::GetWorkSpaceRect()
+{
+  boost::shared_ptr<RECT> lpRect(new RECT);
+
+  lpRect->bottom =
+  lpRect->left   =
+  lpRect->right  =
+  lpRect->top    = 0;
+
+  if (GetMonitorInfo(m_hMonitor, &m_hMonitorInfo)) {
+    lpRect->bottom = m_hMonitorInfo.rcWork.bottom;
+    lpRect->left   = m_hMonitorInfo.rcWork.left;
+    lpRect->right  = m_hMonitorInfo.rcWork.right;
+    lpRect->top    = m_hMonitorInfo.rcWork.top;
+  }
+
+  return lpRect;
+}
 void Monitor::GetWorkSpace()
 {
   if (!GetMonitorInfo(m_hMonitor, &m_hMonitorInfo)) {

@@ -166,7 +166,7 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
 
   case TASKBAR_WINDOW_MINMAX:
     {
-      TaskbarEvent::OnWindowMinMax((HWND) wParam);
+      TaskbarEvent::OnWindowMinMax((HWND) wParam, (UINT)lParam);
     }
     return TRUE;
 
@@ -174,6 +174,8 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
     {
       TaskbarEvent::OnWindowMinimize((HWND) wParam);
     }
+    return TRUE;
+
   case TASKBAR_WINDOW_POSCHANGED:
     {
       g_pAppManager->CheckWindow((HWND)wParam);

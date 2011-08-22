@@ -25,11 +25,13 @@
 
 extern BOOL  g_bHooksInstalled;
 extern HHOOK g_hHookProc;
+extern HHOOK g_hHookCbt;
 extern HWND  g_hWndOpenMMT;
 extern HWND  g_hWndHelper;
 
 
 extern LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam);
+extern LRESULT CALLBACK CbtRetProc(int nCode, WPARAM wParam, LPARAM lParam);
 
 #endif // SYSTEMHOOKS_SYS_H
 
