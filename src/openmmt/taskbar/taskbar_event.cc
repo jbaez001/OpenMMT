@@ -133,4 +133,25 @@ void TaskbarEvent::OnWindowPosChanged(HWND hWnd)
   }
 }
 
+void TaskbarEvent::OnWindowMinimize(HWND hWnd)
+{
+  ApplicationPtr pApp(g_pAppManager->FindApplication(hWnd));
+
+  if (pApp == ApplicationPtr())
+    return;
+
+  pApp->Update();
+
+  ButtonPtr pBtn(pApp->GetTaskbarButton());
+
+  // Check to see if the button is currently active. If so, clear the
+  // state and re-draw it.
+  if (pBtn != ButtonPtr()) {
+    if (pBtn->IsState(BTN_ACTIVE)) {
+      pBtn->ClearState(BTN_ACTIVE);
+      pBtn->OnPaint();
+    }
+  }
+}
+
 // EOF

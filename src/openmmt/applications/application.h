@@ -60,6 +60,11 @@ public:
    * Updates the application.
    */
   void Update();
+
+  /**
+   * Returns the application's taskbar button.
+   */
+  ButtonPtr GetTaskbarButton();
 };
 
 #endif // OPENMMT_APPLICATIONS_APPLICATION_H

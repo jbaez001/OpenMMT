@@ -170,6 +170,10 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
     }
     return TRUE;
 
+  case TASKBAR_WINDOW_MINIMIZE:
+    {
+      TaskbarEvent::OnWindowMinimize((HWND) wParam);
+    }
   case TASKBAR_WINDOW_POSCHANGED:
     {
       g_pAppManager->CheckWindow((HWND)wParam);

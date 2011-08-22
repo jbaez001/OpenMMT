@@ -106,6 +106,19 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
         SendTaskbarMsg(TASKBAR_WINDOW_DESTROY, lpCwp->hwnd);
       break;
 
+    case WM_SYSCOMMAND:
+      {
+        switch (lpCwp->wParam)
+        {
+        case SC_MINIMIZE:
+          SendTaskbarMsg(TASKBAR_WINDOW_MINIMIZE, lpCwp->hwnd);
+          break;
+        case SC_MAXIMIZE:
+          SendTaskbarMsg(TASKBAR_WINDOW_MAXIMIZE, lpCwp->hwnd);
+          break;
+        }
+      }
+      break;
     case WM_KILLFOCUS:
         SendTaskbarMsg(TASKBAR_WINDOW_SETFOCUS, lpCwp->hwnd);
       break;

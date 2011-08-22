@@ -63,4 +63,12 @@ void Application::Update()
   }
 }
 
+ButtonPtr Application::GetTaskbarButton()
+{
+  if (m_Taskbar == TaskbarPtr())
+    return ButtonPtr();
+
+  return m_Taskbar->GetButtonForApp(m_hWnd);
+}
+
 // EOF

@@ -30,6 +30,7 @@ public:
   static void OnThemeChange(HWND hWnd);
   static void OnWindowMinMax(HWND hWnd);
   static void OnWindowPosChanged(HWND hWnd);
+  static void OnWindowMinimize(HWND hWnd);
 };
 
 #endif // OPENMMT_TASKBAR_TASKBAR_EVENT_H

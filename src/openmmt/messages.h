@@ -32,6 +32,8 @@ enum OpenMMTMessages {
   TASKBAR_WINDOW_POSCHANGED,        /**< A window's position has just changed.   */
   TASKBAR_WINDOW_SETFOCUS,          /**< A window is gaining keyboard focus.     */
   TASKBAR_WINDOW_MINMAX,            /**< A window's pos/size is about to change. */
+  TASKBAR_WINDOW_MINIMIZE,          /**< A window is being minimized.            */
+  TASKBAR_WINDOW_MAXIMIZE,          /**< A window is being maximized.            */
   TASKBAR_X86_SUPPORT_HELLO,        /**< Our x86 helper said hello.              */
   TASKBAR_X86_SUPPORT_BYEBYE,       /**< Our x86 helper is leaving us. :'(       */
   OPENMMT_TRAY_MESSAGE              /**< System tray icon message.               */

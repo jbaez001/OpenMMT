@@ -158,6 +158,8 @@ void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
 
     // Bring the window to the foreground.
     SetForegroundWindow(btn->GetAppHandle());
+    RedrawWindow(btn->GetAppHandle(), NULL, NULL, RDW_INVALIDATE);
+
     btn->AddState(BTN_ACTIVE);
   }
   btn->AddState(BTN_NORMAL);
