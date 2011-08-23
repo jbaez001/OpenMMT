@@ -238,6 +238,7 @@
     <ClInclude Include="taskbar\taskbar.h" />
     <ClInclude Include="taskbar\taskbar_event.h" />
     <ClInclude Include="taskbar\taskbar_proc.h" />
+    <ClInclude Include="template_classes\safe_release.h" />
     <ClInclude Include="template_classes\smart_vector_list.h" />
     <ClInclude Include="thumbnail\thumbnail.h" />
     <ClInclude Include="thumbnail\thumbnail_proc.h" />
@@ -247,7 +248,6 @@
     <ClInclude Include="windows\taskbar_interface.h" />
     <ClInclude Include="windows\theme_manager.h" />
     <ClInclude Include="windows\windows.h" />
-    <ClInclude Include="windows\windows_registry.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="applications\application.cc" />
@@ -288,7 +288,6 @@
     <ClCompile Include="windows\taskbar_interface.cc" />
     <ClCompile Include="windows\theme_manager.cc" />
     <ClCompile Include="windows\windows.cc" />
-    <ClCompile Include="windows\windows_registry.cc" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="openmmt.rc" />

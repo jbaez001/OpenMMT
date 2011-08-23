@@ -23,18 +23,7 @@
 #include <D2D1.h>
 #include <wincodec.h>
 #include <comdef.h>
-/**
- * SafeRelease template from MSDN:
- * http://msdn.microsoft.com/en-us/library/dd370994(v=VS.85).aspx
- */
-template<class Interface>
-inline void SafeRelease(Interface **ppInterfaceToRelease)
-{
-  if (*ppInterfaceToRelease != NULL) {
-    (*ppInterfaceToRelease)->Release();
-    (*ppInterfaceToRelease) = NULL;
-  }
-}
+#include "openmmt/template_classes/safe_release.h"
 
 extern ID2D1Factory *m_pD2DFactory;
 extern IWICImagingFactory *m_pWICFactory;

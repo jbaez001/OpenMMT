@@ -121,9 +121,6 @@
     <ClInclude Include="windows\windows.h">
       <Filter>Source Files\windows</Filter>
     </ClInclude>
-    <ClInclude Include="windows\windows_registry.h">
-      <Filter>Source Files\windows</Filter>
-    </ClInclude>
     <ClInclude Include="messages.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -141,6 +138,9 @@
     </ClInclude>
     <ClInclude Include="precompiled_headers.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="template_classes\safe_release.h">
+      <Filter>Source Files\template_classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -199,9 +199,6 @@
       <Filter>Source Files\windows</Filter>
     </ClCompile>
     <ClCompile Include="windows\windows.cc">
-      <Filter>Source Files\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="windows\windows_registry.cc">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
     <ClCompile Include="windows\auto_start.cc">

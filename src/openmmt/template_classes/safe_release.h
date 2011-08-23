@@ -16,14 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-#include "openmmt/precompiled_headers.h"
-#include "openmmt/windows/windows_registry.h"
+#ifndef OPENMMT_TEMPLATE_CLASSES_SAFE_RELEASE_H
+#define OPENMMT_TEMPLATE_CLASSES_SAFE_RELEASE_H
 
-static LPCTSTR kWinKeyOpenMMT     = L"SOFTWARE\\OpenMMT";
-
-void WinkeysRegister()
+/**
+ * SafeRelease template from MSDN:
+ * http://msdn.microsoft.com/en-us/library/dd370994(v=VS.85).aspx
+ */
+template<class Interface>
+inline void SafeRelease(Interface **ppInterfaceToRelease)
 {
-  
+  if (*ppInterfaceToRelease != NULL) {
+    (*ppInterfaceToRelease)->Release();
+    (*ppInterfaceToRelease) = NULL;
+  }
 }
+
+#endif // OPENMMT_TEMPLATE_CLASSES_SAFE_RELEASE_H
+
 // EOF
 

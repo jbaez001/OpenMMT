@@ -152,12 +152,12 @@ void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
     ShowWindowAsync(btn->GetAppHandle(), SW_MINIMIZE);
     btn->ClearState(BTN_ACTIVE);
   } else {
-    // Is the window is minimized, let's restore it.
+    // If the window is minimized, let's restore it.
     if (IsIconic(btn->GetAppHandle()))
       ShowWindow(btn->GetAppHandle(), SW_RESTORE);
 
     // Bring the window to the foreground.
-    SetForegroundWindow(btn->GetAppHandle());
+    BringWindowToTop(btn->GetAppHandle());
     RedrawWindow(btn->GetAppHandle(), NULL, NULL, RDW_INVALIDATE);
 
     btn->AddState(BTN_ACTIVE);

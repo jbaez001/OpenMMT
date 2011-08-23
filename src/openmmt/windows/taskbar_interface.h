@@ -21,6 +21,7 @@
 #pragma once
 
 extern void InitializeTaskbarInterface();
+extern void ReleaseTaskbarInterfaces();
 
 #endif // OPENMMT_WINDOWS_TASKBAR_INTERFACE_H
 

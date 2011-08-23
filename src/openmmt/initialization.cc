@@ -69,6 +69,7 @@ void _InitializeInternals()
 void _Shutdown()
 {
   ReleaseDirect2D();
+  ReleaseTaskbarInterfaces();
   CoUninitialize();
 }
 

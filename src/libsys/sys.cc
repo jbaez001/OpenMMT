@@ -94,8 +94,14 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
         break;
          
     case WM_ACTIVATE:
-    case WM_ACTIVATEAPP:
+      {
+        // If the window is being deactivated, then lets not bother
+        // openmmt with it.
+        if (LOWORD(lpCwp->wParam) == WA_INACTIVE)
+          break;
+
         SendTaskbarMsg(TASKBAR_WINDOW_ACTIVATE, lpCwp->hwnd);
+      }
       break;
 
     case WM_WINDOWPOSCHANGED:
@@ -136,6 +142,7 @@ LRESULT CALLBACK CbtRetProc(int nCode, WPARAM wParam, LPARAM lParam)
     {
     case HCBT_MINMAX:
       {
+#if defined(DEBUG)
         if ((lParam == SW_MINIMIZE) || (lParam == SW_RESTORE)) {
           HMONITOR hMonitor = MonitorFromWindow((HWND)wParam, MONITOR_DEFAULTTONULL);
 
@@ -162,10 +169,11 @@ LRESULT CALLBACK CbtRetProc(int nCode, WPARAM wParam, LPARAM lParam)
           POINT ptMinPosition = { hMonitorInfo.rcWork.left, hMonitorInfo.rcWork.bottom };
           wndpl.ptMinPosition = ptMinPosition;
           wndpl.flags         = WPF_ASYNCWINDOWPLACEMENT|WPF_SETMINPOSITION;
-          //wndpl.showCmd       = (lParam == SW_MINIMIZE) ? SW_MINIMIZE : SW_RESTORE;
-          //SetWindowPlacement((HWND)wParam, &wndpl);
-          //SendTaskbarMsg(TASKBAR_WINDOW_MINMAX, (HWND)wParam, lParam);
+          wndpl.showCmd       = (lParam == SW_MINIMIZE) ? SW_MINIMIZE : SW_RESTORE;
+          SetWindowPlacement((HWND)wParam, &wndpl);
+          SendTaskbarMsg(TASKBAR_WINDOW_MINMAX, (HWND)wParam, lParam);
         }
+#endif
       }
       break;
     }

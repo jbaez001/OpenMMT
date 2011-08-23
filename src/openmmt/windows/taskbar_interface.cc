@@ -18,6 +18,7 @@
  */
 #include "openmmt/precompiled_headers.h"
 #include "openmmt/windows/os.h"
+#include "openmmt/template_classes/safe_release.h"
 
 /**
  * ITaskbarList2. Interface that extends ITaskbarList.
@@ -27,7 +28,7 @@
  *
  * MSDN: http://msdn.microsoft.com/en-us/library/bb774638(v=VS.85).aspx
  */
-static ITaskbarList3* g_iTaskbar2 = NULL;
+ITaskbarList3* g_iTaskbar2 = NULL;
 
 /**
  * ITaskbarList3. Interface that extends ITaskbarList2.
@@ -37,7 +38,7 @@ static ITaskbarList3* g_iTaskbar2 = NULL;
  *
  * MSDN: http://msdn.microsoft.com/en-us/library/dd391692(v=VS.85).aspx
  */
-static ITaskbarList3* g_iTaskbar3 = NULL;
+ITaskbarList3* g_iTaskbar3 = NULL;
 
 
 /**
@@ -63,6 +64,13 @@ void InitializeTaskbarInterface()
   }
 }
 
+void ReleaseTaskbarInterfaces()
+{
+  if (OSIsWin7Server08R2())
+    SafeRelease(&g_iTaskbar3);
+  else
+    SafeRelease(&g_iTaskbar2);
+}
 
 // EOF
 
