@@ -208,9 +208,24 @@ public:
    */
   BOOL IsPosition(INT pos);
 
+  /**
+   * Gets button based on index.
+   */
   ButtonPtr GetButton(int indx);
+
+  /**
+   * Gets button based on button handle.
+   */
   ButtonPtr GetButton(HWND hWnd);
+
+  /**
+   * Gets button based on application instance.
+   */
   ButtonPtr GetButton(ApplicationPtr pApp);
+
+  /**
+   * Gets button based on application handle.
+   */
   ButtonPtr GetButtonFromApp(HWND hWnd);
 
 private:
