@@ -56,7 +56,7 @@ void Application::Update()
       g_pAppManager->RemoveApplication(m_hWnd);
       m_Taskbar = TaskbarPtr();
     } else {
-      ButtonPtr btn = m_Taskbar->GetButtonForApp(m_hWnd);
+      ButtonPtr btn = m_Taskbar->GetButtonFromApp(m_hWnd);
       if (btn != ButtonPtr())
         btn->Persist();
     }
@@ -95,7 +95,7 @@ ButtonPtr Application::GetTaskbarButton()
   if (m_Taskbar == TaskbarPtr())
     return ButtonPtr();
 
-  return m_Taskbar->GetButtonForApp(m_hWnd);
+  return m_Taskbar->GetButtonFromApp(m_hWnd);
 }
 
 // EOF

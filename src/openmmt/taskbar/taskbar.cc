@@ -22,19 +22,34 @@
 #include "openmmt/windows/os.h"
 #include "openmmt/windows/windows.h"
 
-static const INT kDefaultTaskbarHorizontalHeight = 40;
-static const INT kDefaultTaskbarVerticalWidth    = 62;
+static const INT iDefaultTaskbarHorizontalHeight = 40;
+static const INT iDefaultTaskbarVerticalWidth    = 62;
+static const INT iDefaultButtonSpacing = 2;
+
+// A dirty way to delegate the composition change message.
+static BOOL CALLBACK ChildNotification(HWND hWnd, LPARAM lParam)
+{
+  UNREFERENCED_PARAMETER(lParam);
+  PostMessage(hWnd, WM_DWMCOMPOSITIONCHANGED, NULL, NULL);
+  return TRUE;
+}
 
 Taskbar::Taskbar() :
+  m_hTheme(NULL),
   m_hWnd(NULL),
+  m_hWndLastActive(NULL),
   m_X(0),
   m_Y(0),
   m_Width(0),
   m_Height(0),
   m_Position(TASKBAR_BOTTOM),
-  m_bAlwaysOnTop(FALSE),
-  m_bAutoHide(FALSE),
-  m_bFullScreen(FALSE)
+  m_MaxButtons(0),
+  m_TotalButtons(0),
+  m_BtnWidth(0),
+  m_BtnHeight(0),
+  m_bFullScreen(FALSE),
+  m_bClosing(FALSE),
+  m_bHorizontal(TRUE)
 {
   ZeroMemory(&m_AppBarRect, sizeof(RECT));
 }
@@ -119,7 +134,7 @@ void Taskbar::SetWorkSpace(LPRECT rcMonitor, LPRECT rcWork, INT mPosition)
   if ((m_Position == TASKBAR_TOP) || (m_Position==TASKBAR_BOTTOM)) {
     m_Height = (g_WindowsTaskbarPos == TASKBAR_BOTTOM) || 
       (g_WindowsTaskbarPos == TASKBAR_TOP) ? g_WindowsTaskbarHeight : 
-      kDefaultTaskbarHorizontalHeight;
+      iDefaultTaskbarHorizontalHeight;
     m_Width  = rcMonitor->right - rcMonitor->left;
     m_X      = rcMonitor->left;
 
@@ -136,7 +151,7 @@ void Taskbar::SetWorkSpace(LPRECT rcMonitor, LPRECT rcWork, INT mPosition)
     m_Height    = rcMonitor->bottom - rcMonitor->top;
     m_Width     = (g_WindowsTaskbarPos == TASKBAR_LEFT) ||
       (g_WindowsTaskbarPos == TASKBAR_RIGHT) ? g_WindowsTaskbarWidth : 
-      kDefaultTaskbarVerticalWidth;
+      iDefaultTaskbarVerticalWidth;
     m_Y         = rcMonitor->top;
 
     if (m_Position == TASKBAR_LEFT) {
@@ -235,36 +250,6 @@ void Taskbar::CreateTaskbar()
   ShowWindow(m_hWnd, SW_SHOW);
 }
 
-const LONG Taskbar::GetWidth()
-{
-  return m_Width;
-}
-
-const LONG Taskbar::GetHeight()
-{
-  return m_Height;
-}
-
-const HWND Taskbar::GetWindowHandle()
-{
-  return m_hWnd;
-}
-
-const INT Taskbar::GetPosition()
-{
-  return m_Position;
-}
-
-
-BOOL Taskbar::IsPosition(INT pos)
-{
-  return (m_Position == pos);
-}
-
-BOOL Taskbar::IsAutoHidden()
-{
-  return m_bAutoHide;
-}
 
 void Taskbar::SetPosition(INT pos)
 {
@@ -294,7 +279,7 @@ void Taskbar::OnEraseBackground()
 
     WndSetBlur(m_hWnd, true);
     m_pRenderTarget->Clear(D2D1::ColorF(0.0f, 0.0f, 0.0f, 0.0f));
- 
+
     if (SUCCEEDED(QueryDeviceContext())) {
       // Declare the device context and get it.
       HDC hDC = {0};
@@ -339,13 +324,6 @@ void Taskbar::OnPaint()
 
 }
 
-// A dirty way to delegate the composition change message.
-static BOOL CALLBACK ChildNotification(HWND hWnd, LPARAM lParam)
-{
-  UNREFERENCED_PARAMETER(lParam);
-  PostMessage(hWnd, WM_DWMCOMPOSITIONCHANGED, NULL, NULL);
-  return TRUE;
-}
 
 void Taskbar::OnThemeChange()
 {
@@ -382,9 +360,8 @@ void Taskbar::OnThemeChange()
 
 void Taskbar::SetAutoHide(BOOL bAutoHide)
 {
-  m_bAutoHide    = bAutoHide;
-
 #if 0
+  m_bAutoHide    = bAutoHide;
   APPBARDATA sAppBar = {0};
   sAppBar.cbSize = sizeof(APPBARDATA);
   sAppBar.hWnd   = m_hWnd;
@@ -408,18 +385,6 @@ void Taskbar::SetAutoHide(BOOL bAutoHide)
 
 void Taskbar::SetAlwaysOnTop(BOOL bAlwaysOnTop)
 {
-  APPBARDATA sAppBar = {0};
-
-  sAppBar.cbSize = sizeof(APPBARDATA);
-  sAppBar.hWnd   = m_hWnd;
-
-  if (bAlwaysOnTop)
-    sAppBar.lParam |= ABS_ALWAYSONTOP;
-  if (m_bAutoHide)
-    sAppBar.lParam |= ABS_AUTOHIDE;
-
-  m_bAlwaysOnTop = bAlwaysOnTop;
-  SHAppBarMessage(ABM_SETSTATE, &sAppBar);
 }
 
 void Taskbar::AppEnterFullScreen(HWND hWnd)
@@ -427,10 +392,9 @@ void Taskbar::AppEnterFullScreen(HWND hWnd)
   if (m_bFullScreen)
     return;
 
-  dprintf("%08X has entered full screen.\n", hWnd);
-
   SetWindowPos(m_hWnd, HWND_BOTTOM, m_X, m_Y, m_Width, m_Height, 
     SWP_HIDEWINDOW);
+
   m_bFullScreen = TRUE;
 }
 
@@ -439,11 +403,251 @@ void Taskbar::AppLeaveFullScreen(HWND hWnd)
   if (!m_bFullScreen)
     return;
 
-  dprintf("%08X has left full screen.\n", hWnd);
-
   SetWindowPos(m_hWnd, HWND_TOPMOST, m_X, m_Y, m_Width, m_Height, 
     SWP_SHOWWINDOW);
+
   m_bFullScreen = FALSE;
+}
+
+void Taskbar::CreateButton(ApplicationPtr pAbb)
+{
+  ButtonPtr pBtn;
+
+  if (pAbb->GetTaskbar() == TaskbarPtr()) {
+    MessageBox(NULL, L"Could not retrieve taskbar for an application", L"OpenMMT", MB_OK|MB_ICONERROR);
+    abort();
+  }
+
+  // Check to see if we have reached the maximum number of alloted buttons.
+  // If so, it's time that we reshape.
+  if ((m_TotalButtons+1) >= m_MaxButtons) {
+
+  }
+
+  if (m_bHorizontal) {
+    pBtn = ButtonPtr(new Button(pAbb->GetId(), pAbb->GetTaskbar()->GetWindowHandle(), 
+      GetCoordinatesAtIndex(m_TotalButtons), 0, m_BtnWidth, m_BtnHeight, m_TotalButtons));
+  } else {
+    pBtn = ButtonPtr(new Button(pAbb->GetId(), pAbb->GetTaskbar()->GetWindowHandle(), 
+      0, GetCoordinatesAtIndex(m_TotalButtons), m_BtnWidth, m_BtnHeight, m_TotalButtons));
+  }
+
+  buttons_.insert(ButtonPair(m_TotalButtons++, pBtn));
+  pBtn->CreateButton();
+  UpdateWindow(pBtn->GetButtonHandle());
+}
+
+void Taskbar::RemoveButton(ButtonPtr pBtn)
+{
+  if (pBtn == ButtonPtr())
+    return;
+
+  if (g_pAppManager->IsThumbnailed(pBtn->GetAppHandle())) 
+    g_pAppManager->CloseThumbnailWindow();
+
+  std::map<int, ButtonPtr>::iterator it = buttons_.find(pBtn->GetIndex());
+  buttons_.erase(it);
+
+  m_TotalButtons--;
+}
+
+void Taskbar::UpdateIndex()
+{
+  if (m_bClosing)
+    return;
+
+  std::map<int, ButtonPtr> tmpButtons_;
+  int cur_index = 0;
+  for (std::map<int, ButtonPtr>::iterator it = buttons_.begin();
+    it != buttons_.end(); ++it) {
+      if (cur_index != it->first) {
+        m_TotalButtons--;
+        ButtonPtr btn_next = GetButton(cur_index+1);
+        if (btn_next != ButtonPtr()) {
+          tmpButtons_.insert(ButtonPair(cur_index, btn_next));
+          btn_next->SetIndex(cur_index);
+          m_TotalButtons++;
+        }
+      } else {
+        tmpButtons_.insert(ButtonPair(cur_index, it->second));
+      }
+      cur_index++;
+  }
+
+  // Gotta love smart pointers. Boost++;
+  buttons_ = tmpButtons_;
+  RedrawButtons();
+}
+
+void Taskbar::RedrawButtons()
+{
+  for (std::map<int, ButtonPtr>::iterator it = buttons_.begin();
+    it != buttons_.end(); ++it) {
+      if (m_bHorizontal) {
+        it->second->SetPoints(GetCoordinatesAtIndex(it->second->GetIndex()), 0);
+        SetWindowPos(it->second->GetButtonHandle(), HWND_TOP, 
+          GetCoordinatesAtIndex(it->second->GetIndex()), 0, m_BtnWidth, m_BtnHeight, 
+          SWP_NOACTIVATE|SWP_NOOWNERZORDER);
+      } else {
+        it->second->SetPoints(0, GetCoordinatesAtIndex(it->second->GetIndex()));
+        SetWindowPos(it->second->GetButtonHandle(), HWND_TOP, 
+          0, GetCoordinatesAtIndex(it->second->GetIndex()), m_BtnWidth, m_BtnHeight, 
+          SWP_NOACTIVATE|SWP_NOOWNERZORDER);
+      }
+
+      // We want to release the resources created by the device so they
+      // can be recreated once again with the proper dimensions.
+      it->second->ReleaseExtraResources();
+      it->second->ReleaseDeviceResources();
+      InvalidateRect(it->second->GetButtonHandle(), NULL, true);
+  }
+}
+
+void Taskbar::SetLayout(BOOL bHorizontal)
+{
+  m_bHorizontal = bHorizontal;
+
+  // TODO: FFS. Clean this up.
+  if (g_pMonitorManager->IsFunkeyDPI()) {
+    m_BtnWidth  = !m_bHorizontal ? m_Width : 70;
+    m_BtnHeight = m_bHorizontal ? m_Height : 50;
+  } else {
+    m_BtnWidth  = !m_bHorizontal ? m_Width : 60;
+    m_BtnHeight = m_bHorizontal ? m_Height : 45;
+  }
+
+  m_MaxButtons = (bHorizontal ? (m_Width / m_BtnWidth) : 
+    (m_Height / m_BtnHeight));
+
+  if (!m_hTheme) {
+    m_BtnHeight -= 2;
+    m_BtnWidth  -= 2;
+  }
+
+  if (g_bUsingSmallIcons) {
+    if (m_bHorizontal)
+      m_BtnWidth  -= 10;
+    else
+      m_BtnHeight -= 10;
+  }
+}
+
+// TODO: Check to see if we even need this anymore.
+void Taskbar::SetDimensions(LONG mWidth, LONG mHeight)
+{
+  m_Width  = mWidth;
+  m_Height = mHeight;
+
+  dprintf("Dimensions changed to %ldx%ld\n", mWidth, mHeight);
+}
+
+void Taskbar::ActivateApp(HWND hWnd)
+{
+  ButtonPtr btn;
+
+  if (!m_hWndLastActive) {
+    m_hWndLastActive = hWnd;
+  } else if (m_hWndLastActive == hWnd) {
+    return;
+  }
+
+  ButtonPtr old_btn = GetButtonFromApp(m_hWndLastActive);
+
+  if (old_btn != ButtonPtr()) {
+    old_btn->ClearState(BTN_ACTIVE);
+    InvalidateRect(old_btn->GetButtonHandle(), NULL, TRUE);
+  }
+
+  btn = GetButtonFromApp(hWnd);
+
+  if (btn != ButtonPtr()) {
+    btn->AddState(BTN_ACTIVE);
+    m_hWndLastActive = hWnd;
+  }
+
+}
+
+void Taskbar::SetFirstActive()
+{
+  if (buttons_.empty())
+    return;
+
+  ButtonPtr pBtn(buttons_.begin()->second);
+
+  if (pBtn != ButtonPtr()) 
+    ActivateApp(pBtn->GetAppHandle());
+}
+
+const LONG Taskbar::GetWidth()
+{
+  return m_Width;
+}
+
+const LONG Taskbar::GetHeight()
+{
+  return m_Height;
+}
+
+const HWND Taskbar::GetWindowHandle()
+{
+  return m_hWnd;
+}
+
+const INT Taskbar::GetPosition()
+{
+  return m_Position;
+}
+
+const INT Taskbar::GetCoordinatesAtIndex(int indx)
+{
+  return (indx * ((m_bHorizontal == TRUE ? m_BtnWidth : m_BtnHeight) + iDefaultButtonSpacing));
+}
+
+BOOL Taskbar::IsPosition(INT pos)
+{
+  return (m_Position == pos);
+}
+
+ButtonPtr Taskbar::GetButton(int indx)
+{
+  std::map<int, ButtonPtr>::const_iterator it = buttons_.find(indx);
+  return it->second;
+}
+
+ButtonPtr Taskbar::GetButton(HWND hWnd)
+{
+  for (std::map<int, ButtonPtr>::const_iterator it = buttons_.begin();
+    it != buttons_.end(); ++it) {
+      if (it->second->GetButtonHandle() == hWnd) {
+        return it->second;
+      }
+  }
+  return ButtonPtr();
+}
+
+ButtonPtr Taskbar::GetButton(ApplicationPtr pApp)
+{
+  if (pApp == ApplicationPtr()) 
+    return ButtonPtr();
+
+  for (std::map<int, ButtonPtr>::const_iterator it = buttons_.begin();
+    it != buttons_.end(); ++it) {
+      if (it->second->GetAppHandle() == pApp->GetId()) {
+        return it->second;
+      }
+  }
+  return ButtonPtr();
+}
+
+ButtonPtr Taskbar::GetButtonFromApp(HWND hWnd)
+{
+  for (std::map<int, ButtonPtr>::const_iterator it = buttons_.begin();
+    it != buttons_.end(); ++it) {
+      if (it->second->GetAppHandle() == hWnd) {
+        return it->second;
+      }
+  }
+  return ButtonPtr();
 }
 
 // EOF

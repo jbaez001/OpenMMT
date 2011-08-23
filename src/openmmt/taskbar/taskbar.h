@@ -18,29 +18,25 @@
  */
 #ifndef OPENMMT_TASKBAR_TASKBAR_H
 #define OPENMMT_TASKBAR_TASKBAR_H
-#pragma once
-
-// Forward declarations.
-class Application;
-class ButtonManager;
 
 #include "openmmt/applications/application.h"
 #include "openmmt/graphics/direct2d/direct2d_window.h"
-#include "openmmt/taskbar/buttons/button_manager.h"
+#include "openmmt/taskbar/buttons/button.h"
 #include "openmmt/template_classes/smart_vector_list.h"
 
-enum TaskbarPosition {
+enum TaskarPos {
   TASKBAR_BOTTOM = 1,
   TASKBAR_RIGHT,
   TASKBAR_TOP,
   TASKBAR_LEFT
 };
 
+typedef std::pair<int, ButtonPtr> ButtonPair; 
+
 /**
  * Taskbar class.
  */
 class Taskbar : public SmartVectorList<Application, Taskbar>,
-                public ButtonManager,
                 public Direct2DWindow
 {
 
@@ -56,6 +52,9 @@ public:
    */
   ~Taskbar();
 
+  /**
+   * Sets the workspace accordingly.
+   */
   void SetWorkSpace(LPRECT rcMonitor, LPRECT rcWork, INT mPosition);
 
   /**
@@ -85,36 +84,7 @@ public:
    */
   void ClearApplications();
 
-
-  /**
-   * Returns the width of the taskbar.
-   */
-  const LONG GetWidth();
-
-  /**
-   * Returns the height of the taskbar.
-   */
-  const LONG GetHeight();
-
-  /**
-   * Returns the handle of the taskbar.
-   *
-   */
-  const HWND GetWindowHandle();
-
-  /**
-   * Gets the current position of the taskbar.
-   */
-  const INT GetPosition();
-
-  /**
-   * Checks the current position of the taskbar. The valid positions
-   * are declared on this header.
-   */
-  BOOL IsPosition(INT pos);
-
-  BOOL IsAutoHidden();
-
+  
   /**
    * Sets the position of this taskbar.
    */
@@ -166,21 +136,103 @@ public:
    */
   void AppLeaveFullScreen(HWND hWnd);
 
-    /** Private class members. */
-private:
-  HWND m_hWnd;          /**< Taskbar's window handle. */
-  LONG m_X;             /**< Taskbar's x position. */
-  LONG m_Y;             /**< Taskbar's y position. */
-  LONG m_Width;         /**< Taskbar's width.  */
-  LONG m_Height;        /**< Taskbar's height. */
-  INT m_Position;       /**< Taskbar's position (top,bottom,left,right) */
-  BOOL m_bAlwaysOnTop;  /**< Always on top. */
-  BOOL m_bAutoHide;     /**< Autohide. */
-  BOOL m_bFullScreen;   /**< An application is in full screen. */
-  RECT m_AppBarRect;    /**< Rect of the app bar. */
+  /**
+   * Creates a button for an application.
+   */
+  void CreateButton(ApplicationPtr pApp);
 
-  /** Private class methods. */
+  /**
+   * Removes a button from the taskbar.
+   */
+  void RemoveButton(ButtonPtr pBtn);
+
+  /**
+   * Updates the button index and redraws the buttons.
+   */
+  void UpdateIndex();
+
+  /**
+   * Redraws the buttons.
+   */
+  void RedrawButtons();
+
+  /**
+   * Sets the layout based on the perspective.
+   */
+  void SetLayout(BOOL bHorizontal);
+
+  /**
+   * Modifies the Taskbar's dimensions.
+   */
+  void SetDimensions(LONG mWidth, LONG mHeight);
+
+  /**
+   * Activates an application.
+   */
+  void ActivateApp(HWND hWnd);
+
+  /**
+   * Sets the first button of the taskbar as active.
+   */
+  void SetFirstActive();
+
+  /**
+   * Returns the width of the taskbar.
+   */
+  const LONG GetWidth();
+
+  /**
+   * Returns the height of the taskbar.
+   */
+  const LONG GetHeight();
+
+  /**
+   * Returns the handle of the taskbar.
+   *
+   */
+  const HWND GetWindowHandle();
+
+  /**
+   * Gets the current position of the taskbar.
+   */
+  const INT GetPosition();
+
+  /**
+   * Returns the expected coordinates at the index specified.
+   */
+  const INT GetCoordinatesAtIndex(int indx);
+
+  /**
+   * Checks the current position of the taskbar. The valid positions
+   * are declared on this header.
+   */
+  BOOL IsPosition(INT pos);
+
+  ButtonPtr GetButton(int indx);
+  ButtonPtr GetButton(HWND hWnd);
+  ButtonPtr GetButton(ApplicationPtr pApp);
+  ButtonPtr GetButtonFromApp(HWND hWnd);
+
 private:
+  HTHEME m_hTheme;                    /**< Taskbar's theme. */
+  HWND  m_hWnd;                       /**< Taskbar's window handle. */
+  HWND  m_hWndLastActive;             /**< Handle to the last active application. */
+  RECT  m_AppBarRect;                 /**< Rect of the app bar. */
+  LONG m_X;                           /**< Taskbar's x position. */
+  LONG m_Y;                           /**< Taskbar's y position. */
+  LONG m_Width;                       /**< Taskbar's width.  */
+  LONG m_Height;                      /**< Taskbar's height. */
+  INT m_Position;                     /**< Taskbar's position (top,bottom,left,right) */
+  INT m_MaxButtons;                   /**< Maximum buttons we can hold. */
+  INT m_TotalButtons;                 /**< Amount of buttons we are carrying. */
+  INT m_BtnWidth;                     /**< Button's width.  */
+  INT m_BtnHeight;                    /**< Button's height. */
+  BOOL m_bFullScreen;                 /**< An application is in full screen. */
+  BOOL m_bClosing;                    /**< We are closing. Do not do anything. */
+  BOOL m_bHorizontal;                 /**< Is the taskbar horizontal? */
+  std::map<int, ButtonPtr> buttons_;  /**< Button map. */
+
+  /** Begin private methods. */
 
   /**
    * Creates the taskbar.
@@ -197,6 +249,9 @@ private:
    */
   void UnregisterAppBar();
 
+  /**
+   * Returns the taskbar's edge, mainly for appbar utilization.
+   */
   UINT GetTaskbarEdge();
 
 };

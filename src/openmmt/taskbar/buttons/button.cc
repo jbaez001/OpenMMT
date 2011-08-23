@@ -62,7 +62,7 @@ Button::~Button()
   TaskbarPtr bar(g_pMonitorManager->FindMonitorTaskbar(m_hWnd));
 
   if (bar != TaskbarPtr()) {
-    bar->ReIndexButtons();
+    bar->UpdateIndex();
     RECT rc={0};
     GetWindowRect(bar->GetWindowHandle(), &rc);
     InvalidateRect(bar->GetWindowHandle(), &rc, true);
@@ -261,7 +261,7 @@ void Button::OnPaint()
     TaskbarPtr bar(g_pMonitorManager->FindMonitorTaskbar(m_hWndTaskbar));
 
     if (bar != TaskbarPtr())
-      bar->RemoveButton(bar->GetButtonForApp(m_hWndApp));
+      bar->RemoveButton(bar->GetButtonFromApp(m_hWndApp));
 
     // No need to paint, so we split here.
     return;

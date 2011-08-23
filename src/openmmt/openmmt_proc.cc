@@ -81,7 +81,7 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
         if (bar == TaskbarPtr())
           break;
 
-        ButtonPtr btn = bar->GetButtonForApp((HWND)lParam);
+        ButtonPtr btn = bar->GetButtonFromApp((HWND)lParam);
 
         if (btn == ButtonPtr())
           break;
