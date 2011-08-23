@@ -121,7 +121,7 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
         }
       }
       break;
-    case WM_KILLFOCUS:
+    case WM_SETFOCUS:
         SendTaskbarMsg(TASKBAR_WINDOW_SETFOCUS, lpCwp->hwnd);
       break;
     }
@@ -136,7 +136,7 @@ LRESULT CALLBACK CbtRetProc(int nCode, WPARAM wParam, LPARAM lParam)
     {
     case HCBT_MINMAX:
       {
-        if ((lParam == SW_MINIMIZE) || (lParam == SW_MAXIMIZE)) {
+        if ((lParam == SW_MINIMIZE) || (lParam == SW_RESTORE)) {
           HMONITOR hMonitor = MonitorFromWindow((HWND)wParam, MONITOR_DEFAULTTONULL);
 
           if (!hMonitor)
@@ -162,9 +162,9 @@ LRESULT CALLBACK CbtRetProc(int nCode, WPARAM wParam, LPARAM lParam)
           POINT ptMinPosition = { hMonitorInfo.rcWork.left, hMonitorInfo.rcWork.bottom };
           wndpl.ptMinPosition = ptMinPosition;
           wndpl.flags         = WPF_ASYNCWINDOWPLACEMENT|WPF_SETMINPOSITION;
-
-          SetWindowPlacement((HWND)wParam, &wndpl);
-          SendTaskbarMsg(TASKBAR_WINDOW_MINMAX, (HWND)wParam, lParam);
+          //wndpl.showCmd       = (lParam == SW_MINIMIZE) ? SW_MINIMIZE : SW_RESTORE;
+          //SetWindowPlacement((HWND)wParam, &wndpl);
+          //SendTaskbarMsg(TASKBAR_WINDOW_MINMAX, (HWND)wParam, lParam);
         }
       }
       break;

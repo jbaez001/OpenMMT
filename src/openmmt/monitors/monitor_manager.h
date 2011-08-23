@@ -48,12 +48,6 @@ public:
   void ClearMonitors(BOOL bExit = FALSE);
 
   /**
-   * Monitor enumerating callback function.
-   */
-  static BOOL CALLBACK MonEnumProc(HMONITOR hMonitor, HDC hdcMonitor, 
-    LPRECT lprcMonitor, LPARAM dwData);
-
-  /**
    * Flushes the monitor list and re-enumerates them.
    */
   void FlushMonitors();
@@ -69,6 +63,17 @@ public:
   void CreateMonitor(const HMONITOR hMonitor);
 
   /**
+   * Determine the DPI settings.
+   */
+  void ScanDPI();
+
+  /**
+   * Iterates through all the taskbars and instructs them to set the
+   * first button as the active one.
+   */
+  void SetFirstActive();
+
+  /**
    * Finds the owning monitor of an application.
    */
   MonitorPtr FindMonitor(const HWND hWnd);
@@ -79,14 +84,15 @@ public:
   TaskbarPtr FindMonitorTaskbar(const HWND hWnd);
 
   /**
-   * Determine the DPI settings.
-   */
-  void ScanDPI();
-
-  /**
    * Are we using some sort of funkey DPI setting?
    */
   BOOL IsFunkeyDPI();
+ 
+  /**
+   * Monitor enumerating callback function.
+   */
+  static BOOL CALLBACK MonEnumProc(HMONITOR hMonitor, HDC hdcMonitor, 
+    LPRECT lprcMonitor, LPARAM dwData);
 
 private:
   BOOL m_bFunkeyDPI;    /**< Funkey DPI?*/

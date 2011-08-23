@@ -104,7 +104,16 @@ void TaskbarEvent::OnThemeChange(HWND hWnd)
 
 void TaskbarEvent::OnWindowMinMax(HWND hWnd, UINT nShowCmd)
 {
+  dprintf("Window Placement for %08X [%i]:\n", hWnd, nShowCmd);
 
+  WINDOWPLACEMENT wndpl = {0};
+
+  if (!GetWindowPlacement(hWnd, &wndpl))
+    return;
+
+  dprintf("ptMinPosition(%ld,%ld)\n", wndpl.ptMinPosition.x, wndpl.ptMinPosition.y);
+  dprintf("ptMaxPosition(%ld,%ld)\n", wndpl.ptMaxPosition.x, wndpl.ptMaxPosition.y);
+  
 }
 
 void TaskbarEvent::OnWindowPosChanged(HWND hWnd)
@@ -134,6 +143,7 @@ void TaskbarEvent::OnWindowPosChanged(HWND hWnd)
 
 void TaskbarEvent::OnWindowMinimize(HWND hWnd)
 {
+  dprintf("Minimize for %08X\n", hWnd);
   ApplicationPtr pApp(g_pAppManager->FindApplication(hWnd));
 
   if (pApp == ApplicationPtr())

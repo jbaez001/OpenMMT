@@ -84,6 +84,7 @@ void OpenMMT_Run(HINSTANCE hInstance)
 
   g_pMonitorManager->EnumerateMonitors();
   g_pAppManager->UpdateAllWindows();
+  g_pMonitorManager->SetFirstActive();
 
   if (SysHooksStart(g_hWndOpenMMT)) {
     dprintf("libsys started sucessfully.\n");

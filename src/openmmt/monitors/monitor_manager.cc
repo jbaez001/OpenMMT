@@ -57,18 +57,6 @@ void MonitorManager::ClearMonitors(BOOL bExit)
   vector_.clear();
 }
 
-BOOL CALLBACK MonitorManager::MonEnumProc(HMONITOR hMonitor, HDC hdcMonitor, 
-                                          LPRECT lprcMonitor, LPARAM dwData)
-{
-  UNREFERENCED_PARAMETER(dwData);
-  UNREFERENCED_PARAMETER(lprcMonitor);
-  UNREFERENCED_PARAMETER(hdcMonitor);
-
-  g_pMonitorManager->CreateMonitor(hMonitor);
-
-  return TRUE;
-}
-
 void MonitorManager::FlushMonitors()
 {
   ClearMonitors();
@@ -95,6 +83,24 @@ void MonitorManager::CreateMonitor(const HMONITOR hMonitor)
   AddObject(mon);
 
   mon->Initialize();
+}
+
+void MonitorManager::ScanDPI()
+{
+  if (GetSystemMetrics(SM_CXICON) != 32)
+    m_bFunkeyDPI = TRUE;
+}
+
+void MonitorManager::SetFirstActive()
+{
+  for (ObjectIterator it = vector_.begin();
+    it != vector_.end(); ++it) {
+
+      if (!it->get()->IsPrimary()) {
+        TaskbarPtr bar = it->get()->GetTaskbar();
+        bar->SetFirstActive();
+      }
+  }
 }
 
 MonitorPtr MonitorManager::FindMonitor(const HWND hWnd)
@@ -124,16 +130,21 @@ TaskbarPtr MonitorManager::FindMonitorTaskbar(const HWND hWnd)
   return TaskbarPtr();
 }
 
-
-void MonitorManager::ScanDPI()
-{
-  if (GetSystemMetrics(SM_CXICON) != 32)
-    m_bFunkeyDPI = TRUE;
-}
-
-
 BOOL MonitorManager::IsFunkeyDPI()
 {
   return m_bFunkeyDPI;
 }
+
+BOOL CALLBACK MonitorManager::MonEnumProc(HMONITOR hMonitor, HDC hdcMonitor, 
+  LPRECT lprcMonitor, LPARAM dwData)
+{
+  UNREFERENCED_PARAMETER(dwData);
+  UNREFERENCED_PARAMETER(lprcMonitor);
+  UNREFERENCED_PARAMETER(hdcMonitor);
+
+  g_pMonitorManager->CreateMonitor(hMonitor);
+
+  return TRUE;
+}
+
 // EOF

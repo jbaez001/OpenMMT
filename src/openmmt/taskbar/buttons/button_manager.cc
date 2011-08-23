@@ -240,4 +240,15 @@ void ButtonManager::ActivateApp(HWND hWnd)
   
 }
 
+void ButtonManager::SetFirstActive()
+{
+  if (buttons_.empty())
+    return;
+
+  ButtonPtr pBtn(buttons_.begin()->second);
+
+  if (pBtn != ButtonPtr()) 
+    ActivateApp(pBtn->GetAppHandle());
+}
+
 // EOF

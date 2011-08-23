@@ -146,7 +146,6 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
     return TRUE;
 
   case TASKBAR_WINDOW_ACTIVATE:
-  case TASKBAR_WINDOW_MOVESIZE:
   case TASKBAR_WINDOW_SETFOCUS:
     {
       g_pAppManager->CheckWindow((HWND)wParam);

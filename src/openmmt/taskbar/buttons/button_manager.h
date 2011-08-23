@@ -115,6 +115,8 @@ public:
   void SetDimensions(LONG mWidth, LONG mHeight);
 
   void ActivateApp(HWND hWnd);
+
+  void SetFirstActive();
 };
 
 #endif // OPENMMT_TASKBAR_BUTTONS_BUTTON_MANAGER_H
