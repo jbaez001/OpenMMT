@@ -233,7 +233,6 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="taskbar\buttons\button.h" />
     <ClInclude Include="taskbar\buttons\button_event.h" />
-    <ClInclude Include="taskbar\buttons\button_manager.h" />
     <ClInclude Include="taskbar\buttons\button_proc.h" />
     <ClInclude Include="taskbar\taskbar.h" />
     <ClInclude Include="taskbar\taskbar_event.h" />
@@ -274,7 +273,6 @@
     </ClCompile>
     <ClCompile Include="taskbar\buttons\button.cc" />
     <ClCompile Include="taskbar\buttons\button_event.cc" />
-    <ClCompile Include="taskbar\buttons\button_manager.cc" />
     <ClCompile Include="taskbar\buttons\button_proc.cc" />
     <ClCompile Include="taskbar\taskbar.cc" />
     <ClCompile Include="taskbar\taskbar_event.cc" />

@@ -91,9 +91,6 @@
     <ClInclude Include="taskbar\buttons\button_event.h">
       <Filter>Source Files\taskbar\buttons</Filter>
     </ClInclude>
-    <ClInclude Include="taskbar\buttons\button_manager.h">
-      <Filter>Source Files\taskbar\buttons</Filter>
-    </ClInclude>
     <ClInclude Include="taskbar\buttons\button_proc.h">
       <Filter>Source Files\taskbar\buttons</Filter>
     </ClInclude>
@@ -178,9 +175,6 @@
       <Filter>Source Files\taskbar\buttons</Filter>
     </ClCompile>
     <ClCompile Include="taskbar\buttons\button_event.cc">
-      <Filter>Source Files\taskbar\buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="taskbar\buttons\button_manager.cc">
       <Filter>Source Files\taskbar\buttons</Filter>
     </ClCompile>
     <ClCompile Include="taskbar\buttons\button_proc.cc">
