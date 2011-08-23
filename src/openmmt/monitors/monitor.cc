@@ -21,8 +21,13 @@
 #include "openmmt/monitors/monitor.h"
 
 Monitor::Monitor(HMONITOR hMonitor, UINT Id) :
-  m_hMonitor(hMonitor), m_Id(Id), m_Width(0), m_Height(0),
-  m_X(0), m_Y(0), bPrimary(FALSE)
+  m_hMonitor(hMonitor),
+  m_Id(Id),
+  m_Width(0),
+  m_Height(0),
+  m_X(0),
+  m_Y(0),
+  bPrimary(FALSE)
 {
   m_hMonitorInfo.cbSize = sizeof(m_hMonitorInfo);
 
