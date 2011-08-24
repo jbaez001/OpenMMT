@@ -27,23 +27,6 @@
  */
 class Monitor
 {
-  friend class Application;
-
-private:
-  MONITORINFOEX m_hMonitorInfo;
-  HMONITOR m_hMonitor;
-
-  UINT m_Id;      /**< Monitor's ID */
-  LONG m_Width;     /**< Monitor's width. */
-  LONG m_Height;    /**< Monitor's height. */
-  LONG m_X;         /**< X Coordinate of the monitor's rectangle. */
-  LONG m_Y;         /**< Y Coordinate of the monitor's rectangle. */
-
-  BOOL bPrimary;   /**< Primary monitor? */
-
-  TaskbarPtr m_Taskbar;   /**< Taskbar. */
-  std::wstring m_MonitorName;
-
 public:
   /**
    * Class constructor.
@@ -59,23 +42,34 @@ public:
   void GetWorkSpace();
   void UpdateMonitor();
   void Initialize();
+  void RemoveTaskbarReference();
+  void UpdateTaskbarArea(INT pos);
 
   const UINT GetId();
   const HMONITOR GetMonitorHandle();
-
   const LONG GetWidth();
   const LONG GetHeight();
 
   BOOL IsPrimary();
+  BOOL HasMainTaskbar();
   BOOL IsValid();
 
   TaskbarPtr GetTaskbar();
 
-  void RemoveTaskbarReference();
-  void UpdateTaskbarArea(INT pos);
-
 private:
+  MONITORINFOEX   m_hMonitorInfo; /**< Structure containing monitor's nfo */
+  HMONITOR        m_hMonitor;     /**< Handle to the monitor. */
+  TaskbarPtr      m_Taskbar;      /**< Taskbar. */
+  std::wstring    m_MonitorName;  /**< Name of the monitor */
+  UINT  m_Id;                     /**< Monitor's ID */
+  LONG m_Width;                   /**< Monitor's width. */
+  LONG m_Height;                  /**< Monitor's height. */
+  BOOL bPrimary;                  /**< Primary monitor? */
+  BOOL bMainTaskbar;              /**< Is the Windows taskbar in this monitor? */
 
+  /***********************************************************************
+   ** Begin Private Methods.
+   ***********************************************************************/
   /**
    * ModifyWorkSpace. Modifies the workspace of a monitor.
    *

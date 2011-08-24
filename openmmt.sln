@@ -24,7 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{74622353-2
 	ProjectSection(SolutionItems) = preProject
 		Authors.txt = Authors.txt
 		GNU.txt = GNU.txt
-		Readme.txt = Readme.txt
 	EndProjectSection
 EndProject
 Global

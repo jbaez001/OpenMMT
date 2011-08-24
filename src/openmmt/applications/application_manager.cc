@@ -105,11 +105,10 @@ void ApplicationManager::CheckWindow(const HWND hWnd)
     dprintf("Unable to find monitor for %08X\n", hWnd);
     return;
   }
-  
 
   if (app != ApplicationPtr()) {
     app->Update();
-  } else if (!monitor->IsPrimary()) {
+  } else if (!monitor->HasMainTaskbar()) {
       g_pAppManager->CreateApplication(hWnd);
   }
 }

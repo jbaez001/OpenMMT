@@ -41,7 +41,7 @@ void MonitorManager::ClearMonitors(BOOL bExit)
   for (ObjectIterator it = vector_.begin();
     it != vector_.end(); ++it) {
 
-      if (!it->get()->IsPrimary()) {
+      if (!it->get()->HasMainTaskbar()) {
         /** Remove application references from the taskbar. */
         TaskbarPtr bar = it->get()->GetTaskbar();
         bar->ClearApplications();
@@ -92,7 +92,7 @@ void MonitorManager::SetFirstActive()
   for (ObjectIterator it = vector_.begin();
     it != vector_.end(); ++it) {
 
-      if (!it->get()->IsPrimary()) {
+      if (!it->get()->HasMainTaskbar()) {
         TaskbarPtr bar = it->get()->GetTaskbar();
         bar->SetFirstActive();
       }

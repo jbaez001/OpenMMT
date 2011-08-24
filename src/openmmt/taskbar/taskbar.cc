@@ -324,7 +324,6 @@ void Taskbar::OnPaint()
 
 }
 
-
 void Taskbar::OnThemeChange()
 {
   if (m_hTheme)
@@ -578,9 +577,6 @@ void Taskbar::ActivateApp(HWND hWnd)
 
 void Taskbar::SetFirstActive()
 {
-  if (buttons_.empty())
-    return;
-
   if (buttons_.size() == 0)
     return;
 

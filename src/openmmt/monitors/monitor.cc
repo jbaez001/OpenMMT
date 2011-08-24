@@ -25,14 +25,17 @@ Monitor::Monitor(HMONITOR hMonitor, UINT Id) :
   m_Id(Id),
   m_Width(0),
   m_Height(0),
-  m_X(0),
-  m_Y(0),
-  bPrimary(FALSE)
+  bPrimary(FALSE),
+  bMainTaskbar(FALSE)
 {
   m_hMonitorInfo.cbSize = sizeof(m_hMonitorInfo);
-
   GetWorkSpace();
   m_MonitorName = std::wstring(m_hMonitorInfo.szDevice);
+
+  if (MonitorFromWindow(g_hWndWindowsTaskbar, MONITOR_DEFAULTTONULL) == m_hMonitor)
+    bMainTaskbar = TRUE;
+  else
+    bMainTaskbar = FALSE;
 }
 
 Monitor::~Monitor()
@@ -40,7 +43,7 @@ Monitor::~Monitor()
   /* Make sure that we do not modify the working space of the main
    * monitor.
    */
-  if (!bPrimary)
+  if (!bMainTaskbar)
     ModifyWorkSpace(true);
 }
 
@@ -72,8 +75,8 @@ void Monitor::GetWorkSpace()
 
   m_Width  = m_hMonitorInfo.rcMonitor.right - m_hMonitorInfo.rcMonitor.left;
   m_Height = m_hMonitorInfo.rcMonitor.bottom - m_hMonitorInfo.rcMonitor.top;
-  m_X      = m_hMonitorInfo.rcMonitor.left;
-  m_Y      = m_hMonitorInfo.rcMonitor.top;
+  LONG m_X = m_hMonitorInfo.rcMonitor.left;
+  LONG m_Y = m_hMonitorInfo.rcMonitor.top;
 
   if ((m_X == 0) && (m_Y == 0))
     bPrimary = TRUE; 
@@ -92,7 +95,7 @@ void Monitor::UpdateMonitor()
 
   if (m_Taskbar != TaskbarPtr()) {
     // Check to see if the primary monitors where changed.
-    if (bPrimary) {
+    if (bMainTaskbar) {
       m_Taskbar->ClearApplications();
       HWND hwTaskbar = m_Taskbar->GetWindowHandle();
       EnumChildWindows(hwTaskbar, &EnumChildProc, NULL);
@@ -111,7 +114,7 @@ void Monitor::Initialize()
 {
   // Determine if its the primary monitor. If so, declare it as such. If not,
   // then we will create a taskbar for it.
-  if (!bPrimary) {
+  if (!bMainTaskbar) {
     m_Taskbar = TaskbarPtr(new Taskbar());
     UpdateTaskbarArea(g_WindowsTaskbarPos);
     m_Taskbar->Initialize();
@@ -157,6 +160,11 @@ BOOL Monitor::IsPrimary()
   return bPrimary;
 }
 
+BOOL Monitor::HasMainTaskbar()
+{
+  return bMainTaskbar;
+}
+
 BOOL Monitor::IsValid()
 {
   return (GetMonitorInfo(m_hMonitor, &m_hMonitorInfo));
@@ -173,4 +181,5 @@ void Monitor::RemoveTaskbarReference()
     m_Taskbar = TaskbarPtr();
   }
 }
+
 // EOF
