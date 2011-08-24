@@ -32,6 +32,7 @@ enum TaskarPos {
 };
 
 typedef std::pair<int, ButtonPtr> ButtonPair; 
+typedef std::map<int, ButtonPtr>  ButtonMap;
 
 /**
  * Taskbar class.
@@ -147,6 +148,16 @@ public:
   void RemoveButton(ButtonPtr pBtn);
 
   /**
+   * Inserts a button at the end of the strip.
+   */
+  void InsertButton(ButtonPtr pBtn);
+
+  /**
+   * Inserts a button at the specified index.
+   */
+  void InsertButtonAtIndex(ButtonPtr pBtn, int index);
+
+  /**
    * Updates the button index and redraws the buttons.
    */
   void UpdateIndex();
@@ -245,7 +256,7 @@ private:
   BOOL m_bFullScreen;                 /**< An application is in full screen. */
   BOOL m_bClosing;                    /**< We are closing. Do not do anything. */
   BOOL m_bHorizontal;                 /**< Is the taskbar horizontal? */
-  std::map<int, ButtonPtr> buttons_;  /**< Button map. */
+  ButtonMap buttons_;                 /**< Button map. */
 
   /** Begin private methods. */
 

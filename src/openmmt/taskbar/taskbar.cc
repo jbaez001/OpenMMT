@@ -451,6 +451,15 @@ void Taskbar::RemoveButton(ButtonPtr pBtn)
   m_TotalButtons--;
 }
 
+void Taskbar::InsertButton(ButtonPtr pBtn)
+{
+
+}
+void Taskbar::InsertButtonAtIndex(ButtonPtr pBtn, int index)
+{
+
+}
+
 void Taskbar::UpdateIndex()
 {
   if (m_bClosing)
