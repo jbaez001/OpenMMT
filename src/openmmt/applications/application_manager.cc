@@ -1,6 +1,6 @@
 /*************************************************************************
  * OpenMMT - Open Multi-Monitor Taskbar
- * Copyright (C) 2010 Genscripts
+ * Copyright (C) 2010-2011 Genscripts
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,15 +31,12 @@ ApplicationManager::~ApplicationManager()
 {
   for (ObjectIterator it = vector_.begin();
     it != vector_.end(); ++it) {
-#if defined(_DEBUG)
-      BOOST_ASSERT(it->use_count() == 1);
-#endif
   }
 }
 
 ApplicationPtr ApplicationManager::FindApplication(HWND hWnd)
 {  
-  for (std::vector<boost::shared_ptr<Application>>::iterator it = vector_.begin(); 
+  for (std::vector<ApplicationPtr>::iterator it = vector_.begin(); 
     it != vector_.end(); ++it) {
       if (it->get()->GetId() == hWnd) {
         return ApplicationPtr(*it);
@@ -137,7 +134,7 @@ BOOL ApplicationManager::IsThumbnailed(HWND hWnd)
   if (!hWnd) 
     return FALSE;
  
-  dprintf("Source: %08X vs %08X\n", m_Thumbnail->GetSource(), hWnd);
+  //dprintf("Source: %08X vs %08X\n", m_Thumbnail->GetSource(), hWnd);
 
   return (hWnd == m_Thumbnail->GetSource());
 }

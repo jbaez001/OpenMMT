@@ -1,6 +1,6 @@
 /*************************************************************************
  * OpenMMT - Open Multi-Monitor Taskbar
- * Copyright (C) 2010 Genscripts
+ * Copyright (C) 2010-2011 Genscripts
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,8 +31,8 @@ enum TaskarPos {
   TASKBAR_LEFT
 };
 
-typedef std::pair<int, ButtonPtr> ButtonPair; 
-typedef std::map<int, ButtonPtr>  ButtonMap;
+typedef std::vector<ButtonPtr> BtnVector;
+typedef BtnVector::iterator    BtnIterator;
 
 /**
  * Taskbar class.
@@ -143,24 +143,19 @@ public:
   void CreateButton(ApplicationPtr pApp);
 
   /**
-   * Removes a button from the taskbar.
-   */
-  void RemoveButton(ButtonPtr pBtn);
-
-  /**
-   * Inserts a button at the end of the strip.
+   * InsertButton.
    */
   void InsertButton(ButtonPtr pBtn);
 
   /**
-   * Inserts a button at the specified index.
+   * Moves a button to the specified position in the taskbar.
    */
-  void InsertButtonAtIndex(ButtonPtr pBtn, int index);
+  void MoveButtonToPos(ButtonPtr pBtn, int pos);
 
   /**
-   * Updates the button index and redraws the buttons.
+   * Removes a button from the taskbar.
    */
-  void UpdateIndex();
+  void RemoveButton(ButtonPtr pBtn);
 
   /**
    * Redraws the buttons.
@@ -256,7 +251,7 @@ private:
   BOOL m_bFullScreen;                 /**< An application is in full screen. */
   BOOL m_bClosing;                    /**< We are closing. Do not do anything. */
   BOOL m_bHorizontal;                 /**< Is the taskbar horizontal? */
-  ButtonMap buttons_;                 /**< Button map. */
+  BtnVector buttons_;                 /**< Button vector.  */
 
   /** Begin private methods. */
 

@@ -1,6 +1,6 @@
 /*************************************************************************
  * OpenMMT - Open Multi-Monitor Taskbar
- * Copyright (C) 2010 Genscripts
+ * Copyright (C) 2010-2011 Genscripts
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,10 +49,6 @@ void MonitorManager::ClearMonitors(BOOL bExit)
         /** Remove the taskbar reference of the monitor. */
         it->get()->RemoveTaskbarReference();
       }
-#if defined(_DEBUG)
-      if (bExit)
-        BOOST_ASSERT(it->use_count() == 1);
-#endif
   }
   vector_.clear();
 }

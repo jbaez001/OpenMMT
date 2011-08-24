@@ -1,6 +1,6 @@
 /*************************************************************************
  * OpenMMT - Open Multi-Monitor Taskbar
- * Copyright (C) 2010 Genscripts
+ * Copyright (C) 2010-2011 Genscripts
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
  */
 #include "openmmt/precompiled_headers.h"
 #include "openmmt/openmmt.h"
-#include <boost/thread.hpp>
 
 CAppModule _Module;
 
@@ -27,9 +26,7 @@ int wWinMain( __in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, __in L
   InitCommonControls();
 
   _Module.Init(NULL, hInstance);
-
-  boost::thread thread_openmmt(OpenMMT_Run, hInstance);
-  thread_openmmt.join();
+  OpenMMT_Run(hInstance);
   _Module.Term();
 
   return 0;

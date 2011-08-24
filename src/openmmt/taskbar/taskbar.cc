@@ -1,6 +1,6 @@
 /*************************************************************************
  * OpenMMT - Open Multi-Monitor Taskbar
- * Copyright (C) 2010 Genscripts
+ * Copyright (C) 2010-2011 Genscripts
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -432,9 +432,38 @@ void Taskbar::CreateButton(ApplicationPtr pAbb)
       0, GetCoordinatesAtIndex(m_TotalButtons), m_BtnWidth, m_BtnHeight, m_TotalButtons));
   }
 
-  buttons_.insert(ButtonPair(m_TotalButtons++, pBtn));
+  InsertButton(pBtn);
   pBtn->CreateButton();
   UpdateWindow(pBtn->GetButtonHandle());
+}
+
+void Taskbar::InsertButton(ButtonPtr pBtn)
+{
+  buttons_.push_back(pBtn);
+  m_TotalButtons++;
+}
+
+void Taskbar::MoveButtonToPos(ButtonPtr pBtn, int pos)
+{
+  BtnVector tmp(buttons_);
+  ButtonPtr oldBtn(tmp[pos]);
+
+  if (oldBtn == ButtonPtr()) {
+    // NOH MY GOD! THIS IS NOT SAFE!
+    tmp[pos] = pBtn;
+  } else {
+    int old_index = 0;
+
+    for (BtnIterator it = tmp.begin(); it != tmp.end(); it++) {
+      ButtonPtr curBtn(*it);
+      if (curBtn->GetButtonHandle() == pBtn->GetButtonHandle())
+        break;
+      old_index++;
+    }
+    swap(tmp[pos],tmp[old_index]);
+  }
+
+  buttons_ = tmp;
 }
 
 void Taskbar::RemoveButton(ButtonPtr pBtn)
@@ -445,70 +474,41 @@ void Taskbar::RemoveButton(ButtonPtr pBtn)
   if (g_pAppManager->IsThumbnailed(pBtn->GetAppHandle())) 
     g_pAppManager->CloseThumbnailWindow();
 
-  std::map<int, ButtonPtr>::iterator it = buttons_.find(pBtn->GetIndex());
-  buttons_.erase(it);
-
-  m_TotalButtons--;
-}
-
-void Taskbar::InsertButton(ButtonPtr pBtn)
-{
-
-}
-void Taskbar::InsertButtonAtIndex(ButtonPtr pBtn, int index)
-{
-
-}
-
-void Taskbar::UpdateIndex()
-{
-  if (m_bClosing)
-    return;
-
-  std::map<int, ButtonPtr> tmpButtons_;
-  int cur_index = 0;
-  for (std::map<int, ButtonPtr>::iterator it = buttons_.begin();
-    it != buttons_.end(); ++it) {
-      if (cur_index != it->first) {
-        m_TotalButtons--;
-        ButtonPtr btn_next = GetButton(cur_index+1);
-        if (btn_next != ButtonPtr()) {
-          tmpButtons_.insert(ButtonPair(cur_index, btn_next));
-          btn_next->SetIndex(cur_index);
-          m_TotalButtons++;
-        }
-      } else {
-        tmpButtons_.insert(ButtonPair(cur_index, it->second));
-      }
-      cur_index++;
+  for (BtnIterator it = buttons_.begin(); it != buttons_.end(); it++) {
+    ButtonPtr curBtn(*it);
+    
+    if (pBtn->GetButtonHandle() == curBtn->GetButtonHandle()) {
+      buttons_.erase(it);
+      break;
+    }
   }
-
-  // Gotta love smart pointers. Boost++;
-  buttons_ = tmpButtons_;
+  m_TotalButtons--;
   RedrawButtons();
 }
 
 void Taskbar::RedrawButtons()
 {
-  for (std::map<int, ButtonPtr>::iterator it = buttons_.begin();
-    it != buttons_.end(); ++it) {
+  int cur_index = 0;
+  for (BtnIterator it = buttons_.begin(); it != buttons_.end(); ++it) {
+    ButtonPtr pBtn(*it);
       if (m_bHorizontal) {
-        it->second->SetPoints(GetCoordinatesAtIndex(it->second->GetIndex()), 0);
-        SetWindowPos(it->second->GetButtonHandle(), HWND_TOP, 
-          GetCoordinatesAtIndex(it->second->GetIndex()), 0, m_BtnWidth, m_BtnHeight, 
+        pBtn->SetPoints(GetCoordinatesAtIndex(cur_index), 0);
+        SetWindowPos(pBtn->GetButtonHandle(), HWND_TOP, 
+          GetCoordinatesAtIndex(cur_index), 0, m_BtnWidth, m_BtnHeight, 
           SWP_NOACTIVATE|SWP_NOOWNERZORDER);
       } else {
-        it->second->SetPoints(0, GetCoordinatesAtIndex(it->second->GetIndex()));
-        SetWindowPos(it->second->GetButtonHandle(), HWND_TOP, 
-          0, GetCoordinatesAtIndex(it->second->GetIndex()), m_BtnWidth, m_BtnHeight, 
+        pBtn->SetPoints(0, GetCoordinatesAtIndex(cur_index));
+        SetWindowPos(pBtn->GetButtonHandle(), HWND_TOP, 
+          0, GetCoordinatesAtIndex(cur_index), m_BtnWidth, m_BtnHeight, 
           SWP_NOACTIVATE|SWP_NOOWNERZORDER);
       }
 
       // We want to release the resources created by the device so they
       // can be recreated once again with the proper dimensions.
-      it->second->ReleaseExtraResources();
-      it->second->ReleaseDeviceResources();
-      InvalidateRect(it->second->GetButtonHandle(), NULL, true);
+      pBtn->ReleaseExtraResources();
+      pBtn->ReleaseDeviceResources();
+      InvalidateRect(pBtn->GetButtonHandle(), NULL, true);
+      cur_index++;
   }
 }
 
@@ -581,7 +581,10 @@ void Taskbar::SetFirstActive()
   if (buttons_.empty())
     return;
 
-  ButtonPtr pBtn(buttons_.begin()->second);
+  if (buttons_.size() == 0)
+    return;
+
+  ButtonPtr pBtn(buttons_[0]);
 
   if (pBtn != ButtonPtr()) 
     ActivateApp(pBtn->GetAppHandle());
@@ -617,19 +620,14 @@ BOOL Taskbar::IsPosition(INT pos)
   return (m_Position == pos);
 }
 
-ButtonPtr Taskbar::GetButton(int indx)
-{
-  std::map<int, ButtonPtr>::const_iterator it = buttons_.find(indx);
-  return it->second;
-}
-
 ButtonPtr Taskbar::GetButton(HWND hWnd)
 {
-  for (std::map<int, ButtonPtr>::const_iterator it = buttons_.begin();
-    it != buttons_.end(); ++it) {
-      if (it->second->GetButtonHandle() == hWnd) {
-        return it->second;
-      }
+  for (BtnIterator it = buttons_.begin(); it != buttons_.end(); it++) {
+    ButtonPtr pBtn(*it);
+
+    if (pBtn->GetButtonHandle() == hWnd)
+      return pBtn;
+
   }
   return ButtonPtr();
 }
@@ -639,22 +637,25 @@ ButtonPtr Taskbar::GetButton(ApplicationPtr pApp)
   if (pApp == ApplicationPtr()) 
     return ButtonPtr();
 
-  for (std::map<int, ButtonPtr>::const_iterator it = buttons_.begin();
-    it != buttons_.end(); ++it) {
-      if (it->second->GetAppHandle() == pApp->GetId()) {
-        return it->second;
-      }
+  for (BtnIterator it = buttons_.begin(); it != buttons_.end(); it++) {
+    ButtonPtr pBtn(*it);
+
+    if (pBtn->GetAppHandle() == pApp->GetId())
+      return pBtn;
+
   }
+
   return ButtonPtr();
 }
 
 ButtonPtr Taskbar::GetButtonFromApp(HWND hWnd)
 {
-  for (std::map<int, ButtonPtr>::const_iterator it = buttons_.begin();
-    it != buttons_.end(); ++it) {
-      if (it->second->GetAppHandle() == hWnd) {
-        return it->second;
-      }
+  for (BtnIterator it = buttons_.begin(); it != buttons_.end(); it++) {
+    ButtonPtr pBtn(*it);
+
+    if (pBtn->GetAppHandle() == hWnd)
+      return pBtn;
+
   }
   return ButtonPtr();
 }

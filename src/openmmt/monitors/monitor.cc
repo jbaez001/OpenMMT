@@ -1,6 +1,6 @@
 /*************************************************************************
  * OpenMMT - Open Multi-Monitor Taskbar
- * Copyright (C) 2010 Genscripts
+ * Copyright (C) 2010-2011 Genscripts
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,9 +44,9 @@ Monitor::~Monitor()
     ModifyWorkSpace(true);
 }
 
-boost::shared_ptr<RECT> Monitor::GetWorkSpaceRect()
+std::tr1::shared_ptr<RECT> Monitor::GetWorkSpaceRect()
 {
-  boost::shared_ptr<RECT> lpRect(new RECT);
+  std::tr1::shared_ptr<RECT> lpRect(new RECT);
 
   lpRect->bottom =
   lpRect->left   =
@@ -62,6 +62,7 @@ boost::shared_ptr<RECT> Monitor::GetWorkSpaceRect()
 
   return lpRect;
 }
+
 void Monitor::GetWorkSpace()
 {
   if (!GetMonitorInfo(m_hMonitor, &m_hMonitorInfo)) {

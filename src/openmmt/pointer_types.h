@@ -1,6 +1,6 @@
 /*************************************************************************
  * OpenMMT - Open Multi-Monitor Taskbar
- * Copyright (C) 2010 Genscripts
+ * Copyright (C) 2010-2011 Genscripts
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,10 +26,10 @@ class Monitor;
 class Taskbar;
 
 // OpenMMT
-typedef boost::shared_ptr<Application> ApplicationPtr;
-typedef boost::shared_ptr<Monitor> MonitorPtr;
-typedef boost::shared_ptr<Taskbar> TaskbarPtr;
-typedef boost::shared_ptr<Button> ButtonPtr;
+typedef std::tr1::shared_ptr<Application> ApplicationPtr;
+typedef std::tr1::shared_ptr<Monitor> MonitorPtr;
+typedef std::tr1::shared_ptr<Taskbar> TaskbarPtr;
+typedef std::tr1::shared_ptr<Button> ButtonPtr;
 
 #endif // OPENMMT_POINTER_TYPES_H
 

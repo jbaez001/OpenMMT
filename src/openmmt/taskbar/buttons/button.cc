@@ -1,6 +1,6 @@
 /*************************************************************************
  * OpenMMT - Open Multi-Monitor Taskbar
- * Copyright (C) 2010 Genscripts
+ * Copyright (C) 2010-2011 Genscripts
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,15 +59,6 @@ Button::Button(HWND hWndApp, HWND hWndTaskbar, INT x, INT y,
 
 Button::~Button()
 {
-  TaskbarPtr bar(g_pMonitorManager->FindMonitorTaskbar(m_hWnd));
-
-  if (bar != TaskbarPtr()) {
-    bar->UpdateIndex();
-    RECT rc={0};
-    GetWindowRect(bar->GetWindowHandle(), &rc);
-    InvalidateRect(bar->GetWindowHandle(), &rc, true);
-  }
-
   if (m_hTheme)
     CloseThemeData(m_hTheme);
 

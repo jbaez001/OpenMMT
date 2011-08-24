@@ -1,6 +1,6 @@
 /*************************************************************************
  * OpenMMT - Open Multi-Monitor Taskbar
- * Copyright (C) 2010 Genscripts
+ * Copyright (C) 2010-2011 Genscripts
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include "openmmt/windows/theme_manager.h"
 
-boost::scoped_ptr<ThemeManager> g_pThemeManager;
+std::auto_ptr<ThemeManager> g_pThemeManager;
 
 ThemeManager::ThemeManager(HWND hWnd) : 
   hTaskbarTheme(NULL),
