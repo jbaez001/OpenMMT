@@ -218,6 +218,9 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
         POINT pt = {0};
 
         GetCursorPos(&pt);
+        // Courtesy of Twig's Tech Tips
+        // http://twigstechtips.blogspot.com/2010/02/c-menu-does-not-disappear-when-mouse.html
+        SetForegroundWindow(hWnd);
         TrackPopupMenu(hPopUpMenu, TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, hWnd, NULL);
         DestroyMenu(hPopUpMenu);
       }
