@@ -1,20 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Product Id="2af1f6ad-c617-4ddb-a266-caefee64e1ce" Name="OpenMMT (x64)" Language="1033" Version="1.0.0.0" Manufacturer="Genscripts" UpgradeCode="50a52f65-3e31-4c29-872d-03bb1637b303">
-		<Package InstallerVersion="200" Compressed="yes" Platform="x64"/>
+		<Package InstallerVersion="200" Compressed="yes" Platform="x64" InstallPrivileges="elevated" InstallScope="perMachine"/>
 
 		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
-
+    
+    <Icon Id="openmmt.ico" SourceFile="$(var.SolutionDir)src\installers\openmmt.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="openmmt.ico" />
+    
 		<Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="DesktopFolder"/>
+      <Directory Id="ProgramMenuFolder"/>
 			<Directory Id="ProgramFiles64Folder">
 				<Directory Id="INSTALLLOCATION" Name="OpenMMT">
 				</Directory>
 			</Directory>
 		</Directory>
+
+    <DirectoryRef Id="ProgramMenuFolder">
+      <Component Id="StartMenuShortcut" Guid="6A0ABE7E-960D-43C3-B639-7F6DFADE48EE">
+        <RegistryValue Id="RegStartMenuShortcut"
+               Root="HKCU"
+               Key="SOFTWARE\OpenMMT\settings"
+               Name="StartMenuSC"
+               Value="1"
+               Type="integer"
+               KeyPath="yes"/>
+        <Shortcut Id="OpenMMTStartMenuShortcut"
+                  Name="OpenMMT"
+                  Description="Open Multi Monitor Taskbar"
+                  Target="[INSTALLLOCATION]openmmt.exe"
+                  WorkingDirectory="INSTALLLOCATION"
+                  Icon="openmmt.ico"
+                  IconIndex="0"
+                  Advertise="no"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="9EE2394F-0AA0-44D6-BD72-37D32F9D474D">
+        <RegistryValue Id="RegShortcutDesktop"
+                       Root="HKCU"
+                       Key="SOFTWARE\OpenMMT\settings"
+                       Name="DesktopSC"
+                       Value="1"
+                       Type="integer"
+                       KeyPath="yes"/>
+        <Shortcut Id="OpenMMTDesktopShortcut"
+                  Name="OpenMMT"
+                  Description="Open Multi Monitor Taskbar"
+                  Target="[INSTALLLOCATION]openmmt.exe"
+                  WorkingDirectory="INSTALLLOCATION"
+                  Icon="openmmt.ico"
+                  IconIndex="0"
+                  Advertise="no"/>
+      </Component>
+    </DirectoryRef>
+    
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION"/>
     <UIRef Id="WixUI_InstallDir"/>
     <Feature Id="ProductFeature" Title="OpenMMT" Level="1">
 			<ComponentGroupRef Id="Product.Generated" />
+      <ComponentRef Id="DesktopShortcut"/>
+      <ComponentRef Id="StartMenuShortcut"/>
 		</Feature>
 	</Product>
 </Wix>
