@@ -12,7 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{74622353-2
 		Readme.txt = Readme.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{9023CC92-9D7B-405C-AF2D-8C5EAEE2BB87}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installers", "Installers", "{9023CC92-9D7B-405C-AF2D-8C5EAEE2BB87}"
+	ProjectSection(SolutionItems) = preProject
+		src\installers\License.rtf = src\installers\License.rtf
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "openmmt", "src\openmmt\openmmt.vcxproj", "{464436B0-3AE6-4CF8-9C5E-E42F056BBB42}"
 EndProject

@@ -164,11 +164,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="sys.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cc" />
     <ClCompile Include="sys.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="libsys.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

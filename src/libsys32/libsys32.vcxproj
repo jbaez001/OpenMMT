@@ -153,10 +153,14 @@
   <ItemGroup>
     <ClInclude Include="..\libsys\api.h" />
     <ClInclude Include="..\libsys\sys.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\libsys\api.cc" />
     <ClCompile Include="..\libsys\sys.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="libsys32.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
