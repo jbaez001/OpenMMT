@@ -19,6 +19,22 @@
 #ifndef OPENMMT_UI_SETTINGS_DLG_H
 #define OPENMMT_UI_SETTINGS_DLG_H
 
+#include "openmmt/resource.h"
+
+class DlgSettings : public CDialogImpl<DlgSettings>
+{
+public:
+  enum { IDD = IDD_OPENMMT_DIALOG };
+
+  BEGIN_MSG_MAP(DlgAbout)
+    MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
+    COMMAND_ID_HANDLER(IDCANCEL, OnClose)
+  END_MSG_MAP()
+
+  LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+  LRESULT OnClose(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled);
+};
+
 #endif // OPENMMT_UI_SETTINGS_DLG_H
 
 // EOF

@@ -157,6 +157,9 @@
     <ClInclude Include="windows\shell.h">
       <Filter>Source Files\windows</Filter>
     </ClInclude>
+    <ClInclude Include="ui\about_dlg.h">
+      <Filter>Source Files\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ui\settings_dlg.cc">
@@ -245,6 +248,9 @@
     </ClCompile>
     <ClCompile Include="windows\shell.cc">
       <Filter>Source Files\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\about_dlg.cc">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -50,6 +50,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -250,6 +251,7 @@
     <ClInclude Include="template_classes\smart_vector_list.h" />
     <ClInclude Include="thumbnail\thumbnail.h" />
     <ClInclude Include="thumbnail\thumbnail_proc.h" />
+    <ClInclude Include="ui\about_dlg.h" />
     <ClInclude Include="ui\settings_dlg.h" />
     <ClInclude Include="windows\common_events.h" />
     <ClInclude Include="windows\os.h" />
@@ -289,6 +291,7 @@
     <ClCompile Include="taskbar\taskbar_proc.cc" />
     <ClCompile Include="thumbnail\thumbnail.cc" />
     <ClCompile Include="thumbnail\thumbnail_proc.cc" />
+    <ClCompile Include="ui\about_dlg.cc" />
     <ClCompile Include="ui\settings_dlg.cc" />
     <ClCompile Include="windows\auto_start.cc" />
     <ClCompile Include="windows\common_events.cc" />

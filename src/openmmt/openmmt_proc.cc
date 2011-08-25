@@ -21,6 +21,7 @@
 #include "openmmt/messages.h"
 #include "openmmt/resource.h"
 #include "openmmt/taskbar/taskbar_event.h"
+#include "openmmt/ui/about_dlg.h"
 #include "libsys/api.h"
 #include <dbt.h>
 
@@ -196,6 +197,10 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
         PostQuitMessage(0);
         break;
       case ID_TRAYPOPUP_ABOUT:
+        {
+          DlgAbout aboutDlg;
+          aboutDlg.DoModal();
+        }
         break;
       default:
         break;

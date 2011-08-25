@@ -34,11 +34,12 @@
 extern CAppModule _Module;
 
 #include <atlwin.h>
+#include <atlframe.h>
+#include <atlctrls.h>
+#include <atldlgs.h>
 
-// Misc Windows Headers
-#include <tchar.h>   
+// Misc Windows Headers 
 #include <dwmapi.h>  
-#include <commctrl.h>
 #include <objidl.h>
 #include <gdiplus.h>
 #include <shellapi.h>
