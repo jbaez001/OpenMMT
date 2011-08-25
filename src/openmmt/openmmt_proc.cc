@@ -188,15 +188,15 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
     }
     return TRUE;
 
- #if 0
   case WM_COMMAND:
     {
       switch (LOWORD(wParam))
       {
-      case ID_CONTEXTMENU_CLOSE:
+      case ID_TRAYPOPUP_EXIT:
         PostQuitMessage(0);
         break;
-
+      case ID_TRAYPOPUP_ABOUT:
+        break;
       default:
         break;
       }
@@ -206,7 +206,7 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
   case OPENMMT_TRAY_MESSAGE:
     {
       if (LOWORD(lParam) == WM_RBUTTONUP) {
-        HMENU hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_MENU1));
+        HMENU hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_MENU_TRAY));
 
         if (!hMenu)
           break;
@@ -218,13 +218,11 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
         POINT pt = {0};
 
         GetCursorPos(&pt);
-        TrackPopupMenu(hPopUpMenu, TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y,
-          0, hWnd, NULL);
+        TrackPopupMenu(hPopUpMenu, TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, hWnd, NULL);
         DestroyMenu(hPopUpMenu);
       }
     }
     break;
-#endif
 
   default:
     return DefWindowProc(hWnd, msg, wParam, lParam);

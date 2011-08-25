@@ -44,7 +44,22 @@
     <None Include="res\OpenMMT.rc2">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\OpenMMT.ico">
+    <None Include="res\openmmt.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\openmmt32.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\openmmt48.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\openmmt64.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\openmmt128.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\openmmt256.png">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -139,6 +154,9 @@
     <ClInclude Include="template_classes\safe_release.h">
       <Filter>Source Files\template_classes</Filter>
     </ClInclude>
+    <ClInclude Include="windows\shell.h">
+      <Filter>Source Files\windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ui\settings_dlg.cc">
@@ -224,6 +242,9 @@
     </ClCompile>
     <ClCompile Include="main.cc">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="windows\shell.cc">
+      <Filter>Source Files\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

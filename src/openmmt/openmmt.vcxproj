@@ -219,6 +219,11 @@
   <ItemGroup>
     <None Include="res\openmmt.ico" />
     <None Include="res\openmmt.rc2" />
+    <None Include="res\openmmt128.png" />
+    <None Include="res\openmmt256.png" />
+    <None Include="res\openmmt32.png" />
+    <None Include="res\openmmt48.png" />
+    <None Include="res\openmmt64.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="applications\application.h" />
@@ -248,6 +253,7 @@
     <ClInclude Include="ui\settings_dlg.h" />
     <ClInclude Include="windows\common_events.h" />
     <ClInclude Include="windows\os.h" />
+    <ClInclude Include="windows\shell.h" />
     <ClInclude Include="windows\taskbar_interface.h" />
     <ClInclude Include="windows\theme_manager.h" />
     <ClInclude Include="windows\windows.h" />
@@ -287,6 +293,7 @@
     <ClCompile Include="windows\auto_start.cc" />
     <ClCompile Include="windows\common_events.cc" />
     <ClCompile Include="windows\os.cc" />
+    <ClCompile Include="windows\shell.cc" />
     <ClCompile Include="windows\taskbar_interface.cc" />
     <ClCompile Include="windows\theme_manager.cc" />
     <ClCompile Include="windows\windows.cc" />

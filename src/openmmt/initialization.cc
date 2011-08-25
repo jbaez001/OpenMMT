@@ -20,6 +20,7 @@
 #include "openmmt/global_variables.h"
 #include "openmmt/graphics/direct2d/direct2d.h"
 #include "openmmt/windows/taskbar_interface.h"
+#include "openmmt/windows/shell.h"
 #include "openmmt/windows/windows.h"
 
 // Procedure declarations
@@ -47,7 +48,6 @@ void _InitializeInternals()
 {
   InitializeAndRegisterClasses();
   CoInitialize(0);
-
   InitializeTaskbarInterface();
 
   // Load up the common control classes.
@@ -64,12 +64,14 @@ void _InitializeInternals()
   if (!InitializeDirect2D()) {
     abort();
   }
+  InitializeShell();
 }
 
 void _Shutdown()
 {
   ReleaseDirect2D();
   ReleaseTaskbarInterfaces();
+  ReleaseShell();
   CoUninitialize();
 }
 

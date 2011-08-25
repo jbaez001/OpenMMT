@@ -23,6 +23,7 @@
 #include "openmmt/monitors/monitor.h"
 #include "openmmt/taskbar/taskbar.h"
 #include "openmmt/taskbar/taskbar_event.h"
+#include "openmmt/windows/shell.h"
 #include "openmmt/windows/windows.h"
 
 LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam, 
@@ -54,7 +55,6 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
       g_pMonitorManager->EnumerateMonitors();
     return 0;
 
-
   case WM_COMMAND:
     {
       switch (LOWORD(wParam))
@@ -62,7 +62,21 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
       case ID_BAR_CLOSE:
         PostQuitMessage(0);
         break;
-
+      case ID_BAR_CASCADE:
+        g_pShell->CascadeWindows();
+        break;
+      case ID_BAR_STACKED:
+        g_pShell->TileHorizontally();
+        break;
+      case ID_BAR_SIDEBSIDE:
+        g_pShell->TileVertically();
+        break;
+      case ID_BAR_SHOWDESKTOP:
+        g_pShell->ToggleDesktop();
+        break;
+      case ID_BAR_TASKMGR:
+          ShellExecute(NULL, L"open", L"taskmgr.exe", NULL, NULL, SW_NORMAL);
+        break;
       default:
         break;
       }

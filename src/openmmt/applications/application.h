@@ -20,20 +20,8 @@
 #define OPENMMT_APPLICATIONS_APPLICATION_H
 #pragma once
 
-// Forward declarations.
-class Monitor;
-
-#include "openmmt/monitors/monitor.h"
-
 class Application
 {
-private:
-  HWND m_hWnd;        /**< Application's handle. */
-  HWND m_hWndButton;  /**< Handle to the taskbar button. */
-  LONG m_X;           /**< Application's x coordinate. */
-  LONG m_Y;           /**< Application's y coordinate. */
-  TaskbarPtr m_Taskbar;
-
 public:
 
   /**
@@ -57,19 +45,21 @@ public:
   TaskbarPtr GetTaskbar();
 
   /**
+   * Returns the application's taskbar button.
+   */
+  ButtonPtr GetTaskbarButton();
+
+  /**
    * Updates the application.
    */
   void Update();
 
-  /**
-   * Updates the window's placement.
-   */
-  void UpdatePlacement();
-
-  /**
-   * Returns the application's taskbar button.
-   */
-  ButtonPtr GetTaskbarButton();
+private:
+  HWND m_hWnd;        /**< Application's handle. */
+  HWND m_hWndButton;  /**< Handle to the taskbar button. */
+  LONG m_X;           /**< Application's x coordinate. */
+  LONG m_Y;           /**< Application's y coordinate. */
+  TaskbarPtr m_Taskbar;
 };
 
 #endif // OPENMMT_APPLICATIONS_APPLICATION_H

@@ -43,7 +43,7 @@ SYSTEMHOOKS_API BOOL SysHooksStart(HWND hWnd)
     return FALSE;
 
   // DEBUG Only until I figure out how to redirect the minimize animations
-#if defined(DEBUG)
+#if defined(_DEBUG)
   if (!(g_hHookCbt = SetWindowsHookEx(WH_CBT, &CbtRetProc, hMod, 0))) {
     if (g_hHookProc)
       UnhookWindowsHookEx(g_hHookProc);

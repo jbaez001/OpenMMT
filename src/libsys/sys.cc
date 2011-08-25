@@ -142,24 +142,9 @@ LRESULT CALLBACK CbtRetProc(int nCode, WPARAM wParam, LPARAM lParam)
     {
     case HCBT_MINMAX:
       {
-#if defined(DEBUG)
+#if defined(_DEBUG)
         if ((lParam == SW_MINIMIZE) || (lParam == SW_RESTORE)) {
-          HMONITOR hMonitor = MonitorFromWindow((HWND)wParam, MONITOR_DEFAULTTONULL);
-
-          if (!hMonitor)
-            break;
-
-          MONITORINFOEX hMonitorInfo;
-          hMonitorInfo.cbSize = sizeof(MONITORINFOEX);
-
-          if (!GetMonitorInfo(hMonitor, &hMonitorInfo))
-            break;
-
-          // Ignore applications in the primary monitor.
-          if ((hMonitorInfo.rcMonitor.left == 0) &&
-              (hMonitorInfo.rcMonitor.top  == 0))
-            break;
-
+          /*
           WINDOWPLACEMENT wndpl = {0};
           wndpl.length = sizeof(WINDOWPLACEMENT);
 
@@ -171,6 +156,7 @@ LRESULT CALLBACK CbtRetProc(int nCode, WPARAM wParam, LPARAM lParam)
           wndpl.flags         = WPF_ASYNCWINDOWPLACEMENT|WPF_SETMINPOSITION;
           wndpl.showCmd       = (lParam == SW_MINIMIZE) ? SW_MINIMIZE : SW_RESTORE;
           SetWindowPlacement((HWND)wParam, &wndpl);
+          */
           SendTaskbarMsg(TASKBAR_WINDOW_MINMAX, (HWND)wParam, lParam);
         }
 #endif

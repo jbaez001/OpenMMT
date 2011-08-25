@@ -1,1 +1,5 @@
+;OpenMMT Developers
 Juan Baez <jbaez001@gmail.com>
+
+;OpenMMT Icons:
+Ben Fleming <http://mediadesign.deviantart.com/>

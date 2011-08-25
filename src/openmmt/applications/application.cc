@@ -60,33 +60,6 @@ void Application::Update()
       if (btn != ButtonPtr())
         btn->Persist();
     }
-    //UpdatePlacement();
-  }
-}
-
-void Application::UpdatePlacement()
-{
-  WINDOWPLACEMENT wndpl = {0};
-  wndpl.length = sizeof(WINDOWPLACEMENT);
-
-  if (!GetWindowPlacement(m_hWnd, &wndpl))
-    return;
-
-  RECT rt = {0};
-
-  if (!GetWindowRect(m_hWnd, &rt))
-    return;
-
-  POINT ptMinPosition = { rt.left,  rt.bottom };
-  POINT ptMaxPosition = { rt.right, rt.top };
-
-  wndpl.flags = WPF_ASYNCWINDOWPLACEMENT|WPF_SETMINPOSITION;
-  wndpl.ptMinPosition = ptMinPosition;
-  wndpl.ptMaxPosition = ptMaxPosition;
-  wndpl.showCmd       = SW_MINIMIZE;
-
-  if (!SetWindowPlacement(m_hWnd, &wndpl)) {
-    dprintf("Window placement failed.\n");
   }
 }
 

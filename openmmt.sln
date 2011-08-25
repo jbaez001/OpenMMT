@@ -24,7 +24,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{74622353-2
 	ProjectSection(SolutionItems) = preProject
 		Authors.txt = Authors.txt
 		GNU.txt = GNU.txt
+		Readme.txt = Readme.txt
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{9023CC92-9D7B-405C-AF2D-8C5EAEE2BB87}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "setup", "src\setup\setup.wixproj", "{853A9410-E1C7-4241-A79A-AB1B622E2699}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +67,10 @@ Global
 		{6793A779-4EBE-46A1-98D8-42C634E7A1C8}.Release|Win32.ActiveCfg = Release|Win32
 		{6793A779-4EBE-46A1-98D8-42C634E7A1C8}.Release|x64.ActiveCfg = Release|Win32
 		{6793A779-4EBE-46A1-98D8-42C634E7A1C8}.Release|x64.Build.0 = Release|Win32
+		{853A9410-E1C7-4241-A79A-AB1B622E2699}.Debug|Win32.ActiveCfg = Debug|x86
+		{853A9410-E1C7-4241-A79A-AB1B622E2699}.Debug|x64.ActiveCfg = Debug|x86
+		{853A9410-E1C7-4241-A79A-AB1B622E2699}.Release|Win32.ActiveCfg = Release|x86
+		{853A9410-E1C7-4241-A79A-AB1B622E2699}.Release|x64.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,5 +80,6 @@ Global
 		{6793A779-4EBE-46A1-98D8-42C634E7A1C8} = {1DF21270-E552-4C71-9B3B-35748D220667}
 		{B5A1EC2A-ADEA-4F19-97C0-CB785F6486F9} = {E67385E2-1438-42A1-91F2-A671CF302D3F}
 		{121C2EEA-45A1-4686-946B-69B7C6DA7BF1} = {E67385E2-1438-42A1-91F2-A671CF302D3F}
+		{853A9410-E1C7-4241-A79A-AB1B622E2699} = {9023CC92-9D7B-405C-AF2D-8C5EAEE2BB87}
 	EndGlobalSection
 EndGlobal

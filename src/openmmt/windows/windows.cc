@@ -191,9 +191,9 @@ HICON WndGetApplicationIcon(HWND hWnd)
   } if (m_hIcon == NULL) {
     m_hIcon = (HICON) GetClassLongPtr(hWnd, GCLP_HICONSM);
   } if (m_hIcon == NULL) {
-    m_hIcon = (HICON) SendMessage(hWnd, WM_GETICON, ICON_SMALL, 0);
-  } if (m_hIcon == NULL) {
     m_hIcon = (HICON) SendMessage(hWnd, WM_GETICON, ICON_SMALL2, 0);
+  } if (m_hIcon == NULL) {
+    m_hIcon = (HICON) SendMessage(hWnd, WM_GETICON, ICON_SMALL, 0);
   }if (m_hIcon == NULL) {
     m_hIcon = LoadIcon(NULL, MAKEINTRESOURCE(IDI_APPLICATION));
   }
