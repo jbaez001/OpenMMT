@@ -88,6 +88,12 @@
   <ItemGroup>
     <ClCompile Include="helper.cc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libsys32\libsys32.vcxproj">
+      <Project>{121c2eea-45a1-4686-946b-69b7c6da7bf1}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

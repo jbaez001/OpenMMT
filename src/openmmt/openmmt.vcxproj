@@ -301,6 +301,16 @@
   <ItemGroup>
     <ResourceCompile Include="openmmt.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libsys\libsys.vcxproj">
+      <Project>{b5a1ec2a-adea-4f19-97c0-cb785f6486f9}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\openmmt32\openmmt32.vcxproj">
+      <Project>{6793a779-4ebe-46a1-98d8-42c634e7a1c8}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
