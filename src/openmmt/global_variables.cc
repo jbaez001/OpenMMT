@@ -21,8 +21,9 @@
 
 HINSTANCE     g_hInstance = NULL;
 
-MonitorManager*     g_pMonitorManager;
-ApplicationManager* g_pAppManager;
+MonitorManager      *g_pMonitorManager = NULL;
+ApplicationManager  *g_pAppManager     = NULL;
+WinTaskbarInterface *g_pWinTaskbar     = NULL;
 
 const wchar_t *g_OpenMMTClassName       = L"OpenMMT";
 const wchar_t *g_TaskbarClassName       = L"OpenMMT_Taskbar";

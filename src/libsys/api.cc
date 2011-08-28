@@ -42,15 +42,6 @@ SYSTEMHOOKS_API BOOL SysHooksStart(HWND hWnd)
   if (!(g_hHookProc = SetWindowsHookEx(WH_CALLWNDPROCRET, &CallWndRetProc, hMod, 0)))
     return FALSE;
 
-  // DEBUG Only until I figure out how to redirect the minimize animations
-#if defined(_DEBUG)
-  if (!(g_hHookCbt = SetWindowsHookEx(WH_CBT, &CbtRetProc, hMod, 0))) {
-    if (g_hHookProc)
-      UnhookWindowsHookEx(g_hHookProc);
-    return FALSE;
-  }
-#endif
-
   g_bHooksInstalled = TRUE;
   g_hWndOpenMMT     = hWnd;
 
@@ -66,9 +57,6 @@ SYSTEMHOOKS_API void SysHooksStop(void)
 {
   if (g_hHookProc) 
     UnhookWindowsHookEx(g_hHookProc);
-
-  if (g_hHookCbt)
-    UnhookWindowsHookEx(g_hHookCbt);
 
   g_bHooksInstalled = FALSE;
   g_hWndOpenMMT     = NULL;

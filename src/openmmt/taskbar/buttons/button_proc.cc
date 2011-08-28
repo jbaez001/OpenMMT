@@ -67,7 +67,7 @@ LRESULT CALLBACK ButtonProc(HWND hWnd, UINT msg, WPARAM wParam,
 
       SetWindowPos(pBtn->GetAppHandle(), 0, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE);
       PostMessage(pBtn->GetAppHandle(), 0x0313, 0, lParam);
-      pBtn->Persist();
+      //pBtn->Persist();
     }
     break;
 

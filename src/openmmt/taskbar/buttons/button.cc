@@ -68,8 +68,7 @@ Button::~Button()
   ReleaseExtraResources();
 
   if (IsWindow(m_hWndApp))
-    PostMessage(g_hWndWindowsTaskbar, g_uMsgShellHook, HSHELL_WINDOWCREATED, 
-    (LPARAM)GetProperHandle(m_hWndApp));
+    g_pWinTaskbar->AddButton(GetProperHandle(m_hWndApp));
 }
 
 const HWND Button::GetId()
@@ -130,16 +129,8 @@ void Button::CreateButton()
 
   ShowWindow(m_hWnd, SW_SHOW);
 
-  // Destroy the Windows 7 taskbar button.
-  Persist();
-}
-void Button::Persist()
-{
-  // TODO: Research a better way to do this.
   if (IsWindow(m_hWndApp)) {
-    
-    PostMessage(g_hWndWindowsTaskbar, g_uMsgShellHook, HSHELL_WINDOWDESTROYED, 
-      (LPARAM)GetProperHandle(m_hWndApp));
+    g_pWinTaskbar->RemoveButton(GetProperHandle(m_hWndApp));
   }
 }
 

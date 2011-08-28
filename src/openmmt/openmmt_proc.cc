@@ -62,6 +62,11 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
     {
     // A window is being minimized.
     case HSHELL_GETMINRECT:
+      {
+        LPDOCUMENT_ME_RIGHT_MICROSOFT pDeSuck = (LPDOCUMENT_ME_RIGHT_MICROSOFT)lParam;
+        if (g_pWinTaskbar->HandleGetMinRect(pDeSuck->hWnd, &pDeSuck->rc))
+          return TRUE;
+      }
       break;
 
     // A window is being activated.

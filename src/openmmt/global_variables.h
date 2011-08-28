@@ -22,11 +22,13 @@
 
 #include "openmmt/applications/application_manager.h"
 #include "openmmt/monitors/monitor_manager.h"
+#include "openmmt/windows/taskbar_interface.h"
 
 extern HINSTANCE   g_hInstance;
 
-extern MonitorManager*     g_pMonitorManager;
-extern ApplicationManager* g_pAppManager;
+extern MonitorManager     *g_pMonitorManager;
+extern ApplicationManager *g_pAppManager;
+extern WinTaskbarInterface *g_pWinTaskbar;
 
 extern const wchar_t* g_OpenMMTClassName;
 extern const wchar_t* g_TaskbarClassName;

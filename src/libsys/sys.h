@@ -25,7 +25,6 @@
 
 extern BOOL  g_bHooksInstalled;
 extern HHOOK g_hHookProc;
-extern HHOOK g_hHookCbt;
 extern HWND  g_hWndOpenMMT;
 extern HWND  g_hWndHelper;
 

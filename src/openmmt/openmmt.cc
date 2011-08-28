@@ -20,6 +20,7 @@
 #include "openmmt/global_variables.h"
 #include "openmmt/messages.h"
 #include "openmmt/resource.h"
+#include "openmmt/windows/taskbar_interface.h"
 #include "openmmt/windows/windows.h"
 #include "libsys/api.h"
 
@@ -104,6 +105,7 @@ void OpenMMT_Run(HINSTANCE hInstance)
 
   g_pMonitorManager = new MonitorManager();
   g_pAppManager     = new ApplicationManager();
+  g_pWinTaskbar     = new WinTaskbarInterface();
 
   g_pMonitorManager->EnumerateMonitors();
   g_pAppManager->UpdateAllWindows();
@@ -117,6 +119,7 @@ void OpenMMT_Run(HINSTANCE hInstance)
 #endif
     WndStartDeviceMonitor();
     WndRunMessageThread();
+    DeregisterShellHookWindow(g_hWndOpenMMT);
     WndStopDeviceMonitor();
     SysHooksStop();
 
@@ -133,6 +136,7 @@ void OpenMMT_Run(HINSTANCE hInstance)
   // Monitor manager must be destroyed first. 
   delete g_pMonitorManager;
   delete g_pAppManager;
+  delete g_pWinTaskbar;
 
   TrayIconRemove();
   _Shutdown();

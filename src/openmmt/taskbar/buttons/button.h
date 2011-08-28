@@ -96,13 +96,6 @@ public:
   void CreateButton();
 
   /**
-   * Removes the button from the Windows 7 taskbar.
-   *
-   * TODO: Find a better way of doing this.
-   */
-  void Persist();
-
-  /**
    * Draws the button.
    *
    * TODO: Move this completely to the button event manager.

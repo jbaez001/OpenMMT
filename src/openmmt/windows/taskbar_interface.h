@@ -20,8 +20,32 @@
 #define OPENMMT_WINDOWS_TASKBAR_INTERFACE_H
 #pragma once
 
-extern void InitializeTaskbarInterface();
-extern void ReleaseTaskbarInterfaces();
+typedef struct {
+  SHORT left;
+  SHORT top;
+  SHORT right;
+  SHORT bottom;
+} REALRECT, *LPREALRECT;
+
+typedef struct {
+  HWND hWnd;
+  REALRECT rc;
+} DOCUMENT_ME_RIGHT_MICROSOFT, *LPDOCUMENT_ME_RIGHT_MICROSOFT;
+
+class WinTaskbarInterface
+{
+public:
+  WinTaskbarInterface();
+  ~WinTaskbarInterface();
+
+  HRESULT AddButton(HWND hWnd);
+  HRESULT RemoveButton(HWND hWnd);
+  BOOL    HandleGetMinRect(HWND hWnd, LPREALRECT lpRect);
+
+private:
+  ITaskbarList2 *g_iTaskbar2;
+
+};
 
 #endif // OPENMMT_WINDOWS_TASKBAR_INTERFACE_H
 

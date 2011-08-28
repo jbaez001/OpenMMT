@@ -19,7 +19,6 @@
 #include "openmmt/precompiled_headers.h"
 #include "openmmt/global_variables.h"
 #include "openmmt/graphics/direct2d/direct2d.h"
-#include "openmmt/windows/taskbar_interface.h"
 #include "openmmt/windows/shell.h"
 #include "openmmt/windows/windows.h"
 
@@ -48,7 +47,6 @@ void _InitializeInternals()
 {
   InitializeAndRegisterClasses();
   CoInitialize(0);
-  InitializeTaskbarInterface();
 
   // Load up the common control classes.
   INITCOMMONCONTROLSEX icex = {0};
@@ -70,7 +68,6 @@ void _InitializeInternals()
 void _Shutdown()
 {
   ReleaseDirect2D();
-  ReleaseTaskbarInterfaces();
   ReleaseShell();
   CoUninitialize();
 }

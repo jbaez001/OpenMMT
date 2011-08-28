@@ -149,6 +149,7 @@ void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
 
   // If the button is that of the selected app, minimize it.
   if (btn->IsState(BTN_ACTIVE)) {
+    SetForegroundWindow(btn->GetAppHandle());
     ShowWindowAsync(btn->GetAppHandle(), SW_MINIMIZE);
     btn->ClearState(BTN_ACTIVE);
   } else {

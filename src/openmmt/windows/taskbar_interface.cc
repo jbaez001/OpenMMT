@@ -17,59 +17,65 @@
  *
  */
 #include "openmmt/precompiled_headers.h"
+#include "openmmt/global_variables.h"
+#include "openmmt/windows/taskbar_interface.h"
 #include "openmmt/windows/os.h"
 #include "openmmt/template_classes/safe_release.h"
 
-/**
- * ITaskbarList2. Interface that extends ITaskbarList.
- *
- *  Minimum Client: Windows XP
- *  Minimum Server: Windows Server 2003
- *
- * MSDN: http://msdn.microsoft.com/en-us/library/bb774638(v=VS.85).aspx
- */
-ITaskbarList3* g_iTaskbar2 = NULL;
-
-/**
- * ITaskbarList3. Interface that extends ITaskbarList2.
- *
- *  Minimum Client: Windows 7
- *  Minimum Server: Windows Server 2008 R2
- *
- * MSDN: http://msdn.microsoft.com/en-us/library/dd391692(v=VS.85).aspx
- */
-ITaskbarList3* g_iTaskbar3 = NULL;
-
-
-/**
- * InitializeTaskbarInterface. Initializes the proper ITaskbarList interface
- * depending on the version of the OS running.
- */
-void InitializeTaskbarInterface()
+WinTaskbarInterface::WinTaskbarInterface() :
+  g_iTaskbar2(NULL)
 {
   HRESULT hr = S_OK;
-  if (OSIsWin7Server08R2()) {
-    // Should we use CLSCTX_ALL instead?
-    hr = CoCreateInstance(CLSID_TaskbarList, 0, CLSCTX_INPROC_SERVER, 
-      IID_ITaskbarList3, (void **)&g_iTaskbar3);
-    g_iTaskbar3->HrInit();
-  } else {
-    hr = CoCreateInstance(CLSID_TaskbarList, 0, CLSCTX_INPROC_SERVER, 
-      IID_ITaskbarList2, (void **)&g_iTaskbar2);
-    g_iTaskbar2->HrInit();
-  }
+
+  hr = CoCreateInstance(CLSID_TaskbarList, 0, CLSCTX_INPROC_SERVER, 
+    IID_ITaskbarList2, (void **)&g_iTaskbar2);
+
   if (hr != S_OK) {
     MessageBox(NULL, L"Could not initialize the proper ITaskbarList Interface", L"OpenMMT", MB_OK|MB_ICONERROR);
     abort();
   }
+
+  g_iTaskbar2->HrInit();
 }
 
-void ReleaseTaskbarInterfaces()
+WinTaskbarInterface::~WinTaskbarInterface()
 {
-  if (OSIsWin7Server08R2())
-    SafeRelease(&g_iTaskbar3);
-  else
-    SafeRelease(&g_iTaskbar2);
+  SafeRelease(&g_iTaskbar2);
+}
+
+HRESULT WinTaskbarInterface::AddButton(HWND hWnd)
+{
+  return g_iTaskbar2->AddTab(hWnd);
+}
+
+HRESULT WinTaskbarInterface::RemoveButton(HWND hWnd)
+{
+  return g_iTaskbar2->DeleteTab(hWnd);
+}
+
+BOOL WinTaskbarInterface::HandleGetMinRect(HWND hWnd, LPREALRECT lpRect)
+{
+  ApplicationPtr pApp(g_pAppManager->FindApplication(hWnd));
+
+  if (pApp == ApplicationPtr()) 
+    return FALSE;
+
+  ButtonPtr pBtn(pApp->GetTaskbarButton());
+
+  if (pBtn == ButtonPtr())
+    return FALSE;
+
+  RECT rc = {0};
+
+  if (!GetWindowRect(pBtn->GetButtonHandle(), &rc))
+    return FALSE;
+
+  lpRect->left   = (SHORT) rc.left;
+  lpRect->top    = (SHORT) rc.top;
+  lpRect->right  = (SHORT) rc.right;
+  lpRect->bottom = (SHORT) rc.bottom;
+
+  return TRUE;
 }
 
 // EOF

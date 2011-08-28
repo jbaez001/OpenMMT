@@ -24,7 +24,6 @@
 #pragma data_seg(".SHARDATA")
   BOOL  g_bHooksInstalled = FALSE;
   HHOOK g_hHookProc   = {0};
-  HHOOK g_hHookCbt    = {0};
   HWND  g_hWndOpenMMT = {0};
   HWND  g_hWndHelper  = {0};
 #pragma data_seg()
@@ -129,38 +128,6 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
       break;
     case WM_SETFOCUS:
         SendTaskbarMsg(TASKBAR_WINDOW_SETFOCUS, lpCwp->hwnd);
-      break;
-    }
-  }
-  return CallNextHookEx(0, nCode, wParam, lParam);
-}
-
-LRESULT CALLBACK CbtRetProc(int nCode, WPARAM wParam, LPARAM lParam)
-{
-  if (nCode >= 0) {
-    switch (nCode)
-    {
-    case HCBT_MINMAX:
-      {
-#if defined(_DEBUG)
-        if ((lParam == SW_MINIMIZE) || (lParam == SW_RESTORE)) {
-          /*
-          WINDOWPLACEMENT wndpl = {0};
-          wndpl.length = sizeof(WINDOWPLACEMENT);
-
-          if (!GetWindowPlacement((HWND)wParam, &wndpl))
-            break;
-
-          POINT ptMinPosition = { hMonitorInfo.rcWork.left, hMonitorInfo.rcWork.bottom };
-          wndpl.ptMinPosition = ptMinPosition;
-          wndpl.flags         = WPF_ASYNCWINDOWPLACEMENT|WPF_SETMINPOSITION;
-          wndpl.showCmd       = (lParam == SW_MINIMIZE) ? SW_MINIMIZE : SW_RESTORE;
-          SetWindowPlacement((HWND)wParam, &wndpl);
-          */
-          SendTaskbarMsg(TASKBAR_WINDOW_MINMAX, (HWND)wParam, lParam);
-        }
-#endif
-      }
       break;
     }
   }
