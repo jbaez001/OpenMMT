@@ -32,11 +32,6 @@ LRESULT CALLBACK ThumbnailProc(HWND hWnd, UINT msg, WPARAM wParam,
       if (IsCompositionActive()) {
         WndSetBlur(hWnd, true);
         WndExtendFrame(hWnd);
-
-        HBRUSH brush = CreateSolidBrush(RGB(0,0,0));
-        FillRect((HDC)wParam, &rc, brush);
-
-        DeleteObject(brush);
       }
     }
     return TRUE;

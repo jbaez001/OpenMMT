@@ -132,6 +132,13 @@ void Button::CreateButton()
   if (IsWindow(m_hWndApp)) {
     g_pWinTaskbar->RemoveButton(GetProperHandle(m_hWndApp));
   }
+
+  if (m_hWndApp == GetForegroundWindow()) {
+    TaskbarPtr bar(g_pMonitorManager->FindMonitorTaskbar(m_hWndApp));
+    if (bar != TaskbarPtr()) {
+      bar->ActivateApp(m_hWndApp);
+    }
+  }
 }
 
 void Button::OnMouseMove()

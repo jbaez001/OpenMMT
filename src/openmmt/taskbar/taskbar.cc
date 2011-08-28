@@ -236,7 +236,7 @@ void Taskbar::CreateTaskbar()
 { 
   m_hWnd = CreateWindowEx(WS_EX_LEFT|WS_EX_LTRREADING|WS_EX_RIGHTSCROLLBAR|\
     WS_EX_TOOLWINDOW|WS_EX_TOPMOST|WS_EX_CONTROLPARENT, g_TaskbarClassName, NULL, 
-    WS_CLIPSIBLINGS|WS_CLIPCHILDREN|WS_POPUP, m_X, m_Y, m_Width, m_Height, NULL, NULL, 
+    WS_CLIPSIBLINGS|WS_CLIPCHILDREN|WS_POPUP|WS_MINIMIZEBOX, m_X, m_Y, m_Width, m_Height, NULL, NULL, 
     g_hInstance, NULL);
 
   // TODO: This should not happen, but even so, we must find a way to properly
@@ -481,6 +481,10 @@ void Taskbar::RemoveButton(ButtonPtr pBtn)
       break;
     }
   }
+
+  if (m_hWndLastActive == pBtn->GetAppHandle()) 
+    m_hWndLastActive = NULL;
+  
   m_TotalButtons--;
   RedrawButtons();
 }
@@ -572,7 +576,6 @@ void Taskbar::ActivateApp(HWND hWnd)
     btn->AddState(BTN_ACTIVE);
     m_hWndLastActive = hWnd;
   }
-
 }
 
 void Taskbar::SetFirstActive()
