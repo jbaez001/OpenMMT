@@ -18,6 +18,8 @@
  */
 #include "openmmt/precompiled_headers.h"
 #include "openmmt/global_variables.h"
+#include "openmmt/messages.h"
+#include "openmmt/resource.h"
 #include "openmmt/windows/os.h"
 #include "openmmt/windows/windows.h"
 #include <dbt.h>
@@ -286,6 +288,27 @@ void WndGetWindowsTaskbarSize()
       break;
     }
   }
+}
+
+static NOTIFYICONDATA mTrayIcon = {0};
+
+void WndTrayIconAdd()
+{
+  mTrayIcon.cbSize            = sizeof(NOTIFYICONDATA);
+  mTrayIcon.hWnd              = g_hWndOpenMMT;
+  mTrayIcon.uFlags            = NIF_MESSAGE|NIF_ICON|NIF_STATE;
+  mTrayIcon.uCallbackMessage  = OPENMMT_TRAY_MESSAGE;
+  mTrayIcon.hIcon             = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDR_MAINFRAME));
+  mTrayIcon.dwState           = 0;
+  mTrayIcon.dwStateMask       = 0;
+  mTrayIcon.uVersion          = NOTIFYICON_VERSION_4;
+
+  Shell_NotifyIcon(NIM_ADD, &mTrayIcon);
+}
+
+void WndTrayIconRemove()
+{
+  Shell_NotifyIcon(NIM_DELETE, &mTrayIcon);
 }
 
 /**

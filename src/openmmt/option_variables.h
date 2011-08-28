@@ -22,5 +22,6 @@
 
 extern BOOL g_bOptions_EnableThumbnails;
 extern BOOL g_bOptions_EnableThumbnailAnimation;
+extern BOOL g_bOptions_EnableTrayIcon;
 
 #endif // OPENMMT_OPTION_VARIABLES_H

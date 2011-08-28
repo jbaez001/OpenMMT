@@ -32,6 +32,8 @@ extern HICON WndGetApplicationIcon(HWND hWnd);
 extern void WndStartDeviceMonitor();
 extern void WndStopDeviceMonitor();
 extern void WndGetWindowsTaskbarSize();
+extern void WndTrayIconAdd();
+extern void WndTrayIconRemove();
 extern void WndRunMessageThread();
 
 #endif // OPENMMT_WINDOWS_WINDOWS_H

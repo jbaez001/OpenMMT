@@ -19,6 +19,7 @@
 #include "openmmt/precompiled_headers.h"
 #include "openmmt/global_variables.h"
 #include "openmmt/messages.h"
+#include "openmmt/option_variables.h"
 #include "openmmt/resource.h"
 #include "openmmt/windows/taskbar_interface.h"
 #include "openmmt/windows/windows.h"
@@ -51,27 +52,6 @@ static void StartHelper()
 }
 
 #endif
-
-NOTIFYICONDATA mTrayIcon = {0};
-
-void TrayIconAdd()
-{
-  mTrayIcon.cbSize            = sizeof(NOTIFYICONDATA);
-  mTrayIcon.hWnd              = g_hWndOpenMMT;
-  mTrayIcon.uFlags            = NIF_MESSAGE|NIF_ICON|NIF_STATE;
-  mTrayIcon.uCallbackMessage  = OPENMMT_TRAY_MESSAGE;
-  mTrayIcon.hIcon             = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDR_MAINFRAME));
-  mTrayIcon.dwState           = 0;
-  mTrayIcon.dwStateMask       = 0;
-  mTrayIcon.uVersion          = NOTIFYICON_VERSION_4;
-  
-  Shell_NotifyIcon(NIM_ADD, &mTrayIcon);
-}
-
-void TrayIconRemove()
-{
-  Shell_NotifyIcon(NIM_DELETE, &mTrayIcon);
-}
 
 void OpenMMT_Run(HINSTANCE hInstance)
 {
@@ -111,7 +91,9 @@ void OpenMMT_Run(HINSTANCE hInstance)
   g_pAppManager->UpdateAllWindows();
   g_pMonitorManager->SetFirstActive();
 
-  TrayIconAdd();
+  if (g_bOptions_EnableTrayIcon)
+    WndTrayIconAdd();
+
   if (SysHooksStart(g_hWndOpenMMT)) {
     dprintf("libsys started sucessfully.\n");
 #if defined(_WIN64)
@@ -138,7 +120,9 @@ void OpenMMT_Run(HINSTANCE hInstance)
   delete g_pAppManager;
   delete g_pWinTaskbar;
 
-  TrayIconRemove();
+  if (g_bOptions_EnableTrayIcon)
+    WndTrayIconRemove();
+
   _Shutdown();
 }
 

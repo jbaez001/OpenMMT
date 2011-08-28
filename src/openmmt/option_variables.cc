@@ -20,6 +20,7 @@
 
 BOOL g_bOptions_EnableThumbnails          = TRUE;
 BOOL g_bOptions_EnableThumbnailAnimation  = TRUE;
+BOOL g_bOptions_EnableTrayIcon            = TRUE;
 
 // EOF
 
