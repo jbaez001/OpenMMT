@@ -108,37 +108,17 @@ BOOL WndSetBlur(HWND hWnd, bool bEnable)
  */
 BOOL WndShouldDisplay(HWND hWnd)
 {
-  // A small sanity check.
-  if (!hWnd)
-    return FALSE;
-
-  // If the window is not visible, we should not display it.
-  if (!IsWindowVisible(hWnd))
-    return FALSE;
-
-  // Only show top level windows.
-  if (GetParent(hWnd))
+  if (!hWnd || !IsWindowVisible(hWnd) || GetParent(hWnd))
     return FALSE;
 
   LONG_PTR dwExFlags = GetWindowLongPtr(hWnd, GWL_EXSTYLE);
+  HWND hWndOwner = GetWindow(hWnd, GW_OWNER);
 
-  // Check to see if the window is a toolbar window or a "NOACTIVATE" window.
-  if ((dwExFlags & WS_EX_TOOLWINDOW) || (dwExFlags & WS_EX_NOACTIVATE) || 
-    (dwExFlags & WS_EX_MDICHILD))
-    return FALSE;
+  if (((!(dwExFlags & WS_EX_TOOLWINDOW)) && (!hWndOwner)) ||
+    (dwExFlags & WS_EX_APPWINDOW) && (hWndOwner))
+    return TRUE;
 
-  // Let's check to see if the window has a parent.
-  HWND hwParentWindow = (HWND) GetWindowLongPtr(hWnd, GWLP_HWNDPARENT);
-
-  if (hwParentWindow) {
-    if ((IsChild(hwParentWindow, hWnd)) && (!(dwExFlags & WS_EX_APPWINDOW)))
-      return FALSE;
-    
-    if (!(dwExFlags & WS_EX_CONTROLPARENT))
-      return FALSE;
-  }
-
-  return TRUE;
+  return FALSE;
 }
 
 /**
