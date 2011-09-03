@@ -17,7 +17,9 @@
     <ClInclude Include="..\libsys\sys.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\libsys\api.cc">

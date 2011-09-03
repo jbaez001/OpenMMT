@@ -22,6 +22,7 @@
 #include "openmmt/resource.h"
 #include "openmmt/taskbar/taskbar_event.h"
 #include "openmmt/ui/about_dlg.h"
+#include "openmmt/ui/settings_dlg.h"
 #include "libsys/api.h"
 #include <dbt.h>
 
@@ -200,6 +201,12 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
       {
       case ID_TRAYPOPUP_EXIT:
         PostQuitMessage(0);
+        break;
+      case ID_TRAYPOPUP_PROPERTIES:
+        {
+          DlgSettings settingsDlg;
+          settingsDlg.DoModal();
+        }
         break;
       case ID_TRAYPOPUP_ABOUT:
         {

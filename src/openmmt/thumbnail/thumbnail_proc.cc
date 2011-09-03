@@ -26,18 +26,17 @@ LRESULT CALLBACK ThumbnailProc(HWND hWnd, UINT msg, WPARAM wParam,
   {
   case WM_ERASEBKGND:
     {
-      RECT rc = {0};
-      GetClientRect(hWnd, &rc);
-
       if (IsCompositionActive()) {
         WndSetBlur(hWnd, true);
         WndExtendFrame(hWnd);
       }
     }
     return TRUE;
+
   case WM_CLOSE:
     DestroyWindow(hWnd);
     break;
+
   default:
     return DefWindowProc(hWnd, msg, wParam, lParam);
   }

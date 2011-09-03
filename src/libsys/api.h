@@ -53,6 +53,13 @@ extern "C" {
    * Stops the system hooks.
    */
   SYSTEMHOOKS_API void SysHooksStop(void);
+
+  /**
+   * Enables window snapping.
+   *
+   * @param bEnable   - TRUE to enable, FALSE to disable.
+   */
+  SYSTEMHOOKS_API void SysWindowSnaps(BOOL bEnable);
 };
 
 #endif // SYSTEMHOOKS_API_H

@@ -24,13 +24,13 @@
 #include <Windows.h>
 
 extern BOOL  g_bHooksInstalled;
+extern BOOL  g_bWindowsSnap;
+extern INT32 g_iWindowSnapMargin;
 extern HHOOK g_hHookProc;
 extern HWND  g_hWndOpenMMT;
 extern HWND  g_hWndHelper;
 
-
 extern LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam);
-extern LRESULT CALLBACK CbtRetProc(int nCode, WPARAM wParam, LPARAM lParam);
 
 #endif // SYSTEMHOOKS_SYS_H
 

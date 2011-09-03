@@ -20,19 +20,29 @@
 #define OPENMMT_UI_SETTINGS_DLG_H
 
 #include "openmmt/resource.h"
+#include <atlddx.h>
 
-class DlgSettings : public CDialogImpl<DlgSettings>
+class DlgSettings : public CDialogImpl<DlgSettings>,
+                    public CWinDataExchange<DlgSettings>
 {
 public:
   enum { IDD = IDD_OPENMMT_DIALOG };
 
   BEGIN_MSG_MAP(DlgAbout)
     MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
+    COMMAND_ID_HANDLER(IDOK, OnOk)
+    COMMAND_ID_HANDLER(IDAPPLY, OnApply)
     COMMAND_ID_HANDLER(IDCANCEL, OnClose)
   END_MSG_MAP()
 
-  LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-  LRESULT OnClose(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled);
+  LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled);
+  LRESULT OnOk(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL &bHandled);
+  LRESULT OnApply(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL &bHandled);
+  LRESULT OnClose(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL &bHandled);
+
+private:
+  CButton m_btnSetThumbnails;
+  CButton m_btnSetTrayIcon;
 };
 
 #endif // OPENMMT_UI_SETTINGS_DLG_H

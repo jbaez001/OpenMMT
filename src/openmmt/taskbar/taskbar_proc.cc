@@ -23,6 +23,7 @@
 #include "openmmt/monitors/monitor.h"
 #include "openmmt/taskbar/taskbar.h"
 #include "openmmt/taskbar/taskbar_event.h"
+#include "openmmt/ui/settings_dlg.h"
 #include "openmmt/windows/shell.h"
 #include "openmmt/windows/windows.h"
 
@@ -76,6 +77,12 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
         break;
       case ID_BAR_TASKMGR:
           ShellExecute(NULL, L"open", L"taskmgr.exe", NULL, NULL, SW_NORMAL);
+        break;
+      case ID_BAR_PROPS:
+        {
+          DlgSettings settingsDlg;
+          settingsDlg.DoModal();
+        }
         break;
       default:
         break;
