@@ -87,7 +87,7 @@ void ButtonEvent::OnMouseHoover(HWND hWnd, HDC hDC, LPRECT lpRect)
     }
 
     
-    btn->OnMouseHoover();
+    btn->OnMouseHoover(); 
   }
 }
 
@@ -152,6 +152,13 @@ void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
 
   if (g_pThumbnailManager->isThumbnailed(btn))
     g_pThumbnailManager->DestroyThumbnail();
+
+  // Cancel Hoover.
+  TRACKMOUSEEVENT mousey = {0};
+  mousey.cbSize = sizeof(TRACKMOUSEEVENT);
+  mousey.dwFlags = TME_CANCEL|TME_HOVER;
+  mousey.hwndTrack = btn->GetButtonHandle();
+  _TrackMouseEvent(&mousey);
 }
 
 void ButtonEvent::OnWindowDestroyed(HWND hWnd)

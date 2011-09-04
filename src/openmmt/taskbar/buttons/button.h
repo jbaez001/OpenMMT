@@ -105,6 +105,7 @@ public:
   /**
    * Self explanatory events.
    */
+  void TrackMouseHoover();
   void OnMouseMove();
   void OnMouseHoover();
   void OnMouseLeave();

@@ -145,15 +145,19 @@ void Button::OnMouseMove()
 {
   if (!m_bMayHoover) {
     m_bMayHoover = true;
-
-    TRACKMOUSEEVENT mousey = {0};
-    mousey.cbSize = sizeof(TRACKMOUSEEVENT);
-    mousey.dwFlags = TME_HOVER|TME_LEAVE;
-    mousey.dwHoverTime = HOVER_DEFAULT;
-    mousey.hwndTrack = m_hWnd;
-    
-    _TrackMouseEvent(&mousey);
+    TrackMouseHoover();
   }
+}
+
+void Button::TrackMouseHoover()
+{
+  TRACKMOUSEEVENT mousey = {0};
+  mousey.cbSize = sizeof(TRACKMOUSEEVENT);
+  mousey.dwFlags = TME_HOVER|TME_LEAVE;
+  mousey.dwHoverTime = HOVER_DEFAULT;
+  mousey.hwndTrack = m_hWnd;
+
+  _TrackMouseEvent(&mousey);
 }
 
 void Button::OnMouseHoover()
