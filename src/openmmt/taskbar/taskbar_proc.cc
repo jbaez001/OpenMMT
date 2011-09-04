@@ -40,6 +40,19 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
       TaskbarEvent::OnEraseBackground(hWnd);
     return TRUE;
 
+  case WM_PAINT:
+    {
+      TaskbarPtr pTaskbar(g_pMonitorManager->FindMonitorTaskbar(hWnd));
+
+      PAINTSTRUCT ps;
+      BeginPaint(hWnd, &ps);
+
+      if (pTaskbar != TaskbarPtr())
+        pTaskbar->OnPaint();
+
+      EndPaint(hWnd, &ps);
+    }
+    break;
   case WM_THEMECHANGED:
   case WM_DWMCOMPOSITIONCHANGED:
       TaskbarEvent::OnThemeChange(hWnd);

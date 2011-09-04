@@ -116,7 +116,7 @@ void Thumbnail::RegisterThumbnail()
 
   DWM_THUMBNAIL_PROPERTIES dskThumbProps;
   dskThumbProps.dwFlags = DWM_TNP_SOURCECLIENTAREAONLY | DWM_TNP_VISIBLE | DWM_TNP_OPACITY | DWM_TNP_RECTDESTINATION;
-  dskThumbProps.fSourceClientAreaOnly = FALSE; 
+  dskThumbProps.fSourceClientAreaOnly = TRUE; 
   dskThumbProps.fVisible = TRUE;
   dskThumbProps.opacity = 255;
   dskThumbProps.rcDestination = destRect;

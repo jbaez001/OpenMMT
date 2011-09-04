@@ -41,8 +41,10 @@ LRESULT CALLBACK ButtonProc(HWND hWnd, UINT msg, WPARAM wParam,
 
   case WM_PAINT:
     {
+      PAINTSTRUCT ps;
+      BeginPaint(hWnd, &ps);
       ButtonEvent::OnPaint(hWnd);
-      ValidateRect(hWnd, NULL);
+      EndPaint(hWnd, &ps);
     }
     break;
 

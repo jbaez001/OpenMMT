@@ -207,6 +207,9 @@ void Taskbar::Initialize()
 
 void Taskbar::AddApplication(ApplicationPtr app)
 {
+  if ((m_TotalButtons + 1) > m_MaxButtons)
+    return;
+
   AddObject(app);
   CreateButton(app);
 }
@@ -269,6 +272,12 @@ void Taskbar::ReleaseExtraResources()
 
 void Taskbar::OnEraseBackground()
 {
+  WndSetBlur(m_hWnd, true);
+}
+
+void Taskbar::OnPaint()
+{
+
   // If the device is not set, we reset it.
   if (!IsDeviceSet()) 
     SetDevice(m_hWnd);
@@ -277,7 +286,7 @@ void Taskbar::OnEraseBackground()
   if (SUCCEEDED(CreateDeviceResources())) {
     BeginDraw();
 
-    WndSetBlur(m_hWnd, true);
+    
     m_pRenderTarget->Clear(D2D1::ColorF(0.0f, 0.0f, 0.0f, 0.0f));
 
     if (SUCCEEDED(QueryDeviceContext())) {
@@ -317,11 +326,6 @@ void Taskbar::OnEraseBackground()
     }
     EndDraw();
   }
-}
-
-void Taskbar::OnPaint()
-{
-
 }
 
 void Taskbar::OnThemeChange()
@@ -415,12 +419,6 @@ void Taskbar::CreateButton(ApplicationPtr pAbb)
   if (pAbb->GetTaskbar() == TaskbarPtr()) {
     MessageBox(NULL, L"Could not retrieve taskbar for an application", L"OpenMMT", MB_OK|MB_ICONERROR);
     abort();
-  }
-
-  // Check to see if we have reached the maximum number of alloted buttons.
-  // If so, it's time that we reshape.
-  if ((m_TotalButtons+1) >= m_MaxButtons) {
-
   }
 
   if (m_bHorizontal) {
@@ -524,10 +522,11 @@ void Taskbar::SetLayout(BOOL bHorizontal)
     m_BtnWidth  = !m_bHorizontal ? m_Width : 70;
     m_BtnHeight = m_bHorizontal ? m_Height : 50;
   } else {
-    m_BtnWidth  = !m_bHorizontal ? m_Width : 60;
+    m_BtnWidth  = !m_bHorizontal ? m_Width : 65;
     m_BtnHeight = m_bHorizontal ? m_Height : 45;
   }
 
+  dprintf("%ix%i\n", m_BtnWidth, m_BtnHeight);
   m_MaxButtons = (bHorizontal ? (m_Width / m_BtnWidth) : 
     (m_Height / m_BtnHeight));
 
