@@ -17,7 +17,19 @@
  *
  */
 #include "openmmt/precompiled_headers.h"
+#include "openmmt/global_variables.h"
+#include "openmmt/option_variables.h"
+#include "openmmt/thumbnail/thumbnail.h"
 #include "openmmt/windows/windows.h"
+
+BOOL PtIsInBounds(LPPOINT lpPoints, LPRECT lpRect)
+{
+  if ((lpPoints->x >= lpRect->left) && (lpPoints->x <=lpRect->right) &&
+    (lpPoints->y >= lpRect->top) && (lpPoints->y <= lpRect->bottom))
+    return TRUE;
+
+  return FALSE;
+}
 
 LRESULT CALLBACK ThumbnailProc(HWND hWnd, UINT msg, WPARAM wParam, 
                                LPARAM lParam)
@@ -32,6 +44,30 @@ LRESULT CALLBACK ThumbnailProc(HWND hWnd, UINT msg, WPARAM wParam,
       }
     }
     return TRUE;
+
+  case WM_TIMER:
+    {
+      POINT pt = {0};
+      GetCursorPos(&pt);
+
+      RECT thumbRect = {0};
+      RECT btnRect   = {0};
+
+      GetWindowRect(hWnd, &thumbRect);
+      GetWindowRect(g_pThumbnailManager->GetThumbnailedButton(), &btnRect);
+
+      if (!PtIsInBounds(&pt, &thumbRect) && !PtIsInBounds(&pt, &btnRect)) {
+        KillTimer(hWnd, IDT_THUMBNAIL_DESTROY_TIMER);
+        g_pThumbnailManager->DestroyThumbnail();
+      }
+    }
+    return 0;
+
+  case WM_MOUSELEAVE:
+    {
+      SetTimer(hWnd, IDT_THUMBNAIL_DESTROY_TIMER, g_iOptions_ThumbnailDestroyTimer, NULL);
+    }
+    break;
 
   case WM_CLOSE:
     DestroyWindow(hWnd);

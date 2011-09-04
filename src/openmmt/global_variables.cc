@@ -21,12 +21,14 @@
 
 HINSTANCE     g_hInstance = NULL;
 
-MonitorManager      *g_pMonitorManager = NULL;
-ApplicationManager  *g_pAppManager     = NULL;
-WinTaskbarInterface *g_pWinTaskbar     = NULL;
+MonitorManager      *g_pMonitorManager    = NULL;
+ApplicationManager  *g_pAppManager        = NULL;
+WinTaskbarInterface *g_pWinTaskbar        = NULL;
+ThumbnailManager    *g_pThumbnailManager  = NULL;
 
 const wchar_t *g_OpenMMTClassName       = L"OpenMMT";
 const wchar_t *g_TaskbarClassName       = L"OpenMMT_Taskbar";
+const wchar_t *g_ThumbnailMgrClassName  = L"OpenMMT_ThumbnailManager";
 const wchar_t *g_ThumbnailClassname     = L"OpenMMT_Thumbnail";
 const wchar_t *g_TaskbarButtonClassName = L"OpenMMT_Button";
 

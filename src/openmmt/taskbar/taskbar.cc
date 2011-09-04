@@ -470,8 +470,8 @@ void Taskbar::RemoveButton(ButtonPtr pBtn)
   if (pBtn == ButtonPtr())
     return;
 
-  if (g_pAppManager->IsThumbnailed(pBtn->GetAppHandle())) 
-    g_pAppManager->CloseThumbnailWindow();
+  if (g_pThumbnailManager->isThumbnailed(pBtn))
+    g_pThumbnailManager->DestroyThumbnail();
 
   for (BtnIterator it = buttons_.begin(); it != buttons_.end(); it++) {
     ButtonPtr curBtn(*it);

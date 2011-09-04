@@ -35,7 +35,7 @@ ButtonPtr ButtonEvent::FindButton(HWND hWnd)
 
 void ButtonEvent::OnEraseBackground(HWND hWnd)
 {
-  ButtonPtr btn = FindButton(hWnd);
+  ButtonPtr btn(FindButton(hWnd));
   if (btn == ButtonPtr()) 
     return;
   
@@ -44,7 +44,7 @@ void ButtonEvent::OnEraseBackground(HWND hWnd)
 
 void ButtonEvent::OnPaint(HWND hWnd)
 {
-  ButtonPtr btn = FindButton(hWnd);
+  ButtonPtr btn(FindButton(hWnd));
 
   if (btn == ButtonPtr())
     return;
@@ -57,7 +57,7 @@ void ButtonEvent::OnMouseMove(HWND hWnd, HDC hDC, LPRECT lpRect)
   UNREFERENCED_PARAMETER(hDC);
   UNREFERENCED_PARAMETER(lpRect);
 
-  ButtonPtr btn = FindButton(hWnd);
+  ButtonPtr btn(FindButton(hWnd));
 
   if (btn == ButtonPtr())
     return;
@@ -71,39 +71,22 @@ void ButtonEvent::OnMouseHoover(HWND hWnd, HDC hDC, LPRECT lpRect)
   UNREFERENCED_PARAMETER(lpRect);
 
   if (g_bOptions_EnableThumbnails) {
-    ButtonPtr btn = FindButton(hWnd);
+    ButtonPtr btn(FindButton(hWnd));
 
     if (btn == ButtonPtr())
       return;
-
-    if (!g_pAppManager->IsThumbnailRegistered()) {
-      TaskbarPtr bar = g_pMonitorManager->FindMonitorTaskbar(btn->GetTaskbarHandle());
-
-      if (bar == TaskbarPtr())
-        return;
-
-      POINT pt = {0};
-
-      pt.x = btn->GetX();
-      pt.y = btn->GetY();
-      
-      if (bar->IsPosition(TASKBAR_BOTTOM))
-        pt.y -=(175+8);
-      else if (bar->IsPosition(TASKBAR_TOP))
-        pt.y +=(40+8);
-      else if (bar->IsPosition(TASKBAR_RIGHT))
-        pt.x -= 235+8;
-      else if (bar->IsPosition(TASKBAR_LEFT))
-        pt.x = 60+8;
-
-      if (pt.x == 0)
-        pt.x = 5;
-      if (pt.y == 0)
-        pt.y = 5;
-
-      ClientToScreen(btn->GetTaskbarHandle(), &pt);
-      g_pAppManager->CreateThumbnailWindow(btn->GetAppHandle(), pt.x, pt.y);
+    
+    
+    if (g_pThumbnailManager->isThumbnailPresent()) {
+      if (g_pThumbnailManager->GetThumbnailedButton() != btn->GetButtonHandle()) {
+        g_pThumbnailManager->DestroyThumbnail();
+        g_pThumbnailManager->CreateThumbnail(btn);
+      }
+    } else {
+      g_pThumbnailManager->CreateThumbnail(btn);
     }
+
+    
     btn->OnMouseHoover();
   }
 }
@@ -113,13 +96,15 @@ void ButtonEvent::OnMouseLeave(HWND hWnd, HDC hDC, LPRECT lpRect)
   UNREFERENCED_PARAMETER(hDC);
   UNREFERENCED_PARAMETER(lpRect);
 
-  ButtonPtr btn = FindButton(hWnd);
+  ButtonPtr btn(FindButton(hWnd));
 
   if (btn == ButtonPtr())
     return;
 
-  if (g_pAppManager->IsThumbnailRegistered())
-    g_pAppManager->CloseThumbnailWindow();
+  if (g_pThumbnailManager->isThumbnailed(btn)) {
+    SetTimer(g_pThumbnailManager->GetThumbnailWindow(), 
+      IDT_THUMBNAIL_DESTROY_TIMER, g_iOptions_ThumbnailDestroyTimer, NULL);
+  }
 
   btn->OnMouseLeave();
 }
@@ -129,7 +114,7 @@ void ButtonEvent::OnMouseBeginLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
   UNREFERENCED_PARAMETER(hDC);
   UNREFERENCED_PARAMETER(lpRect);
 
-  ButtonPtr btn = FindButton(hWnd);
+  ButtonPtr btn(FindButton(hWnd));
 
   if (btn == ButtonPtr())
     return;
@@ -142,7 +127,7 @@ void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
   UNREFERENCED_PARAMETER(hDC);
   UNREFERENCED_PARAMETER(lpRect);
 
-  ButtonPtr btn = FindButton(hWnd);
+  ButtonPtr btn(FindButton(hWnd));
 
   if (btn == ButtonPtr())
     return;
@@ -164,6 +149,9 @@ void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
     btn->AddState(BTN_ACTIVE);
   }
   btn->AddState(BTN_NORMAL);
+
+  if (g_pThumbnailManager->isThumbnailed(btn))
+    g_pThumbnailManager->DestroyThumbnail();
 }
 
 void ButtonEvent::OnWindowDestroyed(HWND hWnd)
@@ -173,7 +161,7 @@ void ButtonEvent::OnWindowDestroyed(HWND hWnd)
 
 void ButtonEvent::OnThemeChange(HWND hWnd)
 {
-  ButtonPtr btn = FindButton(hWnd);
+  ButtonPtr btn(FindButton(hWnd));
 
   if (btn == ButtonPtr())
     return;

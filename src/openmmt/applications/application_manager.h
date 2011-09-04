@@ -22,15 +22,10 @@
 
 #include "openmmt/applications/application.h"
 #include "openmmt/template_classes/smart_vector_list.h"
-#include "openmmt/thumbnail/thumbnail.h"
 
 class ApplicationManager : public SmartVectorList<Application, 
                                              ApplicationManager>
 {
-private:
-  typedef std::auto_ptr<Thumbnail> Thubmnailptr;
-  Thubmnailptr m_Thumbnail;
-
 public:
 
   /**
@@ -71,36 +66,15 @@ public:
   void CheckWindow(HWND hWnd);
 
   /**
+   * Finds a button pointer by handle.
+   */
+  ButtonPtr FindButton(HWND hWnd);
+
+  /**
    * Enumerates all windows. This is invoked by the UpdateAllWindows() method.
    * Only called at startup after all taskbars have been created.
    */
   static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam);
-
-  /**
-   * Checks to see if we are already tracking a thumbnail.
-   */
-  BOOL IsThumbnailRegistered();
-
-  /**
-   * Checks to see if the presented window handle is the thumbnailed one.
-   */
-  BOOL IsThumbnailed(HWND hWnd);
-
-  /**
-   * CreateThumbnailWindow. Creates a thumbnail from the specified source
-   * and at the specified coordinates.
-   */
-  void CreateThumbnailWindow(HWND hWnd, int x, int y);
-
-  /**
-   * Closes the thumbnail window.
-   */
-  void CloseThumbnailWindow();
-
-  /**
-   * Finds a button pointer by handle.
-   */
-  ButtonPtr FindButton(HWND hWnd);
 };
 
 #endif // OPENMMT_APPLICATIONS_APPLICATION_MANAGER_H

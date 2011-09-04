@@ -22,18 +22,21 @@
 
 #include "openmmt/applications/application_manager.h"
 #include "openmmt/monitors/monitor_manager.h"
+#include "openmmt/thumbnail/thumbnail_manager.h"
 #include "openmmt/windows/taskbar_interface.h"
 
 extern HINSTANCE   g_hInstance;
 
-extern MonitorManager     *g_pMonitorManager;
-extern ApplicationManager *g_pAppManager;
-extern WinTaskbarInterface *g_pWinTaskbar;
+extern MonitorManager       *g_pMonitorManager;
+extern ApplicationManager   *g_pAppManager;
+extern WinTaskbarInterface  *g_pWinTaskbar;
+extern ThumbnailManager     *g_pThumbnailManager;
 
-extern const wchar_t* g_OpenMMTClassName;
-extern const wchar_t* g_TaskbarClassName;
-extern const wchar_t* g_ThumbnailClassname;
-extern const wchar_t* g_TaskbarButtonClassName;
+extern const wchar_t *g_OpenMMTClassName;
+extern const wchar_t *g_TaskbarClassName;
+extern const wchar_t *g_ThumbnailMgrClassName;
+extern const wchar_t *g_ThumbnailClassname;
+extern const wchar_t *g_TaskbarButtonClassName;
 
 extern wchar_t g_strExePath[MAX_PATH];
 

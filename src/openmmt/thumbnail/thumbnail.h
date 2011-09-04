@@ -20,6 +20,8 @@
 #define OPENMMT_THUMBNAIL_THUMBNAIL_H
 #pragma once
 
+extern UINT IDT_THUMBNAIL_DESTROY_TIMER;
+
 class Thumbnail
 {
 private:

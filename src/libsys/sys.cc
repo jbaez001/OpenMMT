@@ -56,7 +56,8 @@ static void SendTaskbarMsg(UINT mMsg, HWND hWnd, LPARAM lParam = NULL)
 {
   // If a window is being destroyed or has been destroyed, chances are
   // that the window is not going to be visible anymore.
-  if (!WndShouldDisplay(hWnd) && ((mMsg != TASKBAR_WINDOW_DESTROY) || (mMsg != TASKBAR_WINDOW_MINIMIZE)))
+  if ((mMsg != TASKBAR_WINDOW_DESTROY) && (mMsg != TASKBAR_WINDOW_DESTROY) &&
+    (!WndShouldDisplay(hWnd)))
     return;
 
   // Check to see if OpenMMT is still running, if not terminate the hooks.

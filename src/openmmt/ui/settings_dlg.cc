@@ -21,31 +21,27 @@
 #include "openmmt/windows/windows.h"
 #include "openmmt/ui/settings_dlg.h"
 
-LRESULT DlgSettings::OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+LRESULT DlgSettings::OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &bHandled)
 {
   CenterWindow();
 
   m_btnSetThumbnails = GetDlgItem(IDC_CHECK_THUMBNAILS);
   m_btnSetTrayIcon   = GetDlgItem(IDC_CHECK_TRAY_ICON);
-
-  if (g_bOptions_EnableThumbnails)
-    m_btnSetThumbnails.SetCheck(1);
-
-  if (g_bOptions_EnableTrayIcon)
-    m_btnSetTrayIcon.SetCheck(1);
+  
+  m_btnSetThumbnails.SetCheck(g_bOptions_EnableThumbnails ? 1 : 0);
+  m_btnSetTrayIcon.SetCheck(g_bOptions_EnableTrayIcon ? 1 : 0);
 
   return TRUE;
 }
 
-LRESULT DlgSettings::OnOk(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
+LRESULT DlgSettings::OnOk(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL &bHandled)
 {
   this->OnApply(wNotifyCode, wID, hWndCtl, bHandled);
   EndDialog(IDOK);
-
   return 0;
 }
 
-LRESULT DlgSettings::OnApply(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
+LRESULT DlgSettings::OnApply(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL &bHandled)
 {
   if ((m_btnSetThumbnails.GetCheck() == 0) && (g_bOptions_EnableThumbnails)) {
     g_bOptions_EnableThumbnails = FALSE;
@@ -64,7 +60,7 @@ LRESULT DlgSettings::OnApply(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHa
   return 0;
 }
 
-LRESULT DlgSettings::OnClose(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled)
+LRESULT DlgSettings::OnClose(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL &bHandled)
 {
   EndDialog(IDCANCEL);
   return 0;

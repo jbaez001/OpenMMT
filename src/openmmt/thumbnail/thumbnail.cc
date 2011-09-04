@@ -21,6 +21,8 @@
 #include "openmmt/thumbnail/thumbnail.h"
 #include "openmmt/option_variables.h"
 
+UINT IDT_THUMBNAIL_DESTROY_TIMER = 5;
+
 Thumbnail::Thumbnail() :
   m_hThumbnail(NULL),
   m_hWndSource(NULL),
@@ -64,6 +66,8 @@ void Thumbnail::CreateThumbnailFromSource(HWND hWnd, int x, int y)
 
 void Thumbnail::DestroyThumbnailWindow()
 {
+  // Sanity check
+  KillTimer(m_hWnd, IDT_THUMBNAIL_DESTROY_TIMER);
   UnregisterThumbnail();
   DestroyWindow(m_hWnd);
 
@@ -78,7 +82,7 @@ void Thumbnail::CreateThumbnailWindow(INT x, INT y)
     return;
 
   std::vector<wchar_t> m_WindowTitle(GetWindowTextLength(m_hWndSource)+5);
-  GetWindowText(m_hWndSource, &m_WindowTitle[0], (INT)m_WindowTitle.size());
+  GetWindowText(m_hWndSource, &m_WindowTitle[0], (int)m_WindowTitle.size());
 
   m_hWnd = CreateWindowEx(WS_EX_WINDOWEDGE|WS_EX_TOOLWINDOW|WS_EX_TOPMOST, g_ThumbnailClassname, &m_WindowTitle[0],
     WS_OVERLAPPED|WS_CAPTION, x, y, 235, 175, NULL, NULL, g_hInstance, NULL);

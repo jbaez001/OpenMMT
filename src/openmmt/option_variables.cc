@@ -22,5 +22,8 @@ BOOL g_bOptions_EnableThumbnails          = TRUE;
 BOOL g_bOptions_EnableThumbnailAnimation  = TRUE;
 BOOL g_bOptions_EnableTrayIcon            = TRUE;
 
+INT32  g_iOptions_ThumbnailSpacer          = 8;
+UINT32 g_iOptions_ThumbnailDestroyTimer    = 1000;
+
 // EOF
 

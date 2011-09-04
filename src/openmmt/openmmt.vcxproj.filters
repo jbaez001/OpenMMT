@@ -127,9 +127,6 @@
     <ClInclude Include="windows\taskbar_interface.h">
       <Filter>Source Files\windows</Filter>
     </ClInclude>
-    <ClInclude Include="windows\theme_manager.h">
-      <Filter>Source Files\windows</Filter>
-    </ClInclude>
     <ClInclude Include="windows\windows.h">
       <Filter>Source Files\windows</Filter>
     </ClInclude>
@@ -159,6 +156,9 @@
     </ClInclude>
     <ClInclude Include="ui\about_dlg.h">
       <Filter>Source Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="thumbnail\thumbnail_manager.h">
+      <Filter>Source Files\thumbnail</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -210,9 +210,6 @@
     <ClCompile Include="windows\taskbar_interface.cc">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
-    <ClCompile Include="windows\theme_manager.cc">
-      <Filter>Source Files\windows</Filter>
-    </ClCompile>
     <ClCompile Include="windows\windows.cc">
       <Filter>Source Files\windows</Filter>
     </ClCompile>
@@ -251,6 +248,9 @@
     </ClCompile>
     <ClCompile Include="ui\about_dlg.cc">
       <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="thumbnail\thumbnail_manager.cc">
+      <Filter>Source Files\thumbnail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

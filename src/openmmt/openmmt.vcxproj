@@ -250,6 +250,7 @@
     <ClInclude Include="template_classes\safe_release.h" />
     <ClInclude Include="template_classes\smart_vector_list.h" />
     <ClInclude Include="thumbnail\thumbnail.h" />
+    <ClInclude Include="thumbnail\thumbnail_manager.h" />
     <ClInclude Include="thumbnail\thumbnail_proc.h" />
     <ClInclude Include="ui\about_dlg.h" />
     <ClInclude Include="ui\settings_dlg.h" />
@@ -257,7 +258,6 @@
     <ClInclude Include="windows\os.h" />
     <ClInclude Include="windows\shell.h" />
     <ClInclude Include="windows\taskbar_interface.h" />
-    <ClInclude Include="windows\theme_manager.h" />
     <ClInclude Include="windows\windows.h" />
   </ItemGroup>
   <ItemGroup>
@@ -290,6 +290,7 @@
     <ClCompile Include="taskbar\taskbar_event.cc" />
     <ClCompile Include="taskbar\taskbar_proc.cc" />
     <ClCompile Include="thumbnail\thumbnail.cc" />
+    <ClCompile Include="thumbnail\thumbnail_manager.cc" />
     <ClCompile Include="thumbnail\thumbnail_proc.cc" />
     <ClCompile Include="ui\about_dlg.cc" />
     <ClCompile Include="ui\settings_dlg.cc" />
@@ -298,7 +299,6 @@
     <ClCompile Include="windows\os.cc" />
     <ClCompile Include="windows\shell.cc" />
     <ClCompile Include="windows\taskbar_interface.cc" />
-    <ClCompile Include="windows\theme_manager.cc" />
     <ClCompile Include="windows\windows.cc" />
   </ItemGroup>
   <ItemGroup>

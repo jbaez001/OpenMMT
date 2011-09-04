@@ -83,9 +83,10 @@ void OpenMMT_Run(HINSTANCE hInstance)
 
   RegisterShellHookWindow(g_hWndOpenMMT);
 
-  g_pMonitorManager = new MonitorManager();
-  g_pAppManager     = new ApplicationManager();
-  g_pWinTaskbar     = new WinTaskbarInterface();
+  g_pMonitorManager   = new MonitorManager();
+  g_pAppManager       = new ApplicationManager();
+  g_pWinTaskbar       = new WinTaskbarInterface();
+  g_pThumbnailManager = new ThumbnailManager();
 
   g_pMonitorManager->EnumerateMonitors();
   g_pAppManager->UpdateAllWindows();
@@ -115,7 +116,7 @@ void OpenMMT_Run(HINSTANCE hInstance)
     abort();
   }
 
-  // Monitor manager must be destroyed first. 
+  delete g_pThumbnailManager; 
   delete g_pMonitorManager;
   delete g_pAppManager;
   delete g_pWinTaskbar;

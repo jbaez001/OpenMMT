@@ -24,4 +24,7 @@ extern BOOL g_bOptions_EnableThumbnails;
 extern BOOL g_bOptions_EnableThumbnailAnimation;
 extern BOOL g_bOptions_EnableTrayIcon;
 
+extern INT32  g_iOptions_ThumbnailSpacer;
+extern UINT32 g_iOptions_ThumbnailDestroyTimer;
+
 #endif // OPENMMT_OPTION_VARIABLES_H

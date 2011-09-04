@@ -24,7 +24,6 @@
 
 ApplicationManager::ApplicationManager()
 {
-  m_Thumbnail.reset(new Thumbnail());
 }
 
 ApplicationManager::~ApplicationManager()
@@ -121,38 +120,6 @@ BOOL CALLBACK ApplicationManager::EnumWindowsProc(HWND hWnd, LPARAM lParam)
     g_pAppManager->CheckWindow(hWnd);
 
   return TRUE;
-}
-
-BOOL ApplicationManager::IsThumbnailRegistered()
-{
-  return m_Thumbnail->IsThumbnailRegistered();
-}
-
-BOOL ApplicationManager::IsThumbnailed(HWND hWnd)
-{
-  if (!hWnd) 
-    return FALSE;
- 
-  //dprintf("Source: %08X vs %08X\n", m_Thumbnail->GetSource(), hWnd);
-
-  return (hWnd == m_Thumbnail->GetSource());
-}
-
-void ApplicationManager::CreateThumbnailWindow(HWND hWnd, int x, int y)
-{
-  if (IsThumbnailRegistered())
-    return;
-
-  if (IsWindow(hWnd))
-    m_Thumbnail->CreateThumbnailFromSource(hWnd, x, y);
-}
-
-void ApplicationManager::CloseThumbnailWindow()
-{
-  if (!IsThumbnailRegistered())
-    return;
-
-  m_Thumbnail->DestroyThumbnailWindow();
 }
 
 ButtonPtr ApplicationManager::FindButton(HWND hWnd)
