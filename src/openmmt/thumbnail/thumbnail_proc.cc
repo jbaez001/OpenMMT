@@ -65,7 +65,22 @@ LRESULT CALLBACK ThumbnailProc(HWND hWnd, UINT msg, WPARAM wParam,
     return 0;
 
   case WM_LBUTTONUP:
-      ButtonEvent::OnMouseEndLeftClick(g_pThumbnailManager->GetThumbnailedButton(), NULL, NULL);
+    {
+      TaskbarPtr pTaskbar(g_pMonitorManager->FindMonitorTaskbar(g_pThumbnailManager->GetThumbnailedButton()));
+
+      if (pTaskbar == TaskbarPtr())
+        break;
+
+      ButtonPtr pBtn(pTaskbar->GetButton(g_pThumbnailManager->GetThumbnailedButton()));
+      
+      if (pBtn == ButtonPtr())
+        break;
+
+      if (!pBtn->IsState(BTN_ACTIVE))
+        ButtonEvent::OnMouseEndLeftClick(pBtn->GetButtonHandle(), NULL, NULL);
+      else
+        g_pThumbnailManager->DestroyThumbnail();
+    }
     break;
 
   case WM_MOUSELEAVE:
