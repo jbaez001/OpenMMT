@@ -19,6 +19,7 @@
 #include "openmmt/precompiled_headers.h"
 #include "openmmt/global_variables.h"
 #include "openmmt/option_variables.h"
+#include "openmmt/taskbar/buttons/button_event.h"
 #include "openmmt/thumbnail/thumbnail.h"
 #include "openmmt/windows/windows.h"
 
@@ -63,10 +64,12 @@ LRESULT CALLBACK ThumbnailProc(HWND hWnd, UINT msg, WPARAM wParam,
     }
     return 0;
 
+  case WM_LBUTTONUP:
+      ButtonEvent::OnMouseEndLeftClick(g_pThumbnailManager->GetThumbnailedButton(), NULL, NULL);
+    break;
+
   case WM_MOUSELEAVE:
-    {
       SetTimer(hWnd, IDT_THUMBNAIL_DESTROY_TIMER, g_iOptions_ThumbnailDestroyTimer, NULL);
-    }
     break;
 
   case WM_CLOSE:
