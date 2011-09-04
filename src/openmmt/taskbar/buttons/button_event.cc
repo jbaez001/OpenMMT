@@ -153,7 +153,7 @@ void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
   if (g_pThumbnailManager->isThumbnailed(btn))
     g_pThumbnailManager->DestroyThumbnail();
 
-  // Cancel Hoover.
+  // Cancel Hover.
   TRACKMOUSEEVENT mousey = {0};
   mousey.cbSize = sizeof(TRACKMOUSEEVENT);
   mousey.dwFlags = TME_CANCEL|TME_HOVER;

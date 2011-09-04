@@ -49,6 +49,9 @@ static BOOL WndShouldDisplay(HWND hWnd)
     (dwExFlags & WS_EX_APPWINDOW) && (hWndOwner))
     return TRUE;
 
+  if (hWndOwner && (WS_EX_CONTROLPARENT))
+    return TRUE;
+
   return FALSE;
 }
 
