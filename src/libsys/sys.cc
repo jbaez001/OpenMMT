@@ -133,6 +133,13 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
     case WM_SETFOCUS:
         SendTaskbarMsg(TASKBAR_WINDOW_SETFOCUS, lpCwp->hwnd);
       break;
+      
+    case WM_ACTIVATEAPP:
+      {
+        if ((BOOL)lpCwp->wParam == FALSE)
+          SendTaskbarMsg(TASKBAR_WINDOW_KILLFOCUS, lpCwp->hwnd);
+      }
+      break;
 
       /*
     case WM_MOVE:

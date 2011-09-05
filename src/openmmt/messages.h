@@ -34,6 +34,7 @@ enum OpenMMTMessages {
   TASKBAR_WINDOW_MINMAX,            /**< A window's pos/size is about to change. */
   TASKBAR_WINDOW_MINIMIZE,          /**< A window is being minimized.            */
   TASKBAR_WINDOW_MAXIMIZE,          /**< A window is being maximized.            */
+  TASKBAR_WINDOW_KILLFOCUS,         /**< An application is about to lose focus.  */
   TASKBAR_X86_SUPPORT_HELLO,        /**< Our x86 helper said hello.              */
   TASKBAR_X86_SUPPORT_BYEBYE,       /**< Our x86 helper is leaving us. :'(       */
   OPENMMT_TRAY_MESSAGE              /**< System tray icon message.               */

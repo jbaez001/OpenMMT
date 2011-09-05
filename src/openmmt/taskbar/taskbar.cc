@@ -38,6 +38,7 @@ Taskbar::Taskbar() :
   m_hTheme(NULL),
   m_hWnd(NULL),
   m_hWndLastActive(NULL),
+  m_hWndFullScreen(NULL),
   m_X(0),
   m_Y(0),
   m_Width(0),
@@ -168,7 +169,6 @@ void Taskbar::SetWorkSpace(LPRECT rcMonitor, LPRECT rcWork, INT mPosition)
   m_AppBarRect.right  = rcWork->right;
   m_AppBarRect.bottom = rcWork->bottom;
 
-  SetDimensions(m_Width, m_Height);
   SetLayout(bHorizontal);
 
   // If the taskbar window already exists, then we need to change the
@@ -395,21 +395,25 @@ void Taskbar::AppEnterFullScreen(HWND hWnd)
   if (m_bFullScreen)
     return;
 
+  m_hWndFullScreen = hWnd;
   SetWindowPos(m_hWnd, HWND_BOTTOM, m_X, m_Y, m_Width, m_Height, 
     SWP_HIDEWINDOW);
 
   m_bFullScreen = TRUE;
 }
 
-void Taskbar::AppLeaveFullScreen(HWND hWnd)
+void Taskbar::AppLeaveFullScreen(HWND hWnd, BOOL fLostFocus)
 {
   if (!m_bFullScreen)
     return;
 
+  if (!fLostFocus) {
+    m_hWndFullScreen = NULL;
+    m_bFullScreen = FALSE;
+  }
+
   SetWindowPos(m_hWnd, HWND_TOPMOST, m_X, m_Y, m_Width, m_Height, 
     SWP_SHOWWINDOW);
-
-  m_bFullScreen = FALSE;
 }
 
 void Taskbar::CreateButton(ApplicationPtr pAbb)
@@ -483,6 +487,9 @@ void Taskbar::RemoveButton(ButtonPtr pBtn)
   if (m_hWndLastActive == pBtn->GetAppHandle()) 
     m_hWndLastActive = NULL;
   
+  if ((m_bFullScreen) && (m_hWndFullScreen) && (m_hWndFullScreen == pBtn->GetAppHandle()))
+    AppLeaveFullScreen(pBtn->GetAppHandle());
+
   m_TotalButtons--;
   RedrawButtons();
 }
@@ -536,17 +543,15 @@ void Taskbar::SetLayout(BOOL bHorizontal)
   }
 }
 
-// TODO: Check to see if we even need this anymore.
-void Taskbar::SetDimensions(LONG mWidth, LONG mHeight)
-{
-  m_Width  = mWidth;
-  m_Height = mHeight;
-
-  dprintf("Dimensions changed to %ldx%ld\n", mWidth, mHeight);
-}
-
 void Taskbar::ActivateApp(HWND hWnd)
 {
+  if (m_bFullScreen) {
+    if ((m_hWndFullScreen) && (m_hWndFullScreen == hWnd)) {
+      SetWindowPos(m_hWnd, HWND_BOTTOM, m_X, m_Y, m_Width, m_Height, 
+        SWP_HIDEWINDOW);
+      return;
+    }
+  }
   ButtonPtr btn;
 
   if (!m_hWndLastActive) {
@@ -596,6 +601,11 @@ const HWND Taskbar::GetWindowHandle()
   return m_hWnd;
 }
 
+const HWND Taskbar::GetFullScreenApp()
+{
+  return m_hWndFullScreen;
+}
+
 const INT Taskbar::GetPosition()
 {
   return m_Position;
@@ -609,6 +619,11 @@ const INT Taskbar::GetCoordinatesAtIndex(int indx)
 BOOL Taskbar::IsPosition(INT pos)
 {
   return (m_Position == pos);
+}
+
+BOOL Taskbar::AppIsFullScreen()
+{
+  return m_bFullScreen;
 }
 
 ButtonPtr Taskbar::GetButton(HWND hWnd)

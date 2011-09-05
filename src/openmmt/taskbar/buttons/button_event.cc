@@ -127,7 +127,15 @@ void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
   UNREFERENCED_PARAMETER(hDC);
   UNREFERENCED_PARAMETER(lpRect);
 
+
   ButtonPtr btn(FindButton(hWnd));
+  TaskbarPtr pTaskbar(g_pMonitorManager->FindMonitorTaskbar(hWnd));
+  BOOL bFullScreen = FALSE;
+
+  if (pTaskbar != TaskbarPtr()) {
+    if ((pTaskbar->AppIsFullScreen()) && (pTaskbar->GetFullScreenApp() == btn->GetAppHandle()))
+      bFullScreen = TRUE;
+  }
 
   if (btn == ButtonPtr())
     return;
@@ -135,8 +143,10 @@ void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
   // If the button is that of the selected app, minimize it.
   if (btn->IsState(BTN_ACTIVE)) {
     SetForegroundWindow(btn->GetAppHandle());
-    ShowWindowAsync(btn->GetAppHandle(), SW_MINIMIZE);
-    btn->ClearState(BTN_ACTIVE);
+    if (!bFullScreen) {
+      ShowWindowAsync(btn->GetAppHandle(), SW_MINIMIZE);
+      btn->ClearState(BTN_ACTIVE);
+    }
   } else {
     // If the window is minimized, let's restore it.
     if (IsIconic(btn->GetAppHandle()))

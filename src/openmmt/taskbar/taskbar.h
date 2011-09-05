@@ -135,7 +135,7 @@ public:
   /**
    * An application has left full screen.
    */
-  void AppLeaveFullScreen(HWND hWnd);
+  void AppLeaveFullScreen(HWND hWnd, BOOL fLostFocus = FALSE);
 
   /**
    * Creates a button for an application.
@@ -168,11 +168,6 @@ public:
   void SetLayout(BOOL bHorizontal);
 
   /**
-   * Modifies the Taskbar's dimensions.
-   */
-  void SetDimensions(LONG mWidth, LONG mHeight);
-
-  /**
    * Activates an application.
    */
   void ActivateApp(HWND hWnd);
@@ -199,6 +194,11 @@ public:
   const HWND GetWindowHandle();
 
   /**
+   * Returns the handle to the full screen app.
+   */
+  const HWND GetFullScreenApp();
+
+  /**
    * Gets the current position of the taskbar.
    */
   const INT GetPosition();
@@ -213,6 +213,11 @@ public:
    * are declared on this header.
    */
   BOOL IsPosition(INT pos);
+
+  /**
+   * Returns true if there is an app running fullscreen.
+   */
+  BOOL AppIsFullScreen();
 
   /**
    * Gets button based on index.
@@ -238,6 +243,7 @@ private:
   HTHEME m_hTheme;                    /**< Taskbar's theme. */
   HWND  m_hWnd;                       /**< Taskbar's window handle. */
   HWND  m_hWndLastActive;             /**< Handle to the last active application. */
+  HWND  m_hWndFullScreen;             /**< Application that's full screen. */
   RECT  m_AppBarRect;                 /**< Rect of the app bar. */
   LONG m_X;                           /**< Taskbar's x position. */
   LONG m_Y;                           /**< Taskbar's y position. */

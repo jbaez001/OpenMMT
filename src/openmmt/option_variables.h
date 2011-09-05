@@ -23,6 +23,7 @@
 extern BOOL g_bOptions_EnableThumbnails;
 extern BOOL g_bOptions_EnableThumbnailAnimation;
 extern BOOL g_bOptions_EnableTrayIcon;
+extern BOOL g_bOptions_ShowTaskbarWhenFullScreenLoosesFocus;
 
 extern INT32  g_iOptions_ThumbnailSpacer;
 extern UINT32 g_iOptions_ThumbnailDestroyTimer;

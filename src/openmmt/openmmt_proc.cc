@@ -20,6 +20,7 @@
 #include "openmmt/global_variables.h"
 #include "openmmt/messages.h"
 #include "openmmt/resource.h"
+#include "openmmt/option_variables.h"
 #include "openmmt/taskbar/taskbar_event.h"
 #include "openmmt/ui/about_dlg.h"
 #include "openmmt/ui/settings_dlg.h"
@@ -160,6 +161,21 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
 
       if (bar != TaskbarPtr()) {
         bar->ActivateApp((HWND)wParam);
+      }
+    }
+    return TRUE;
+
+  case TASKBAR_WINDOW_KILLFOCUS:
+    {
+      if (!g_bOptions_ShowTaskbarWhenFullScreenLoosesFocus)
+        return TRUE;
+
+      TaskbarPtr pTaskbar(g_pMonitorManager->FindMonitorTaskbar((HWND)wParam));
+
+      if (pTaskbar != TaskbarPtr()) {
+        if ((pTaskbar->AppIsFullScreen()) && (pTaskbar->GetFullScreenApp() == (HWND)wParam)) {
+          pTaskbar->AppLeaveFullScreen((HWND)wParam, TRUE);
+        }
       }
     }
     return TRUE;

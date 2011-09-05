@@ -43,6 +43,7 @@ public:
 private:
   CButton m_btnSetThumbnails;
   CButton m_btnSetTrayIcon;
+  CButton m_btnSetLooseFocus;
 };
 
 #endif // OPENMMT_UI_SETTINGS_DLG_H

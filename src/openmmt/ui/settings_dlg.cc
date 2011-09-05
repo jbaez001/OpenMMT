@@ -27,9 +27,11 @@ LRESULT DlgSettings::OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL 
 
   m_btnSetThumbnails = GetDlgItem(IDC_CHECK_THUMBNAILS);
   m_btnSetTrayIcon   = GetDlgItem(IDC_CHECK_TRAY_ICON);
-  
+  m_btnSetLooseFocus  = GetDlgItem(IDC_CHECK_LOOSE_FOCUS);
+
   m_btnSetThumbnails.SetCheck(g_bOptions_EnableThumbnails ? 1 : 0);
   m_btnSetTrayIcon.SetCheck(g_bOptions_EnableTrayIcon ? 1 : 0);
+  m_btnSetLooseFocus.SetCheck(g_bOptions_ShowTaskbarWhenFullScreenLoosesFocus ? 1 : 0);
 
   return TRUE;
 }
@@ -55,6 +57,12 @@ LRESULT DlgSettings::OnApply(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL &bHa
   } else if ((m_btnSetTrayIcon.GetCheck()) && (!g_bOptions_EnableTrayIcon)) {
     g_bOptions_EnableTrayIcon = TRUE;
     WndTrayIconAdd();
+  }
+
+  if ((m_btnSetLooseFocus.GetCheck() == 0) && (g_bOptions_ShowTaskbarWhenFullScreenLoosesFocus)) {
+    g_bOptions_ShowTaskbarWhenFullScreenLoosesFocus = FALSE;
+  } else if ((m_btnSetLooseFocus.GetCheck()) && (!g_bOptions_ShowTaskbarWhenFullScreenLoosesFocus)) {
+    g_bOptions_ShowTaskbarWhenFullScreenLoosesFocus = TRUE;
   }
 
   return 0;
