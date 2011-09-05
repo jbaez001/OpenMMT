@@ -303,6 +303,8 @@ void Button::OnPaint()
       x = ((m_rcDeviceRect.right - imgSize.width) / 2);
       y = ((m_rcDeviceRect.bottom - imgSize.height) / 2);
     }
+    x = floor(x);
+    y = floor(y);
 
     // If the button is pressed, let's increment the coordinates by 1 to
     // give it a "feel" of being "pushed."
