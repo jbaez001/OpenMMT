@@ -114,12 +114,20 @@ BOOL WndShouldDisplay(HWND hWnd)
   LONG_PTR dwExFlags = GetWindowLongPtr(hWnd, GWL_EXSTYLE);
   HWND hWndOwner = GetWindow(hWnd, GW_OWNER);
 
-  if (((!(dwExFlags & WS_EX_TOOLWINDOW)) && (!hWndOwner)) ||
-    (dwExFlags & WS_EX_APPWINDOW) && (hWndOwner))
+  if (!(dwExFlags & WS_EX_TOOLWINDOW) && !hWndOwner)
     return TRUE;
 
-  if (hWndOwner && (WS_EX_CONTROLPARENT))
+  if ((dwExFlags & WS_EX_APPWINDOW) && hWndOwner)
     return TRUE;
+
+  if ((dwExFlags & WS_EX_TOOLWINDOW) && (dwExFlags & WS_EX_APPWINDOW))
+    return TRUE;
+
+  if ((dwExFlags & WS_EX_CONTROLPARENT) && hWndOwner) {
+    HWND hWndGrandfather = GetWindow(hWndOwner, GW_OWNER);
+    if (!IsWindowVisible(hWndGrandfather))
+      return TRUE;
+  }
 
   return FALSE;
 }

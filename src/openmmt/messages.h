@@ -31,6 +31,7 @@ enum OpenMMTMessages {
   TASKBAR_WINDOW_MOVESIZE,          /**< A window is being moved or resized.     */
   TASKBAR_WINDOW_POSCHANGED,        /**< A window's position has just changed.   */
   TASKBAR_WINDOW_SETFOCUS,          /**< A window is gaining keyboard focus.     */
+  TASKBAR_WINDOW_STYLECHANGED,      /**< A window's style has changed.           */
   TASKBAR_WINDOW_MINMAX,            /**< A window's pos/size is about to change. */
   TASKBAR_WINDOW_MINIMIZE,          /**< A window is being minimized.            */
   TASKBAR_WINDOW_MAXIMIZE,          /**< A window is being maximized.            */

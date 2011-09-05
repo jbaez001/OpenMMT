@@ -165,6 +165,12 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
     }
     return TRUE;
 
+  case TASKBAR_WINDOW_STYLECHANGED:
+    {
+      g_pAppManager->CheckWindow((HWND)wParam);
+    }
+    return TRUE;
+
   case TASKBAR_WINDOW_KILLFOCUS:
     {
       if (!g_bOptions_ShowTaskbarWhenFullScreenLoosesFocus)
