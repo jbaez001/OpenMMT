@@ -420,7 +420,7 @@ void Taskbar::CreateButton(ApplicationPtr pAbb)
     MessageBox(NULL, L"Could not retrieve taskbar for an application", L"OpenMMT", MB_OK|MB_ICONERROR);
     abort();
   }
-
+  
   if (m_bHorizontal) {
     pBtn = ButtonPtr(new Button(pAbb->GetId(), pAbb->GetTaskbar()->GetWindowHandle(), 
       GetCoordinatesAtIndex(m_TotalButtons), 0, m_BtnWidth, m_BtnHeight, m_TotalButtons));
@@ -522,18 +522,11 @@ void Taskbar::SetLayout(BOOL bHorizontal)
     m_BtnWidth  = !m_bHorizontal ? m_Width : 70;
     m_BtnHeight = m_bHorizontal ? m_Height : 50;
   } else {
-    m_BtnWidth  = !m_bHorizontal ? m_Width : 65;
-    m_BtnHeight = m_bHorizontal ? m_Height : 45;
+    m_BtnWidth  = !m_bHorizontal ? m_Width : 60;
+    m_BtnHeight = m_bHorizontal ? m_Height : 40;
   }
-
-  dprintf("%ix%i\n", m_BtnWidth, m_BtnHeight);
   m_MaxButtons = (bHorizontal ? (m_Width / m_BtnWidth) : 
     (m_Height / m_BtnHeight));
-
-  if (!m_hTheme) {
-    m_BtnHeight -= 2;
-    m_BtnWidth  -= 2;
-  }
 
   if (g_bUsingSmallIcons) {
     if (m_bHorizontal)

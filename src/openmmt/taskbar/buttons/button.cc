@@ -270,7 +270,6 @@ void Button::OnPaint()
 
     // Get the image size and create a rectangle to position it on.
     D2D1_SIZE_F imgSize  = m_pBitmap->GetSize();
-
     int factor = g_pMonitorManager->IsFunkeyDPI() ? 30 : 32;
 
     // If the icons are not FxF, then scale them we must.
@@ -304,7 +303,6 @@ void Button::OnPaint()
       x = ((m_rcDeviceRect.right - imgSize.width) / 2);
       y = ((m_rcDeviceRect.bottom - imgSize.height) / 2);
     }
-
 
     // If the button is pressed, let's increment the coordinates by 1 to
     // give it a "feel" of being "pushed."
@@ -394,7 +392,7 @@ void Button::OnPaint()
     }
 
     // Draw the application icon.
-    m_pRenderTarget->DrawBitmap(m_pBitmap, destRect, 1.0f);
+    m_pRenderTarget->DrawBitmap(m_pBitmap, destRect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 
     if (EndDraw() == D2DERR_RECREATE_TARGET)
       ReleaseExtraResources();
