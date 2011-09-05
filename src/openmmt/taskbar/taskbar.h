@@ -165,7 +165,7 @@ public:
   /**
    * Sets the layout based on the perspective.
    */
-  void SetLayout(BOOL bHorizontal);
+  void SetLayout(BOOL bHorizontal, BOOL bRedraw = FALSE);
 
   /**
    * Activates an application.

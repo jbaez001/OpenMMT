@@ -20,7 +20,6 @@
 #include "libsys/api.h"
 #include "openmmt/messages.h"
 #include <cmath>
-#include <stdio.h>
 
 // Global declarations
 #pragma data_seg(".SHARDATA")
@@ -86,7 +85,6 @@ static void SendTaskbarMsg(UINT mMsg, HWND hWnd, LPARAM lParam = NULL)
   PostMessage(g_hWndOpenMMT, mMsg, (WPARAM)hWnd, lParam);
 }
 
-
 // Window Snaps, oh my!
 static BOOL IsCloseToEdge(LONG iPos, LONG iEdge) {
   return (abs(iPos - iEdge) < g_iWindowSnapMargin);
@@ -149,11 +147,17 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
       }
       break;
 
-    case WM_STYLECHANGED:
+    case WM_SHOWWINDOW:
       {
-        SendTaskbarMsg(TASKBAR_WINDOW_STYLECHANGED, lpCwp->hwnd);
+        BOOL bShow = (BOOL) lpCwp->wParam;
+        SendTaskbarMsg(bShow ? TASKBAR_WINDOW_ACTIVATE : TASKBAR_WINDOW_DESTROY, lpCwp->hwnd);
       }
       break;
+
+    case WM_STYLECHANGED:
+        SendTaskbarMsg(TASKBAR_WINDOW_STYLECHANGED, lpCwp->hwnd);
+      break;
+
       /*
     case WM_MOVE:
       {

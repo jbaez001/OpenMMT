@@ -76,7 +76,6 @@ void ButtonEvent::OnMouseHoover(HWND hWnd, HDC hDC, LPRECT lpRect)
     if (btn == ButtonPtr())
       return;
     
-    
     if (g_pThumbnailManager->isThumbnailPresent()) {
       if (g_pThumbnailManager->GetThumbnailedButton() != btn->GetButtonHandle()) {
         g_pThumbnailManager->DestroyThumbnail();
@@ -144,7 +143,7 @@ void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
   if (btn->IsState(BTN_ACTIVE)) {
     SetForegroundWindow(btn->GetAppHandle());
     if (!bFullScreen) {
-      ShowWindowAsync(btn->GetAppHandle(), SW_MINIMIZE);
+      PostMessage(btn->GetAppHandle(), WM_SYSCOMMAND, SC_MINIMIZE, MAKELPARAM(0, 0));
       btn->ClearState(BTN_ACTIVE);
     }
   } else {

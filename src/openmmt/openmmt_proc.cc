@@ -122,10 +122,6 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
     }
     break;
 
-  // Regular Window Messages (WM).
-  case WM_CREATE:
-    break;
-
   case WM_CLOSE:
     DestroyWindow(hWnd);
     break;
@@ -235,8 +231,6 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
           DlgAbout aboutDlg;
           aboutDlg.DoModal();
         }
-        break;
-      default:
         break;
       }
     }

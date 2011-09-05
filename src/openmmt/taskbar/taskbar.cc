@@ -207,11 +207,12 @@ void Taskbar::Initialize()
 
 void Taskbar::AddApplication(ApplicationPtr app)
 {
-  if ((m_TotalButtons + 1) > m_MaxButtons)
-    return;
-
   AddObject(app);
   CreateButton(app);
+
+  if ((m_TotalButtons) > m_MaxButtons) {
+    SetLayout(m_bHorizontal, TRUE);
+  }
 }
 
 void Taskbar::RemoveApplication(ApplicationPtr app)
@@ -490,7 +491,9 @@ void Taskbar::RemoveButton(ButtonPtr pBtn)
   if ((m_bFullScreen) && (m_hWndFullScreen) && (m_hWndFullScreen == pBtn->GetAppHandle()))
     AppLeaveFullScreen(pBtn->GetAppHandle());
 
-  m_TotalButtons--;
+  if (m_TotalButtons-- >= m_MaxButtons)
+    SetLayout(m_bHorizontal);
+
   RedrawButtons();
 }
 
@@ -520,7 +523,7 @@ void Taskbar::RedrawButtons()
   }
 }
 
-void Taskbar::SetLayout(BOOL bHorizontal)
+void Taskbar::SetLayout(BOOL bHorizontal, BOOL bRedraw)
 {
   m_bHorizontal = bHorizontal;
 
@@ -533,13 +536,24 @@ void Taskbar::SetLayout(BOOL bHorizontal)
     m_BtnHeight = m_bHorizontal ? m_Height : 40;
   }
   m_MaxButtons = (bHorizontal ? (m_Width / m_BtnWidth) : 
-    (m_Height / m_BtnHeight));
+    (m_Height / m_BtnHeight)) - 1;
 
   if (g_bUsingSmallIcons) {
     if (m_bHorizontal)
       m_BtnWidth  -= 10;
     else
       m_BtnHeight -= 10;
+  }
+  if (m_TotalButtons > m_MaxButtons) {
+    int x = (m_TotalButtons-m_MaxButtons);
+    
+    if (m_bHorizontal)
+      m_BtnWidth -= x*2;
+    else
+      m_BtnHeight -= x*2;
+
+    if (bRedraw)
+      RedrawButtons();
   }
 }
 

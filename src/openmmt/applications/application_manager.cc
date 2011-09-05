@@ -92,9 +92,10 @@ void ApplicationManager::CheckWindow(const HWND hWnd)
   ApplicationPtr app = FindApplication(hWnd);
 
   if (app != ApplicationPtr()) {
-    if (!IsWindowVisible(hWnd) || !WndShouldDisplay(hWnd))
+    if (!IsIconic(hWnd) && !WndShouldDisplay(hWnd)) {
       g_pAppManager->RemoveApplication(hWnd);
-  } else if (!IsWindowVisible(hWnd) || !WndShouldDisplay(hWnd)) {
+    }
+  } else if (!WndShouldDisplay(hWnd)) {
     return;
   }
 
