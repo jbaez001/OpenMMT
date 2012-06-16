@@ -25,8 +25,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsys32", "src\libsys32\li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "openmmt32", "src\openmmt32\openmmt32.vcxproj", "{6793A779-4EBE-46A1-98D8-42C634E7A1C8}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "openmmt_x64", "src\installers\openmmt_x64\openmmt_x64.wixproj", "{90D11077-1C70-4E27-8DC2-3F21D404BED4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
