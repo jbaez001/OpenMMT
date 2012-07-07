@@ -18,6 +18,7 @@
  */
 #include "libsys/sys.h"
 #include "libsys/api.h"
+#include "base/windows.h"
 #include "openmmt/messages.h"
 #include <cmath>
 
@@ -34,33 +35,6 @@
 
 #pragma comment(linker, "/SECTION:.SHARDATA,RWS")
 
-// Taken from openmmt/windows.cc
-// TODO: Create a generic "base" library and import this from it.
-static BOOL WndShouldDisplay(HWND hWnd)
-{
-  if (!hWnd || !IsWindowVisible(hWnd) || GetParent(hWnd))
-    return FALSE;
-
-  LONG_PTR dwExFlags = GetWindowLongPtr(hWnd, GWL_EXSTYLE);
-  HWND hWndOwner = GetWindow(hWnd, GW_OWNER);
-
-  if (!(dwExFlags & WS_EX_TOOLWINDOW) && !hWndOwner)
-    return TRUE;
-
-  if ((dwExFlags & WS_EX_APPWINDOW) && hWndOwner)
-    return TRUE;
-
-  if ((dwExFlags & WS_EX_TOOLWINDOW) && (dwExFlags & WS_EX_APPWINDOW))
-    return TRUE;
-
-  if ((dwExFlags & WS_EX_CONTROLPARENT) && hWndOwner) {
-    HWND hWndGrandfather = GetWindow(hWndOwner, GW_OWNER);
-    if (!IsWindowVisible(hWndGrandfather))
-      return TRUE;
-  }
-    
-  return FALSE;
-}
 
 static void SendTaskbarMsg(UINT mMsg, HWND hWnd, LPARAM lParam = NULL)
 {

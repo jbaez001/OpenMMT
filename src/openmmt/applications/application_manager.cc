@@ -17,10 +17,12 @@
  *
  */
 #include "openmmt/precompiled_headers.h"
+#include "base/windows.h"
 #include "openmmt/global_variables.h"
 #include "openmmt/applications/application_manager.h"
 #include "openmmt/monitors/monitor.h"
 #include "openmmt/windows/windows.h"
+#include "base/windows.h"
 
 ApplicationManager::ApplicationManager()
 {
