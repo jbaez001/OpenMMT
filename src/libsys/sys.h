@@ -24,8 +24,6 @@
 #include <Windows.h>
 
 extern BOOL  g_bHooksInstalled;
-extern BOOL  g_bWindowsSnap;
-extern INT32 g_iWindowSnapMargin;
 extern HHOOK g_hHookProc;
 extern HWND  g_hWndOpenMMT;
 extern HWND  g_hWndHelper;

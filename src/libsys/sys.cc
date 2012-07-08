@@ -25,10 +25,7 @@
 // Global declarations
 #pragma data_seg(".SHARDATA")
   BOOL  g_bHooksInstalled     = FALSE;
-  BOOL  g_bWindowsSnap        = TRUE;
-  INT32 g_iWindowSnapMargin   = 100;
   HHOOK g_hHookProc   = {0};
-  HHOOK g_hWindowSnap = {0};
   HWND  g_hWndOpenMMT = {0};
   HWND  g_hWndHelper  = {0};
 #pragma data_seg()
@@ -57,11 +54,6 @@ static void SendTaskbarMsg(UINT mMsg, HWND hWnd, LPARAM lParam = NULL)
 
   // Note that we use PostMessage instead of SendMessage.
   PostMessage(g_hWndOpenMMT, mMsg, (WPARAM)hWnd, lParam);
-}
-
-// Window Snaps, oh my!
-static BOOL IsCloseToEdge(LONG iPos, LONG iEdge) {
-  return (abs(iPos - iEdge) < g_iWindowSnapMargin);
 }
 
 LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
@@ -132,38 +124,6 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
         SendTaskbarMsg(TASKBAR_WINDOW_STYLECHANGED, lpCwp->hwnd);
       break;
 
-      /*
-    case WM_MOVE:
-      {
-        RECT rc = {0};
-        RECT workRect = {0};
-
-        if (!GetWindowRect(lpCwp->hwnd, &rc) ||
-            !SystemParametersInfo(SPI_GETWORKAREA, 0, &workRect, 0))
-          break;
-
-        // POINT ptCords = { LOWORD(lpCwp->lParam), HIWORD(lpCwp->lParam) };
-
-        if (IsCloseToEdge(rc.left, workRect.left))
-          OffsetRect(&rc, (workRect.left - rc.left), 0);
-
-        if (IsCloseToEdge(rc.top, workRect.top))
-          OffsetRect(&rc, 0, (workRect.top - rc.top));
-
-        if (IsCloseToEdge(rc.right, workRect.right))
-          OffsetRect(&rc, (workRect.right - rc.right), 0);
-
-        if (IsCloseToEdge(rc.bottom, workRect.bottom))
-          OffsetRect(&rc, 0, (workRect.bottom - rc.bottom));
-
-        POINT pt = { rc.left, rc.top };
-
-        ClientToScreen(lpCwp->hwnd, &pt);
-        SetWindowPos(lpCwp->hwnd, NULL, pt.x, pt.y, 
-          (rc.right - rc.left), (rc.bottom -rc.top), 
-          SWP_ASYNCWINDOWPOS);
-      }
-      break;*/
     }
   }
   return CallNextHookEx(0, nCode, wParam, lParam);
