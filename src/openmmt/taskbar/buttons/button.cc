@@ -24,6 +24,8 @@
 
 static HWND GetProperHandle(HWND hWnd)
 {
+  // I need to rethink this one.
+#if 0
   HWND hwParentWindow = (HWND) GetWindowLongPtr(hWnd, GWLP_HWNDPARENT);
 
   // If the child or descendant window controls the parent, then we must
@@ -32,6 +34,7 @@ static HWND GetProperHandle(HWND hWnd)
   if ((hwParentWindow) && (GetWindowLongPtr(hWnd, GWL_EXSTYLE) & 
     WS_EX_CONTROLPARENT))
     return hwParentWindow;
+#endif
 
   return hWnd;
 }
@@ -129,9 +132,7 @@ void Button::CreateButton()
 
   ShowWindow(m_hWnd, SW_SHOW);
 
-  if (IsWindow(m_hWndApp)) {
-    g_pWinTaskbar->RemoveButton(GetProperHandle(m_hWndApp));
-  }
+  RemoveTaskbarButton();
 
   if (m_hWndApp == GetForegroundWindow()) {
     TaskbarPtr bar(g_pMonitorManager->FindMonitorTaskbar(m_hWndApp));
@@ -168,6 +169,18 @@ void Button::OnMouseHoover()
 void Button::OnMouseLeave()
 {
   m_bMayHoover = false;
+}
+
+void Button::RemoveTaskbarButton()
+{
+#ifdef DEBUG
+  printf("Attempting to remove %08X from main taskbar. Proper: %08X\n", 
+    m_hWndApp, GetProperHandle(m_hWndApp));
+#endif
+
+	if (IsWindow(m_hWndApp)) {
+		g_pWinTaskbar->RemoveButton(GetProperHandle(m_hWndApp));
+	}
 }
 
 void Button::AddState(INT state)
@@ -244,7 +257,6 @@ void Button::OnEraseBackground()
 
 void Button::OnPaint()
 {
-  
   // Check to see if the application that the button represents is still
   // valid. If not, get rid of the button. It really shouldn't come down
   // to this. If this procedure is being called as such, then something
