@@ -99,6 +99,14 @@ void MonitorManager::SetFirstActive()
   }
 }
 
+void MonitorManager::UpdateWorkspace()
+{
+	for (ObjectIterator it = vector_.begin();
+		it != vector_.end(); ++it) {
+			it->get()->UpdateMonitor();
+	}
+}
+
 MonitorPtr MonitorManager::FindMonitor(const HWND hWnd)
 {
   const HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONULL);

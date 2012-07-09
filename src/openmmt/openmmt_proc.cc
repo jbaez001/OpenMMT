@@ -24,6 +24,7 @@
 #include "openmmt/taskbar/taskbar_event.h"
 #include "openmmt/ui/about_dlg.h"
 #include "openmmt/ui/settings_dlg.h"
+#include "openmmt/windows/os.h"
 #include "libsys/api.h"
 #include <dbt.h>
 
@@ -141,6 +142,15 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
         SendMessage(g_hWndHelper, WM_DESTROY, NULL, NULL);
     }
     break;
+
+  case WM_WTSSESSION_CHANGE:
+	  {
+      UINT uSessionMsg = (UINT) wParam;
+      if (uSessionMsg == WTS_SESSION_UNLOCK) {
+        g_pMonitorManager->UpdateWorkspace();
+      }
+	  }
+	  break;
 
   // OpenMMT Messages.
   case TASKBAR_WINDOW_CREATE:

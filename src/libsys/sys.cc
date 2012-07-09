@@ -20,7 +20,7 @@
 #include "libsys/api.h"
 #include "base/windows.h"
 #include "openmmt/messages.h"
-#include <cmath>
+
 
 // Global declarations
 #pragma data_seg(".SHARDATA")

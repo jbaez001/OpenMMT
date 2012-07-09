@@ -74,5 +74,6 @@ extern CAppModule _Module;
 #pragma comment( lib, "D2d1.lib" )      // Direct 2D
 #pragma comment( lib, "Shell32.lib" )   // ShellExecute
 #pragma comment( lib, "Gdi32.lib" )     // GDI+
+#pragma comment( lib, "Wtsapi32.lib")   // WTSRegisterSessionNotification
 // EOF
 

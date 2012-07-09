@@ -74,6 +74,11 @@ public:
   void SetFirstActive();
 
   /**
+   * Updates the workspace on all the respective monitors.
+   */
+  void UpdateWorkspace();
+
+  /**
    * Finds the owning monitor of an application.
    */
   MonitorPtr FindMonitor(const HWND hWnd);

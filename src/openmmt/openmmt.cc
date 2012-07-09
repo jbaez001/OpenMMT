@@ -24,6 +24,7 @@
 #include "openmmt/windows/taskbar_interface.h"
 #include "openmmt/windows/windows.h"
 #include "libsys/api.h"
+#include <Wtsapi32.h>
 
 // Initialization functions outside this scope.
 extern void _InitializeInternals();
@@ -78,6 +79,7 @@ void OpenMMT_Run(HINSTANCE hInstance)
   if (!g_hWndOpenMMT)
     return;
 
+  WTSRegisterSessionNotification(g_hWndOpenMMT, NOTIFY_FOR_THIS_SESSION);
   g_uMsgShellHook = RegisterWindowMessage(L"SHELLHOOK");
   g_uiAppBarMsg   = RegisterWindowMessage(L"OPENMMTAPPBAR");
 
