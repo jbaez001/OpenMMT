@@ -171,6 +171,12 @@ void Button::OnMouseLeave()
   m_bMayHoover = false;
 }
 
+void Button::Persist()
+{
+  // if (OSIsServer08Vista())
+  RemoveTaskbarButton();
+}
+
 void Button::RemoveTaskbarButton()
 {
 #ifdef DEBUG
@@ -274,6 +280,7 @@ void Button::OnPaint()
 
   if (!IsDeviceSet())
     SetDevice(m_hWnd);
+  Persist();
 
   if (SUCCEEDED(CreateDeviceResources())) {
     // TODO: We need to implement error checks on CreateExtraResources,

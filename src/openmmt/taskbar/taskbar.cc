@@ -566,7 +566,11 @@ void Taskbar::ActivateApp(HWND hWnd)
       return;
     }
   }
-  ButtonPtr btn;
+  
+  ButtonPtr btn = GetButtonFromApp(hWnd);
+
+  if (btn != ButtonPtr())
+    btn->Persist();
 
   if (!m_hWndLastActive) {
     m_hWndLastActive = hWnd;
@@ -580,8 +584,6 @@ void Taskbar::ActivateApp(HWND hWnd)
     old_btn->ClearState(BTN_ACTIVE);
     InvalidateRect(old_btn->GetButtonHandle(), NULL, TRUE);
   }
-
-  btn = GetButtonFromApp(hWnd);
 
   if (btn != ButtonPtr()) {
     btn->AddState(BTN_ACTIVE);

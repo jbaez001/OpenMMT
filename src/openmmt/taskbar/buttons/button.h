@@ -110,6 +110,10 @@ public:
   void OnMouseHoover();
   void OnMouseLeave();
 
+  /**
+   * Basically the same as RemoveTaskbarButton.
+   */
+  void Persist();
 
   /**
    * Removes the application's icon from the Windows taskbar.
