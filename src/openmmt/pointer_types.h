@@ -25,11 +25,13 @@ class Button;
 class Monitor;
 class Taskbar;
 
+#include <memory>
+
 // OpenMMT
-typedef std::tr1::shared_ptr<Application> ApplicationPtr;
-typedef std::tr1::shared_ptr<Monitor> MonitorPtr;
-typedef std::tr1::shared_ptr<Taskbar> TaskbarPtr;
-typedef std::tr1::shared_ptr<Button> ButtonPtr;
+typedef std::shared_ptr<Application> ApplicationPtr;
+typedef std::shared_ptr<Monitor> MonitorPtr;
+typedef std::shared_ptr<Taskbar> TaskbarPtr;
+typedef std::shared_ptr<Button> ButtonPtr;
 
 #endif // OPENMMT_POINTER_TYPES_H
 
