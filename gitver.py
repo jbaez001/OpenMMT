@@ -62,7 +62,6 @@ class gitver:
     
     # If we fail for whatever reason, let's just update it anyways. Why not?
     except:
-      pass
       return True
   
   # Updates the version file.
