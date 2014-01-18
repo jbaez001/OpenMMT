@@ -31,3 +31,4 @@ OpenMMT.opensdf
 ipch/*
 *.ipch
 *.opensdf
+src/version.h
