@@ -158,6 +158,11 @@ public:
   void RemoveButton(ButtonPtr pBtn);
 
   /**
+   * Redraws the taskbar.
+   */
+  void Redraw();
+
+  /**
    * Redraws the buttons.
    */
   void RedrawButtons();

@@ -1,0 +1,3 @@
+Changes for 1.0.9
+--------------------------------------
+- Shifted from WH_CALLWNDPROCRET to WH_CALLWNDPROC

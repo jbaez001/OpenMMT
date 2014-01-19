@@ -28,7 +28,7 @@ extern HHOOK g_hHookProc;
 extern HWND  g_hWndOpenMMT;
 extern HWND  g_hWndHelper;
 
-extern LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam);
+extern LRESULT CALLBACK CallWndRet(int nCode, WPARAM wParam, LPARAM lParam);
 
 #endif // SYSTEMHOOKS_SYS_H
 

@@ -84,8 +84,8 @@ int __stdcall WinMain( __in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstanc
   if (!SysHooksStart(hWndOpenMMT))
     return 0;
 
-  SendMessage(hWndOpenMMT, TASKBAR_X86_SUPPORT_HELLO, (WPARAM)hWndHelper, NULL);
   SysHookSetHelper(hWndHelper);
+  SendMessage(hWndOpenMMT, TASKBAR_X86_SUPPORT_HELLO, (WPARAM)hWndHelper, NULL);
 
   MSG msg;
 

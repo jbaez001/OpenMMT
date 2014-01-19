@@ -80,10 +80,10 @@ void OpenMMT_Run(HINSTANCE hInstance)
     return;
 
   WTSRegisterSessionNotification(g_hWndOpenMMT, NOTIFY_FOR_THIS_SESSION);
-  g_uMsgShellHook = RegisterWindowMessage(L"SHELLHOOK");
-  g_uiAppBarMsg   = RegisterWindowMessage(L"OPENMMTAPPBAR");
 
   RegisterShellHookWindow(g_hWndOpenMMT);
+  g_uMsgShellHook = RegisterWindowMessage(L"SHELLHOOK");
+  g_uiAppBarMsg   = RegisterWindowMessage(L"OPENMMTAPPBAR");
 
   g_pMonitorManager   = new MonitorManager();
   g_pAppManager       = new ApplicationManager();
@@ -106,7 +106,6 @@ void OpenMMT_Run(HINSTANCE hInstance)
     WndRunMessageThread();
     DeregisterShellHookWindow(g_hWndOpenMMT);
     WndStopDeviceMonitor();
-    SysHooksStop();
 
     // Tell the helper to close if its still open.
 #if  defined(_WIN64)
@@ -114,6 +113,10 @@ void OpenMMT_Run(HINSTANCE hInstance)
       SendMessage(g_hWndHelper, WM_CLOSE, 0, 0);
     }
 #endif
+
+    SysHooksStop();
+
+
   } else {
     abort();
   }

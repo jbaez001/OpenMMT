@@ -21,7 +21,6 @@
 #include "base/windows.h"
 #include "openmmt/messages.h"
 
-
 // Global declarations
 #pragma data_seg(".SHARDATA")
   BOOL  g_bHooksInstalled     = FALSE;
@@ -56,10 +55,10 @@ static void SendTaskbarMsg(UINT mMsg, HWND hWnd, LPARAM lParam = NULL)
   PostMessage(g_hWndOpenMMT, mMsg, (WPARAM)hWnd, lParam);
 }
 
-LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CallWndRet(int nCode, WPARAM wParam, LPARAM lParam)
 {
   if (nCode >= 0) {
-    PCWPRETSTRUCT lpCwp = (PCWPRETSTRUCT)lParam;
+    PCWPSTRUCT lpCwp = (PCWPSTRUCT)lParam;
 
     switch (lpCwp->message)
     {
@@ -78,6 +77,7 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
       }
       break;
 
+    case WM_WINDOWPOSCHANGING:
     case WM_WINDOWPOSCHANGED:
         SendTaskbarMsg(TASKBAR_WINDOW_POSCHANGED, lpCwp->hwnd, lpCwp->lParam);
       break;

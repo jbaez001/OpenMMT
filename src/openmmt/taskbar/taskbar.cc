@@ -182,7 +182,7 @@ void Taskbar::SetWorkSpace(LPRECT rcMonitor, LPRECT rcWork, INT mPosition)
       SWP_SHOWWINDOW);
 
     ReleaseDeviceResources();
-    InvalidateRect(m_hWnd, NULL, TRUE);
+    Redraw();
     RedrawButtons();
   }
 }
@@ -495,6 +495,11 @@ void Taskbar::RemoveButton(ButtonPtr pBtn)
     SetLayout(m_bHorizontal);
 
   RedrawButtons();
+}
+
+void Taskbar::Redraw()
+{
+  InvalidateRect(m_hWnd, NULL, TRUE);
 }
 
 void Taskbar::RedrawButtons()

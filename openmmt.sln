@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{74622353-2724-4921-B035-FF32459482A2}"
 	ProjectSection(SolutionItems) = preProject
 		Authors.txt = Authors.txt
+		Changes.txt = Changes.txt
 		GNU.txt = GNU.txt
 		Readme.txt = Readme.txt
 	EndProjectSection

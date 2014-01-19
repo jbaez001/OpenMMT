@@ -39,7 +39,7 @@ SYSTEMHOOKS_API BOOL SysHooksStart(HWND hWnd)
   if (!hMod)
     return FALSE;
 
-  if (!(g_hHookProc = SetWindowsHookEx(WH_CALLWNDPROCRET, &CallWndRetProc, hMod, 0)))
+  if (!(g_hHookProc = SetWindowsHookEx(WH_CALLWNDPROC, &CallWndRet, hMod, 0)))
     return FALSE;
 
   g_bHooksInstalled = TRUE;

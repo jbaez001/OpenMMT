@@ -72,6 +72,7 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
       }
       break;
 
+#if 0
     // A window is being activated.
     case HSHELL_WINDOWACTIVATED:
       {
@@ -82,11 +83,13 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
         }
       }
       break;
+#endif
 
     // A window is being flashed.
     case HSHELL_FLASH:
       {
         TaskbarPtr bar = g_pMonitorManager->FindMonitorTaskbar((HWND)lParam);
+
         if (!bar)
           break;
 
@@ -96,6 +99,16 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
           break;
 
         btn->Flash();
+      }
+      break;
+
+    case HSHELL_REDRAW:
+      {
+        TaskbarPtr bar = g_pMonitorManager->FindMonitorTaskbar((HWND)wParam);
+
+        if (bar)
+          bar->Redraw();
+
       }
       break;
 
