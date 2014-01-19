@@ -192,7 +192,7 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
 
   case TASKBAR_WINDOW_KILLFOCUS:
     {
-      if (!g_bOptions_ShowWhenFocusLost)
+      if (!g_bOptions_ShowTaskbarWhenFullAppLostFocus)
         return TRUE;
 
       TaskbarPtr pTaskbar(g_pMonitorManager->FindMonitorTaskbar((HWND)wParam));
@@ -203,6 +203,7 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
         }
       }
     }
+
     return TRUE;
 
   case TASKBAR_WINDOW_DESTROY:

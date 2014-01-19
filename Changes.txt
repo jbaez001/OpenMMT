@@ -2,3 +2,4 @@ Changes for 1.0.9
 --------------------------------------
 - Shifted from WH_CALLWNDPROCRET to WH_CALLWNDPROC
 - Added new method to Taskbar class "Redraw"
+- Renamed g_bOptions_ShowWhenFocusLost to f
