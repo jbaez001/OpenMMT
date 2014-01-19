@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="OpenMMT" Language="1033" Version="!(bind.FileVersion.OpenMMT_Exe)" Manufacturer="Genscripts" UpgradeCode="4922e830-583b-47e1-b686-c2105fc03faa">
+		<Package Id="*" InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes"/>
+		<Feature Id="ProductFeature" Title="Installer" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <UIRef Id="WixUI_InstallDir" />
+    <WixVariable Id="WixUILicenseRtf" Value="../../License.rtf"/>
+	</Product>
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+      <?if $(var.Platform) = x64 ?>
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="INSTALLFOLDER" Name="OpenMMT" />
+      </Directory>
+      <?else?>
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="OpenMMT" />
+      </Directory>
+      <?endif?>
+		</Directory>
+	</Fragment>  
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Guid="{3D42164C-B544-427B-9427-434DE7D2DB3B}">
+        <File Id="OpenMMT_Exe" Source="$(var.openmmt.TargetPath)" KeyPath="yes" />
+      </Component>
+      <Component Guid="{65519681-949D-457F-AAAB-241E74384337}">
+        <File Source="$(var.libsys.TargetPath)" KeyPath="yes" />
+      </Component>
+      <Component Guid="{983C5BD4-A345-4DFF-BEB1-95E398E441E3}">
+        <File Source="../../Authors.txt" KeyPath="yes"/>
+      </Component>
+      <Component Guid="{8EC4F39D-19EF-494D-B830-332C6C7DC9FA}">
+        <File Source="../../Changes.txt" KeyPath="yes"/>
+      </Component>
+      <Component Guid="{F066F211-63E4-4870-A558-9A19921F8387}">
+        <File Source="../../GNU.txt" KeyPath="yes"/>
+      </Component>
+      <Component Guid="{8095A2EE-F1C9-47CD-9CD7-BAE31881202D}">
+        <File Source="../../Readme.txt" KeyPath="yes"/>
+      </Component>
+      <Component Guid="{2CCF251B-2B49-4B1B-AB6B-91B4F43B631B}">
+        <File Source="../../License.rtf" KeyPath="yes"/>
+      </Component>
+      <?if $(var.Platform) = x64 ?>
+        <Component Guid="{6ACD749E-DBD6-486D-B15A-E41C21382411}">
+          <File Source="$(var.openmmt32.TargetPath)" KeyPath="yes" />
+        </Component>
+        <Component Guid="{6F579121-D528-4F94-B763-0FEA666BE4D3}">
+          <File Source="$(var.libsys32.TargetPath)" KeyPath="yes" />
+        </Component>
+      <?endif ?>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
