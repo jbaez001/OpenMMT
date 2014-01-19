@@ -47,7 +47,7 @@
       <Component Guid="{2CCF251B-2B49-4B1B-AB6B-91B4F43B631B}">
         <File Source="../../License.rtf" KeyPath="yes"/>
       </Component>
-      <?if $(var.Platform) = x64 ?>
+       <?if $(var.Platform) = x64 ?>
         <Component Guid="{6ACD749E-DBD6-486D-B15A-E41C21382411}">
           <File Source="$(var.openmmt32.TargetPath)" KeyPath="yes" />
         </Component>
