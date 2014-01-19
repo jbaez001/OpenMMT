@@ -73,7 +73,7 @@ void ThumbnailManager::DestroyThumbnail()
     return;
 
   m_pThumbnail->DestroyThumbnailWindow();
-  m_pThumbnail = ThumbnailPtr();
+  m_pThumbnail = NULL;
   m_hWndButtonSource  = NULL;
   m_bThumbnailPresent = FALSE;
 }
@@ -92,7 +92,7 @@ void ThumbnailManager::CalcThumbnailWindowPos(ButtonPtr pBtn, LPPOINT lpPoints)
 {
   TaskbarPtr pBar(g_pMonitorManager->FindMonitorTaskbar(pBtn->GetTaskbarHandle()));
 
-  if (pBar == TaskbarPtr())
+  if (!pBar)
     return;
 
   lpPoints->x = pBtn->GetX();

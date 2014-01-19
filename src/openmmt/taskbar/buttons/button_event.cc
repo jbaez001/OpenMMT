@@ -27,29 +27,29 @@ ButtonPtr ButtonEvent::FindButton(HWND hWnd)
 {
   TaskbarPtr bar = g_pMonitorManager->FindMonitorTaskbar(hWnd);
 
-  if (bar != TaskbarPtr()) {
+  if (bar) {
     return bar->GetButton(hWnd);
   }
-  return ButtonPtr();
+
+  return NULL;
 }
 
 void ButtonEvent::OnEraseBackground(HWND hWnd)
 {
   ButtonPtr btn(FindButton(hWnd));
-  if (btn == ButtonPtr()) 
-    return;
+
+  if (btn) 
+    btn->OnEraseBackground();
   
-  btn->OnEraseBackground();
 }
 
 void ButtonEvent::OnPaint(HWND hWnd)
 {
   ButtonPtr btn(FindButton(hWnd));
 
-  if (btn == ButtonPtr())
-    return;
+  if (btn)
+    btn->OnPaint();
 
-  btn->OnPaint();
 }
 
 void ButtonEvent::OnMouseMove(HWND hWnd, HDC hDC, LPRECT lpRect)
@@ -59,10 +59,9 @@ void ButtonEvent::OnMouseMove(HWND hWnd, HDC hDC, LPRECT lpRect)
 
   ButtonPtr btn(FindButton(hWnd));
 
-  if (btn == ButtonPtr())
-    return;
+  if (btn)
+    btn->OnMouseMove();
 
-  btn->OnMouseMove();
 }
 
 void ButtonEvent::OnMouseHoover(HWND hWnd, HDC hDC, LPRECT lpRect)
@@ -73,7 +72,7 @@ void ButtonEvent::OnMouseHoover(HWND hWnd, HDC hDC, LPRECT lpRect)
   if (g_bOptions_EnableThumbnails) {
     ButtonPtr btn(FindButton(hWnd));
 
-    if (btn == ButtonPtr())
+    if (!btn)
       return;
     
     if (g_pThumbnailManager->isThumbnailPresent()) {
@@ -85,7 +84,6 @@ void ButtonEvent::OnMouseHoover(HWND hWnd, HDC hDC, LPRECT lpRect)
       g_pThumbnailManager->CreateThumbnail(btn);
     }
 
-    
     btn->OnMouseHoover(); 
   }
 }
@@ -97,7 +95,7 @@ void ButtonEvent::OnMouseLeave(HWND hWnd, HDC hDC, LPRECT lpRect)
 
   ButtonPtr btn(FindButton(hWnd));
 
-  if (btn == ButtonPtr())
+  if (!btn)
     return;
 
   if (g_pThumbnailManager->isThumbnailed(btn)) {
@@ -115,10 +113,8 @@ void ButtonEvent::OnMouseBeginLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
 
   ButtonPtr btn(FindButton(hWnd));
 
-  if (btn == ButtonPtr())
-    return;
-
-  btn->AddState(BTN_PRESSED);
+  if (btn)
+    btn->AddState(BTN_PRESSED);
 }
 
 void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
@@ -131,12 +127,12 @@ void ButtonEvent::OnMouseEndLeftClick(HWND hWnd, HDC hDC, LPRECT lpRect)
   TaskbarPtr pTaskbar(g_pMonitorManager->FindMonitorTaskbar(hWnd));
   BOOL bFullScreen = FALSE;
 
-  if (pTaskbar != TaskbarPtr()) {
+  if (pTaskbar) {
     if ((pTaskbar->AppIsFullScreen()) && (pTaskbar->GetFullScreenApp() == btn->GetAppHandle()))
       bFullScreen = TRUE;
   }
 
-  if (btn == ButtonPtr())
+  if (!btn)
     return;
 
   // If the button is that of the selected app, minimize it.
@@ -179,10 +175,8 @@ void ButtonEvent::OnThemeChange(HWND hWnd)
 {
   ButtonPtr btn(FindButton(hWnd));
 
-  if (btn == ButtonPtr())
-    return;
-
-  btn->OnThemeChange();
+  if (btn)
+    btn->OnThemeChange();
 }
 
 void ButtonEvent::OnContextMenu(HWND hWnd, WPARAM wParam, LPARAM lParam, POINT pt, BOOL bShifted)

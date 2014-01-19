@@ -57,12 +57,12 @@ BOOL WinTaskbarInterface::HandleGetMinRect(HWND hWnd, LPREALRECT lpRect)
 {
   ApplicationPtr pApp(g_pAppManager->FindApplication(hWnd));
 
-  if (pApp == ApplicationPtr()) 
+  if (!pApp) 
     return FALSE;
 
   ButtonPtr pBtn(pApp->GetTaskbarButton());
 
-  if (pBtn == ButtonPtr())
+  if (!pBtn)
     return FALSE;
 
   RECT rc = {0};

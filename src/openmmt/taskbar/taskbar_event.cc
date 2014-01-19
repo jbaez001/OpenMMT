@@ -39,10 +39,8 @@ void TaskbarEvent::OnEraseBackground(HWND hWnd)
 {
   TaskbarPtr bar(g_pMonitorManager->FindMonitorTaskbar(hWnd));
 
-  if (bar == TaskbarPtr())
-    return;
-
-  bar->OnEraseBackground();
+  if (bar)
+    bar->OnEraseBackground();
 }
 
 void TaskbarEvent::OnContextMenu(HWND hWnd, LPRECT lpRect, POINT pt)
@@ -60,10 +58,10 @@ void TaskbarEvent::OnContextMenu(HWND hWnd, LPRECT lpRect, POINT pt)
   if (!hPopUpMenu)
     return;
 
-  #if 0
+#if 0
   TaskbarPtr bar = g_pMonitorManager->FindMonitorTaskbar(hWnd);
 
-  if (bar != TaskbarPtr()) {
+  if (bar) {
     MENUITEMINFO mInfo = {0};
 
     mInfo.cbSize = sizeof(MENUITEMINFO);
@@ -95,7 +93,7 @@ void TaskbarEvent::OnThemeChange(HWND hWnd)
 {
   TaskbarPtr bar(g_pMonitorManager->FindMonitorTaskbar(hWnd));
 
-  if (bar == TaskbarPtr())
+  if (!bar)
     return;
 
   bar->OnThemeChange();
@@ -119,10 +117,10 @@ void TaskbarEvent::OnWindowPosChanged(HWND hWnd)
 
   MonitorPtr mon = g_pMonitorManager->FindMonitor(hWnd);
 
-  if (mon != MonitorPtr()) {
+  if (mon) {
     TaskbarPtr bar = mon->GetTaskbar();
 
-    if (bar == TaskbarPtr())
+    if (!bar)
       return;
 
     if ((mon->GetWidth() == lWidth) && (mon->GetHeight() == lHeight))
@@ -136,7 +134,7 @@ void TaskbarEvent::OnWindowMinimize(HWND hWnd)
 {
   ApplicationPtr pApp(g_pAppManager->FindApplication(hWnd));
 
-  if (pApp == ApplicationPtr())
+  if (!pApp)
     return;
 
   pApp->Update();
@@ -145,7 +143,7 @@ void TaskbarEvent::OnWindowMinimize(HWND hWnd)
 
   // Check to see if the button is currently active. If so, clear the
   // button's state and re-draw it.
-  if (pBtn != ButtonPtr()) {
+  if (pBtn) {
     if (pBtn->IsState(BTN_ACTIVE)) {
       pBtn->ClearState(BTN_ACTIVE);
       pBtn->OnPaint();

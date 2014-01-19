@@ -112,7 +112,7 @@ MonitorPtr MonitorManager::FindMonitor(const HWND hWnd)
   const HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONULL);
 
   if (!hMonitor) 
-    return MonitorPtr();
+    return NULL;
 
   for (ObjectIterator it = vector_.begin();
     it != vector_.end(); ++it) {
@@ -121,17 +121,17 @@ MonitorPtr MonitorManager::FindMonitor(const HWND hWnd)
       }
   }
 
-  return MonitorPtr();
+  return NULL;
 }
 
 TaskbarPtr MonitorManager::FindMonitorTaskbar(const HWND hWnd)
 {
   MonitorPtr mon = FindMonitor(hWnd);
 
-  if (mon != MonitorPtr())
+  if (mon)
     return mon->GetTaskbar();
 
-  return TaskbarPtr();
+  return NULL;
 }
 
 BOOL MonitorManager::IsFunkeyDPI()

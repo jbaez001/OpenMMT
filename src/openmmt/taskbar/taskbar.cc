@@ -217,12 +217,12 @@ void Taskbar::AddApplication(ApplicationPtr app)
 
 void Taskbar::RemoveApplication(ApplicationPtr app)
 {
-  if (app == ApplicationPtr())
+  if (!app)
     return;
   
   ButtonPtr btn = GetButton(app);
 
-  if (btn != ButtonPtr())
+  if (btn)
     RemoveButton(btn);
 
   RemoveObject(app);
@@ -421,7 +421,7 @@ void Taskbar::CreateButton(ApplicationPtr pAbb)
 {
   ButtonPtr pBtn;
 
-  if (pAbb->GetTaskbar() == TaskbarPtr()) {
+  if (!pAbb->GetTaskbar()) {
     MessageBox(NULL, L"Could not retrieve taskbar for an application", L"OpenMMT", MB_OK|MB_ICONERROR);
     abort();
   }
@@ -450,8 +450,8 @@ void Taskbar::MoveButtonToPos(ButtonPtr pBtn, int pos)
   BtnVector tmp(buttons_);
   ButtonPtr oldBtn(tmp[pos]);
 
-  if (oldBtn == ButtonPtr()) {
-    // NOH MY GOD! THIS IS NOT SAFE!
+  if (!oldBtn) {
+    // This isn't really safe...?
     tmp[pos] = pBtn;
   } else {
     int old_index = 0;
@@ -470,7 +470,7 @@ void Taskbar::MoveButtonToPos(ButtonPtr pBtn, int pos)
 
 void Taskbar::RemoveButton(ButtonPtr pBtn)
 {
-  if (pBtn == ButtonPtr())
+  if (!pBtn)
     return;
 
   if (g_pThumbnailManager->isThumbnailed(pBtn))
@@ -569,7 +569,7 @@ void Taskbar::ActivateApp(HWND hWnd)
   
   ButtonPtr btn = GetButtonFromApp(hWnd);
 
-  if (btn != ButtonPtr())
+  if (btn)
     btn->Persist();
 
   if (!m_hWndLastActive) {
@@ -580,12 +580,12 @@ void Taskbar::ActivateApp(HWND hWnd)
 
   ButtonPtr old_btn = GetButtonFromApp(m_hWndLastActive);
 
-  if (old_btn != ButtonPtr()) {
+  if (old_btn) {
     old_btn->ClearState(BTN_ACTIVE);
     InvalidateRect(old_btn->GetButtonHandle(), NULL, TRUE);
   }
 
-  if (btn != ButtonPtr()) {
+  if (btn) {
     btn->AddState(BTN_ACTIVE);
     m_hWndLastActive = hWnd;
   }
@@ -598,7 +598,7 @@ void Taskbar::SetFirstActive()
 
   ButtonPtr pBtn(buttons_[0]);
 
-  if (pBtn != ButtonPtr()) 
+  if (pBtn) 
     ActivateApp(pBtn->GetAppHandle());
 }
 
@@ -651,13 +651,13 @@ ButtonPtr Taskbar::GetButton(HWND hWnd)
       return pBtn;
 
   }
-  return ButtonPtr();
+  return NULL;
 }
 
 ButtonPtr Taskbar::GetButton(ApplicationPtr pApp)
 {
-  if (pApp == ApplicationPtr()) 
-    return ButtonPtr();
+  if (!pApp) 
+    return NULL;
 
   for (BtnIterator it = buttons_.begin(); it != buttons_.end(); it++) {
     ButtonPtr pBtn(*it);
@@ -667,7 +667,7 @@ ButtonPtr Taskbar::GetButton(ApplicationPtr pApp)
 
   }
 
-  return ButtonPtr();
+  return NULL;
 }
 
 ButtonPtr Taskbar::GetButtonFromApp(HWND hWnd)
@@ -679,7 +679,7 @@ ButtonPtr Taskbar::GetButtonFromApp(HWND hWnd)
       return pBtn;
 
   }
-  return ButtonPtr();
+  return NULL;
 }
 
 // EOF

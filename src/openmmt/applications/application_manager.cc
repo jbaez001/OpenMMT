@@ -44,7 +44,7 @@ ApplicationPtr ApplicationManager::FindApplication(HWND hWnd)
       }
   }
 
-  return ApplicationPtr();
+  return NULL;
 }
 
 
@@ -57,7 +57,7 @@ void ApplicationManager::CreateApplication(HWND hWnd)
 {
   ApplicationPtr app = FindApplication(hWnd);
 
-  if (app != ApplicationPtr())
+  if (app)
     return;
 
   if (WndOpenMMTWindow(hWnd))
@@ -68,7 +68,7 @@ void ApplicationManager::CreateApplication(HWND hWnd)
 
   TaskbarPtr bar = app->GetTaskbar();
 
-  if (bar != TaskbarPtr()) {
+  if (bar) {
     bar->AddApplication(app);
   }
 }
@@ -76,14 +76,14 @@ void ApplicationManager::CreateApplication(HWND hWnd)
 void ApplicationManager::RemoveApplication(HWND hWnd)
 {
   ApplicationPtr app = FindApplication(hWnd);
-
-  if ((app != ApplicationPtr()) && (app->GetTaskbar() != TaskbarPtr()))  {
-    app->GetTaskbar()->RemoveApplication(app);
-  }
-   
-  if (app != ApplicationPtr()) {
+  
+  if (app) {
+    if (app->GetTaskbar()) {
+      app->GetTaskbar()->RemoveApplication(app);
+    }
     RemoveObject(app);
   }
+
 }
 
 void ApplicationManager::CheckWindow(const HWND hWnd)
@@ -93,7 +93,7 @@ void ApplicationManager::CheckWindow(const HWND hWnd)
 
   ApplicationPtr app = FindApplication(hWnd);
 
-  if (app != ApplicationPtr()) {
+  if (app) {
     if (!IsIconic(hWnd) && !WndShouldDisplay(hWnd)) {
       g_pAppManager->RemoveApplication(hWnd);
     }
@@ -103,12 +103,12 @@ void ApplicationManager::CheckWindow(const HWND hWnd)
 
   MonitorPtr monitor = g_pMonitorManager->FindMonitor(hWnd);
 
-  if (monitor == MonitorPtr()) {
+  if (!monitor) {
     dprintf("Unable to find monitor for %08X\n", hWnd);
     return;
   }
 
-  if (app != ApplicationPtr()) {
+  if (app) {
     app->Update();
   } else if (!monitor->HasMainTaskbar()) {
       g_pAppManager->CreateApplication(hWnd);
@@ -128,13 +128,13 @@ BOOL CALLBACK ApplicationManager::EnumWindowsProc(HWND hWnd, LPARAM lParam)
 ButtonPtr ApplicationManager::FindButton(HWND hWnd)
 {
   TaskbarPtr pBar(g_pMonitorManager->FindMonitorTaskbar(hWnd));
-  if (pBar != TaskbarPtr()) {
+  if (pBar) {
     ButtonPtr pBtn(pBar->GetButton(hWnd));
-    if (pBtn != ButtonPtr()) {
+    if (pBtn) {
       return pBtn;
     }
   }
 
-  return ButtonPtr();
+  return NULL;
 }
 // EOF

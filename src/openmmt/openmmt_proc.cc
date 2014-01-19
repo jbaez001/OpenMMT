@@ -77,7 +77,7 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
       {
         TaskbarPtr bar = g_pMonitorManager->FindMonitorTaskbar((HWND)wParam);
 
-        if (bar != TaskbarPtr()) {
+        if (bar) {
           bar->ActivateApp((HWND)wParam);
         }
       }
@@ -87,12 +87,12 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
     case HSHELL_FLASH:
       {
         TaskbarPtr bar = g_pMonitorManager->FindMonitorTaskbar((HWND)lParam);
-        if (bar == TaskbarPtr())
+        if (!bar)
           break;
 
         ButtonPtr btn = bar->GetButtonFromApp((HWND)lParam);
 
-        if (btn == ButtonPtr())
+        if (!btn)
           break;
 
         btn->Flash();
@@ -165,7 +165,7 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
       g_pAppManager->CheckWindow((HWND)wParam);
       TaskbarPtr bar = g_pMonitorManager->FindMonitorTaskbar((HWND)wParam);
 
-      if (bar != TaskbarPtr()) {
+      if (bar) {
         bar->ActivateApp((HWND)wParam);
       }
     }
@@ -184,7 +184,7 @@ LRESULT CALLBACK OpenMMTProc(HWND hWnd, UINT msg, WPARAM wParam,
 
       TaskbarPtr pTaskbar(g_pMonitorManager->FindMonitorTaskbar((HWND)wParam));
 
-      if (pTaskbar != TaskbarPtr()) {
+      if (pTaskbar) {
         if ((pTaskbar->AppIsFullScreen()) && (pTaskbar->GetFullScreenApp() == (HWND)wParam)) {
           pTaskbar->AppLeaveFullScreen((HWND)wParam, TRUE);
         }

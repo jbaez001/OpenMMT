@@ -47,7 +47,7 @@ LRESULT CALLBACK TaskbarProc(HWND hWnd, UINT msg, WPARAM wParam,
       PAINTSTRUCT ps;
       BeginPaint(hWnd, &ps);
 
-      if (pTaskbar != TaskbarPtr())
+      if (pTaskbar)
         pTaskbar->OnPaint();
 
       EndPaint(hWnd, &ps);

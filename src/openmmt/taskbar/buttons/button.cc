@@ -136,7 +136,7 @@ void Button::CreateButton()
 
   if (m_hWndApp == GetForegroundWindow()) {
     TaskbarPtr bar(g_pMonitorManager->FindMonitorTaskbar(m_hWndApp));
-    if (bar != TaskbarPtr()) {
+    if (bar) {
       bar->ActivateApp(m_hWndApp);
     }
   }
@@ -179,11 +179,6 @@ void Button::Persist()
 
 void Button::RemoveTaskbarButton()
 {
-#ifdef DEBUG
-  printf("Attempting to remove %08X from main taskbar. Proper: %08X\n", 
-    m_hWndApp, GetProperHandle(m_hWndApp));
-#endif
-
 	if (IsWindow(m_hWndApp)) {
 		g_pWinTaskbar->RemoveButton(GetProperHandle(m_hWndApp));
 	}
@@ -271,7 +266,7 @@ void Button::OnPaint()
 
     TaskbarPtr bar(g_pMonitorManager->FindMonitorTaskbar(m_hWndTaskbar));
 
-    if (bar != TaskbarPtr())
+    if (bar)
       bar->RemoveButton(bar->GetButtonFromApp(m_hWndApp));
 
     // No need to paint, so we split here.

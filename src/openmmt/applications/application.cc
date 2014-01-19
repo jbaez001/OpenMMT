@@ -46,23 +46,23 @@ TaskbarPtr Application::GetTaskbar()
 
 void Application::Update()
 {
-  if (m_Taskbar == TaskbarPtr()) {
+  if (!m_Taskbar) {
     g_pMonitorManager->FindMonitorTaskbar(m_hWnd);
   } else {
     TaskbarPtr new_bar = g_pMonitorManager->FindMonitorTaskbar(m_hWnd);
 
-    if ((new_bar == TaskbarPtr()) || 
+    if ((!new_bar) || 
       (m_Taskbar->GetWindowHandle() != new_bar->GetWindowHandle())) {
       g_pAppManager->RemoveApplication(m_hWnd);
-      m_Taskbar = TaskbarPtr();
+      m_Taskbar = NULL;
     }
   }
 }
 
 ButtonPtr Application::GetTaskbarButton()
 {
-  if (m_Taskbar == TaskbarPtr())
-    return ButtonPtr();
+  if (!m_Taskbar)
+    return NULL;
 
   return m_Taskbar->GetButtonFromApp(m_hWnd);
 }

@@ -68,12 +68,12 @@ LRESULT CALLBACK ThumbnailProc(HWND hWnd, UINT msg, WPARAM wParam,
     {
       TaskbarPtr pTaskbar(g_pMonitorManager->FindMonitorTaskbar(g_pThumbnailManager->GetThumbnailedButton()));
 
-      if (pTaskbar == TaskbarPtr())
+      if (!pTaskbar)
         break;
 
       ButtonPtr pBtn(pTaskbar->GetButton(g_pThumbnailManager->GetThumbnailedButton()));
       
-      if (pBtn == ButtonPtr())
+      if (!pBtn)
         break;
 
       if (!pBtn->IsState(BTN_ACTIVE))

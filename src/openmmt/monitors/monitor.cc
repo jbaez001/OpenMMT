@@ -93,7 +93,7 @@ void Monitor::UpdateMonitor()
 {
   GetWorkSpace();
 
-  if (m_Taskbar != TaskbarPtr()) {
+  if (m_Taskbar) {
     // Check to see if the primary monitors where changed.
     if (bMainTaskbar) {
       m_Taskbar->ClearApplications();
@@ -177,8 +177,8 @@ TaskbarPtr Monitor::GetTaskbar()
 
 void Monitor::RemoveTaskbarReference()
 {
-  if (m_Taskbar != TaskbarPtr()) {
-    m_Taskbar = TaskbarPtr();
+  if (m_Taskbar) {
+    m_Taskbar = NULL;
   }
 }
 

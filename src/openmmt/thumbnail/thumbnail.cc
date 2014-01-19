@@ -94,7 +94,7 @@ void Thumbnail::CreateThumbnailWindow(INT x, INT y)
 
   // ApplicationPtr app = g_pAppManager->FindApplication(m_hWndSource);
 
-  // if (app != ApplicationPtr()) 
+  // if (app) 
   //  SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM) app->GetIcon());
 }
 

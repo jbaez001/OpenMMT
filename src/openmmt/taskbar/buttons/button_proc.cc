@@ -64,7 +64,7 @@ LRESULT CALLBACK ButtonProc(HWND hWnd, UINT msg, WPARAM wParam,
     {
       ButtonPtr pBtn(g_pAppManager->FindButton(hWnd));
       
-      if (pBtn == ButtonPtr())
+      if (!pBtn)
         break;
 
       SetWindowPos(pBtn->GetAppHandle(), 0, 0, 0, 0, 0, SWP_NOSIZE|SWP_NOMOVE);
