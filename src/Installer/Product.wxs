@@ -22,8 +22,11 @@
         <Directory Id="INSTALLFOLDER" Name="OpenMMT" />
       </Directory>
       <?endif?>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="OpenmMT"/>
+      </Directory>
 		</Directory>
-	</Fragment>  
+	</Fragment>
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <Component Guid="{3D42164C-B544-427B-9427-434DE7D2DB3B}">
@@ -55,6 +58,16 @@
           <File Source="$(var.libsys32.TargetPath)" KeyPath="yes" />
         </Component>
       <?endif ?>
+      <Component Id="StartMenuShortcuts" Guid="{124B1A65-F156-4BB9-B0B5-FCACEF797F4D}">
+        <RemoveFolder Id="StartMenuFolder" Directory="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Id="RegStartMenuShortcut" Root="HKCU" Key="Software\OpenMMT"
+                       Name="StartMenuShortcut" Value="1" Type="integer" KeyPath="yes"/>
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="OpenMMT" Description="Multi-Monitor Taskbar"
+                  Target="[#OpenMMT_Exe]" WorkingDirectory="INSTALLFOLDER" Directory="ApplicationProgramsFolder"/>
+        <Shortcut Id="UninstallStartMenuShortcut" Name="Uninstall OpenMMT"
+                  Target="[SystemFolder]msiexec.exe" Arguments="/x [ProductCode]"
+                  Description="Uninstalls OpenMMT" Directory="ApplicationProgramsFolder"/>
+      </Component>
 		</ComponentGroup>
 	</Fragment>
 </Wix>
